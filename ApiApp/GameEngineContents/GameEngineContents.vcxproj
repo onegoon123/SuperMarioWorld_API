@@ -23,9 +23,33 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="MarioGameCore.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="PlayLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="TitleLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Mario.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="MarioGameCore.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PlayLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="TitleLevel.cpp">
       <SubType>
       </SubType>
     </ClCompile>
