@@ -1,5 +1,6 @@
 #pragma once
-class Mario
+#include <GameEngineCore/GameEngineActor.h>
+class Mario : public GameEngineActor
 {
 public:
 	Mario();
