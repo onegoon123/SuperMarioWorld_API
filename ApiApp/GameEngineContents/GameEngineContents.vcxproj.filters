@@ -5,11 +5,13 @@
     <ClInclude Include="MarioGameCore.h" />
     <ClInclude Include="PlayLevel.h" />
     <ClInclude Include="TitleLevel.h" />
+    <ClInclude Include="OpenningLevel.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Mario.cpp" />
     <ClCompile Include="MarioGameCore.cpp" />
     <ClCompile Include="PlayLevel.cpp" />
     <ClCompile Include="TitleLevel.cpp" />
+    <ClCompile Include="OpenningLevel.cpp" />
   </ItemGroup>
 </Project>
