@@ -19,6 +19,14 @@ void PlayLevel::Loading()
 
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("MARIO.BMP"));
 
+
+
+
+	//if (true == Path.IsExistsToPlusString("\\Heros.bmp"))
+	//{
+	//	int a = 0;
+	//}
+
 	CreateActor<Mario>();
 }
 
