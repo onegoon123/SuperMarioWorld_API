@@ -18,13 +18,12 @@ void PlayLevel::Loading()
 	// std::string Text = "D:\Project\AR45\WINAPI\APIApp\ContentsResources\Iamge\Heros.bmp";
 
 	GameEngineDirectory Dir;
-	Dir.MoveParent();
-	Dir.MoveParentToDirectory("ContentsResources");
+	//Dir.MoveParent();
+	//Dir.MoveParentToDirectory("ContentsResources");
 	Dir.Move("ContentsResources");
 	Dir.Move("Image");
 
 	Dir.GetPlusFileName("Mario.bmp");
-
 
 
 

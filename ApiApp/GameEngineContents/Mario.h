@@ -14,6 +14,16 @@ public:
 protected:
 
 private:
+	enum State
+	{
+		Normal, Super, Fire, Cape
+	};
+	State MarioState = State::Normal;
+	bool IsRidedYoshi;
+	float Speed;
+	float JumpForce;
+
+	bool IsGrounded;
 
 };
 
