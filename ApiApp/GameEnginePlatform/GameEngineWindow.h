@@ -7,7 +7,7 @@
 // 핸들방식이란 우리에게 os가 관리한다는 증명으로 숫자 1를 줍니다.
 // 그 숫자를 핸들이라고 합니다.
 
-// 설명 :
+class GameEngineImage;
 class GameEngineWindow
 {
 public:
@@ -17,15 +17,26 @@ public:
 	static void SettingWindowSize(float4 _Size);
 	static void SettingWindowPos(float4 _Pos);
 
+	static float4 GetScreenSize()
+	{
+		return ScreenSize;
+	}
+
 	static HWND GetHWnd()
 	{
 		return HWnd;
 	}
 
-	static HDC GetDrawHdc()
+	static HDC GetWindowBackBufferHdc()
 	{
-		return DrawHdc;
+		return WindowBackBufferHdc;
 	}
+
+	static GameEngineImage* GetBackBufferImage()
+	{
+		return BackBufferImage;
+	}
+
 	// 윈도우에 그림을 그릴수 있는 권한.
 
 	// 오직 나는 외부에서 오는게 실행시켜주기만 하면 되게 만드는것.
@@ -51,6 +62,7 @@ private:
 	static float4 ScreenSize;
 	static float4 WindowPos;
 	static HWND HWnd;
-	static HDC DrawHdc; // 윈도우에 그림을 그릴수 있는 권한.
+	static HDC WindowBackBufferHdc; // 윈도우에 그림을 그릴수 있는 권한.
+	static GameEngineImage* BackBufferImage;
 };
 
