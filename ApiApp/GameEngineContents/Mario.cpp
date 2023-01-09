@@ -13,12 +13,14 @@ Mario::~Mario() {
 
 void Mario::Start()
 {
-	SetMove(GameEngineWindow::GetScreenSize().half());
+	SetPos({ 150,750 });
+	//SetMove(GameEngineWindow::GetScreenSize().half());
 }
 
 void Mario::Update()
 {
-	SetMove(float4::Left * 0.0001f);
+	
+	SetMove(float4::Right * 0.0001f);
 }
 
 void Mario::Render()

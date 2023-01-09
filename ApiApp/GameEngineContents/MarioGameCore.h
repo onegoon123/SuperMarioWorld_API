@@ -18,12 +18,14 @@ public:
 	{
 		return Core;
 	}
+	
+	// 피격시 실행되며 스톡에 있는 아이템을 꺼내는 함수
+	void TakeOutStock() {
+		// 스톡에 있는 값에 따라 아이템 생성
 
-	// 포인터로 만들시에는 중간에 삭제가 용이하다는 장점이 있다.
-	//static StudyGameCore& Destroy()
-	//{
-	//	delete Core;
-	//}
+		// 스톡을 비운다
+		StockItem = 0;
+	}
 
 protected:
 	void Start() override;
@@ -41,6 +43,6 @@ private:
 	// 프로그램을 통틀어서 오직 1개의 객체만 만들어진다
 	// static StudyGameCore* Core;
 	static MarioGameCore Core;
-
+	int StockItem;
 };
 
