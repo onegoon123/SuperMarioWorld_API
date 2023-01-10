@@ -22,7 +22,7 @@ MarioGameCore::~MarioGameCore()
 void MarioGameCore::Start()
 {
 	// 정수의 연산 결과값은? 무조건 정수만 나옵니다.
-	// 실수 1.2 원한다면 
+	// 256 x 224
 	GameEngineWindow::SettingWindowSize({ 1024, 896 });
 
 	new int();
