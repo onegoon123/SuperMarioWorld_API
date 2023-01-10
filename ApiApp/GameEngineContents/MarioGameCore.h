@@ -24,7 +24,7 @@ public:
 		// 스톡에 있는 값에 따라 아이템 생성
 
 		// 스톡을 비운다
-		StockItem = 0;
+		//StockItem = 0;
 	}
 
 protected:
@@ -43,6 +43,6 @@ private:
 	// 프로그램을 통틀어서 오직 1개의 객체만 만들어진다
 	// static StudyGameCore* Core;
 	static MarioGameCore Core;
-	int StockItem;
+	//int StockItem;
 };
 

@@ -23,6 +23,8 @@ public:
 	static const float4 Down;
 	static const float4 Forward;
 	static const float4 Back;
+	static const float4 Zero;
+	static const float4 Null;
 
 public:
 	float x = 0.0f;
@@ -54,6 +56,11 @@ public:
 	float4 half() const
 	{
 		return { x * 0.5f,y * 0.5f,z * 0.5f,w };
+	}
+
+	bool IsZero() const
+	{
+		return x == 0.0f && y == 0.0f && z == 0.0f;
 	}
 
 	float4 operator *(const float _Value) const

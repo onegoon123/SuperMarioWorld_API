@@ -1,24 +1,35 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="GameEngineLevel.cpp" />
-    <ClCompile Include="GameEngineActor.cpp" />
     <ClCompile Include="GameEngineCore.cpp" />
     <ClCompile Include="GameEngineResources.cpp">
       <Filter>Resources</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineActor.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineLevel.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GameEngineActor.h" />
-    <ClInclude Include="GameEngineLevel.h" />
     <ClInclude Include="GameEngineCore.h" />
     <ClInclude Include="GameEngineResources.h">
       <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineActor.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineLevel.h">
+      <Filter>Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Resources">
       <UniqueIdentifier>{e88ef8e0-9a0b-4329-81e5-54805777e310}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object">
+      <UniqueIdentifier>{b7b6130f-4b2d-43ca-a08b-2d400e0038d1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

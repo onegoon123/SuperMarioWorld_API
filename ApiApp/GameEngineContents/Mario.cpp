@@ -29,6 +29,6 @@ void Mario::Render()
 
 	GameEngineImage* Image = GameEngineResources::GetInst().ImageFind("MARIO.BMP");
 
-	GameEngineWindow::GetBackBufferImage()->BitCopy(Image, PlayerPos - float4{ 50, 50 }, { 100, 100 });
+	GameEngineWindow::GetDoubleBufferImage()->TransCopy(Image, PlayerPos - float4{ 50, 50 }, { 100, 100 }, float4::Zero, Image->GetImageScale());
 
 }

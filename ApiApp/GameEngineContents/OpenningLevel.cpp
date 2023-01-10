@@ -26,5 +26,5 @@ void OpenningLevel::Update()
 {
 	GameEngineImage* Image = GameEngineResources::GetInst().ImageFind("TITLE.BMP");
 
-	GameEngineWindow::GetBackBufferImage()->BitCopy(Image, float4{ 0, 0 }, { 1024, 896 });
+	GameEngineWindow::GetDoubleBufferImage()->TransCopy(Image, float4{ 0, 0 }, { 1024, 896 }, float4::Left, Image->GetImageScale());
 }
