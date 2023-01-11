@@ -17,7 +17,11 @@ void TitleLevel::Loading()
 	Dir.Move("ContentsResources");
 	Dir.Move("Image");
 
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("STAGE1.BMP"));
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("SKY.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TITLE.BMP"));
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("BACKGROUND01.BMP"));
+	//GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("MARIO.BMP"));
 
 	CreateActor<TitleImage>();
 }
