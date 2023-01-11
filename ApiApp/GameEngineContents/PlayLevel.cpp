@@ -16,10 +16,10 @@ void PlayLevel::Loading()
 	GameEngineDirectory Dir;
 	Dir.Move("ContentsResources");
 	Dir.Move("Image");
-
-	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("MARIO.BMP"));
-
-
+	{
+		GameEngineImage* Image = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("MARIO.BMP"));
+		Image->Cut(19, 37);
+	}
 
 
 	//if (true == Path.IsExistsToPlusString("\\Heros.bmp"))

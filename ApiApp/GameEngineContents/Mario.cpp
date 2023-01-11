@@ -13,14 +13,13 @@ Mario::~Mario() {
 
 void Mario::Start()
 {
-	SetPos({ 150,750 });
-	//SetMove(GameEngineWindow::GetScreenSize().half());
+	SetMove(GameEngineWindow::GetScreenSize().half());
 }
 
 void Mario::Update()
 {
 	
-	SetMove(float4::Right * 0.0001f);
+	SetMove(float4::Right * 0.01f);
 }
 
 void Mario::Render()
@@ -28,7 +27,6 @@ void Mario::Render()
 	float4 PlayerPos = GetPos();
 
 	GameEngineImage* Image = GameEngineResources::GetInst().ImageFind("MARIO.BMP");
-
-	GameEngineWindow::GetDoubleBufferImage()->TransCopy(Image, PlayerPos - float4{ 50, 50 }, { 100, 100 }, float4::Zero, Image->GetImageScale());
+	GameEngineWindow::GetDoubleBufferImage()->TransCopy(Image, 0, PlayerPos, {192, 192});
 
 }

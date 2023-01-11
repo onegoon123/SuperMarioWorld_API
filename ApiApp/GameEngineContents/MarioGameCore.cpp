@@ -31,8 +31,8 @@ void MarioGameCore::Start()
 	CreateLevel<OpenningLevel>("Openning");
 	CreateLevel<PlayLevel>("Play");
 	// static_assert
-	// CreateLevel<HPlayer>("Title1");
-	ChangeLevel("Play");
+	//ChangeLevel("Play");
+	ChangeLevel("Title");
 }
 
 void MarioGameCore::Update()

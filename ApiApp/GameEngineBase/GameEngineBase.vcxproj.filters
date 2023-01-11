@@ -19,6 +19,7 @@
     <ClCompile Include="GameEngineFile.cpp">
       <Filter>IO%28File%29</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineTime.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngineString.h">
@@ -39,6 +40,7 @@
     <ClInclude Include="GameEngineFile.h">
       <Filter>IO%28File%29</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineTime.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Debug">

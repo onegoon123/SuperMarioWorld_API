@@ -137,7 +137,7 @@ void GameEngineWindow::DoubleBufferRender()
 {
     //static GameEngineImage* BackBufferImage;
     //static GameEngineImage* DoubleBufferImage;
-    BackBufferImage->BitCopy(DoubleBufferImage, { 0,0 }, WindowSize);
+    BackBufferImage->BitCopy(DoubleBufferImage, WindowSize.half(), WindowSize);
 }
 
 int GameEngineWindow::WindowLoop(void(*_Start)(), void(*_Loop)(), void(*_End)())
