@@ -14,19 +14,18 @@ public:
 
 protected:
 	void Start() override;
-	void Update() override;
-	void Render() override;
+	void Update(float _DeltaTime) override;
+	void Render(float _DeltaTime) override;
 private:
 	enum State
 	{
 		Normal, Super, Fire, Cape
 	};
 	State MarioState = State::Normal;
-	bool IsRidedYoshi;
-	float Speed;
-	float JumpForce;
-
-	bool IsGrounded;
+	bool IsRidedYoshi = false;
+	float Speed = 50.0f;
+	float JumpForce = 10.0f;
+	bool IsGrounded = true;
 
 	// 부딪혀서 대미지를 받는 경우 실행되는 함수
 	void GetDamaged() {

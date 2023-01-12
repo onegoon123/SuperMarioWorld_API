@@ -93,6 +93,17 @@ public:
 	}
 
 
+	float4 operator +(const float4 _Value) const
+	{
+		float4 Return;
+		Return.x = x + _Value.x;
+		Return.y = y + _Value.y;
+		Return.z = z + _Value.z;
+		return Return;
+	}
+
+
+
 	float4 operator -(const float4 _Value) const
 	{
 		float4 Return;

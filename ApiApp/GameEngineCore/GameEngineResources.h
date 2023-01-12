@@ -28,8 +28,8 @@ public:
 
 	GameEngineImage* ImageFind(const std::string_view& _Name);
 
-	void Relase();
-
+	void Release();
+	
 protected:
 	// 
 

@@ -14,7 +14,7 @@ GameEngineResources::~GameEngineResources()
 {
 }
 
-void GameEngineResources::Relase()
+void GameEngineResources::Release()
 {
 	// 내가 원하는 시점에 원하는 순간 정확하게 
 	for (std::pair<std::string, GameEngineImage*> Pair : AllImage)

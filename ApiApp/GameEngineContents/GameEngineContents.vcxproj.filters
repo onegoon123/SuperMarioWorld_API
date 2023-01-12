@@ -6,6 +6,7 @@
     <ClInclude Include="PlayLevel.h" />
     <ClInclude Include="TitleLevel.h" />
     <ClInclude Include="OpenningLevel.h" />
+    <ClInclude Include="TitleImage.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Mario.cpp" />
@@ -13,5 +14,6 @@
     <ClCompile Include="PlayLevel.cpp" />
     <ClCompile Include="TitleLevel.cpp" />
     <ClCompile Include="OpenningLevel.cpp" />
+    <ClCompile Include="TitleImage.cpp" />
   </ItemGroup>
 </Project>

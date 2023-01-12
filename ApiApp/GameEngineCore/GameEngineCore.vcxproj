@@ -157,15 +157,24 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="GameEngineLevel.cpp" />
+    <ClCompile Include="GameEngineRender.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GameEngineResources.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\GameEngineContents\TitleLevel.h" />
     <ClInclude Include="GameEngineActor.h" />
     <ClInclude Include="GameEngineCore.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="GameEngineLevel.h" />
+    <ClInclude Include="GameEngineRender.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GameEngineResources.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

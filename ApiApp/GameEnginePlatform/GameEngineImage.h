@@ -114,7 +114,9 @@ public:
 
 
 
-	void Cut(int X, int Y);
+	void Cut(float4 _Start, float4 _End, int _X, int _Y);
+
+	void Cut(int _X, int _Y);
 
 	// Copy
 
