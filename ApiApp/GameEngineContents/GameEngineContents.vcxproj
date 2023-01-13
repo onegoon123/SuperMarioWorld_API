@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ContentsEnums.h" />
     <ClInclude Include="Mario.h">
       <SubType>
       </SubType>
@@ -27,7 +28,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="OpenningLevel.h">
+    <ClInclude Include="WorldLevel.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -53,7 +54,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="OpenningLevel.cpp">
+    <ClCompile Include="WorldLevel.cpp">
       <SubType>
       </SubType>
     </ClCompile>

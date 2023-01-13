@@ -1,7 +1,8 @@
 #pragma once
 #include <GameEngineCore/GameEngineLevel.h>
 
-// 설명 :
+// 스테이지에 들어갔을때 나타나는 레벨
+// 스테이지의 구성요소들이 구현된다. (플레이어, 블록, 적 등 오브젝트)
 class PlayLevel : public GameEngineLevel
 {
 public:
