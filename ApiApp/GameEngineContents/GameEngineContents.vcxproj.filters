@@ -1,20 +1,51 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="Mario.h" />
     <ClInclude Include="MarioGameCore.h" />
-    <ClInclude Include="PlayLevel.h" />
-    <ClInclude Include="TitleLevel.h" />
-    <ClInclude Include="WorldLevel.h" />
-    <ClInclude Include="TitleImage.h" />
     <ClInclude Include="ContentsEnums.h" />
+    <ClInclude Include="TitleImage.h">
+      <Filter>Title</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleLevel.h">
+      <Filter>Title</Filter>
+    </ClInclude>
+    <ClInclude Include="Mario.h">
+      <Filter>Play</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayLevel.h">
+      <Filter>Play</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldLevel.h">
+      <Filter>World</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Mario.cpp" />
     <ClCompile Include="MarioGameCore.cpp" />
-    <ClCompile Include="PlayLevel.cpp" />
-    <ClCompile Include="TitleLevel.cpp" />
-    <ClCompile Include="WorldLevel.cpp" />
-    <ClCompile Include="TitleImage.cpp" />
+    <ClCompile Include="TitleImage.cpp">
+      <Filter>Title</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleLevel.cpp">
+      <Filter>Title</Filter>
+    </ClCompile>
+    <ClCompile Include="Mario.cpp">
+      <Filter>Play</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayLevel.cpp">
+      <Filter>Play</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldLevel.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Title">
+      <UniqueIdentifier>{642f3843-181a-4134-ab06-ca9ae7168d14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Play">
+      <UniqueIdentifier>{c2c1fae2-1c51-487b-8b78-4ecb9e04292e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="World">
+      <UniqueIdentifier>{5f8849a8-7bce-4566-9912-577723eb10b0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

@@ -14,9 +14,6 @@ public:
 
 protected:
 	void Start() override;
-	void Update(float _DeltaTime) override;
 private:
-	// (임시) 타이틀 화면에서의 시간을 저장
-	float AccTime = 0;
 };
 

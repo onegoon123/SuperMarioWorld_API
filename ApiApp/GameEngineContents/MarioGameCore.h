@@ -20,10 +20,6 @@ public:
 	{
 		return Core;
 	}
-	
-	inline void LoadLevel(std::string_view _Name) {
-		ChangeLevel(_Name);
-	}
 
 #pragma region __________마리오 데이터 Setter Getter__________
 	inline MarioState GetMarioStateData() const {

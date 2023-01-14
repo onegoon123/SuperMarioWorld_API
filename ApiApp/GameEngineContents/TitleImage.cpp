@@ -44,15 +44,3 @@ void TitleImage::Start()
 	}
 
 }
-
-void TitleImage::Update(float _DeltaTime)
-{
-	// (임시) 타이틀화면에서 3초 기다리면 Play 레벨을 로딩
-	AccTime += _DeltaTime;
-	if (AccTime > 3) {
-		MarioGameCore::GetInst().LoadLevel("Play");
-	}
-
-	// (미구현 - 버튼을 입력시 Play 레벨을 로딩)
-
-}

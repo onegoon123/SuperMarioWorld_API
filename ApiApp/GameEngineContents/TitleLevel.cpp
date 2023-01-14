@@ -39,7 +39,7 @@ void TitleLevel::Loading()
 	CreateActor<TitleImage>();
 }
 
-void TitleLevel::Update()
+void TitleLevel::Update(float _DeltaTime)
 {
 	
 }
