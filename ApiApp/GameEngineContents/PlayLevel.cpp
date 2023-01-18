@@ -24,7 +24,7 @@ void PlayLevel::Loading()
 	CreateActor<Mario>();
 }
 
-void PlayLevel::Update()
+void PlayLevel::Update(float _DeltaTime)
 {
 
 }

@@ -22,19 +22,19 @@ public:
 	}
 
 #pragma region __________마리오 데이터 Setter Getter__________
-	inline MarioState GetMarioStateData() const {
+	inline PowerState GetMarioStateData() const {
 		return MarioStateData;
 	}
-	inline MarioState GetStockStateData() const {
+	inline PowerState GetStockStateData() const {
 		return StockStateData;
 	}
 	inline bool GetRidedYoshiData() const {
 		return RidedYoshiData;
 	}
-	inline void SetMarioStateData(MarioState _StateData) {
+	inline void SetMarioStateData(PowerState _StateData) {
 		MarioStateData = _StateData;
 	}
-	inline void SetStockStateData(MarioState _StateData) {
+	inline void SetStockStateData(PowerState _StateData) {
 		StockStateData = _StateData;
 	}
 	inline void SetRidedYoshiData(bool _Data) {
@@ -57,8 +57,8 @@ private:
 	static MarioGameCore Core;
 		
 	// 마리오 데이터
-	MarioState MarioStateData = MarioState::Normal;
-	MarioState StockStateData = MarioState::Normal;
+	PowerState MarioStateData = PowerState::Normal;
+	PowerState StockStateData = PowerState::Normal;
 	bool RidedYoshiData = false;
 };
 

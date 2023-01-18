@@ -54,6 +54,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Mario_State.cpp" />
     <ClCompile Include="WorldLevel.cpp">
       <SubType>
       </SubType>

@@ -1,9 +1,8 @@
 #include "MarioGameCore.h"
 #include <GameEnginePlatform/GameEngineWindow.h>
-
+#include <GameEnginePlatform/GameEngineInput.h>
 #include "PlayLevel.h"
 #include "TitleLevel.h"
-#include "OpenningLevel.h"
 
 // MarioGameCore MarioGameCore::Core = new MarioGameCore();
 
@@ -21,9 +20,22 @@ MarioGameCore::~MarioGameCore()
 
 void MarioGameCore::Start()
 {
-	// 정수의 연산 결과값은? 무조건 정수만 나옵니다.
-	// 256 x 224
+	// 해상도 설정
+	// (256 x 224) * 4
 	GameEngineWindow::SettingWindowSize({ 1024, 896 });
+
+	// 키 설정
+	if (false == GameEngineInput::IsKey("Start")) {
+		GameEngineInput::CreateKey("Start", 0x20);	// 스타트 = 스페이스
+		GameEngineInput::CreateKey("Up", 'W');
+		GameEngineInput::CreateKey("Left", 'A');
+		GameEngineInput::CreateKey("Down", 'S');
+		GameEngineInput::CreateKey("Right", 'D');
+		GameEngineInput::CreateKey("Dash", 'J');
+		GameEngineInput::CreateKey("Jump", 'K');
+		GameEngineInput::CreateKey("Spin", 'L');
+	}
+
 
 	new int();
 

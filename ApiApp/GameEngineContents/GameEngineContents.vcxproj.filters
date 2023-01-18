@@ -36,6 +36,9 @@
     <ClCompile Include="WorldLevel.cpp">
       <Filter>World</Filter>
     </ClCompile>
+    <ClCompile Include="Mario_State.cpp">
+      <Filter>Play</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Title">

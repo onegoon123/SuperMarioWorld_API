@@ -14,7 +14,7 @@ void WorldLevel::Loading()
 
 }
 
-void WorldLevel::Update()
+void WorldLevel::Update(float _DeltaTime)
 {
 
 }
