@@ -1,7 +1,8 @@
 #include "PlayLevel.h"
-#include "Mario.h"
 #include <GameEngineBase/GameEngineDirectory.h>
 #include <GameEngineCore/GameEngineResources.h>
+#include "Mario.h"
+#include "Map.h"
 
 PlayLevel::PlayLevel()
 {
@@ -22,6 +23,7 @@ void PlayLevel::Loading()
 	//}
 
 	CreateActor<Mario>();
+	CreateActor<Map>();
 }
 
 void PlayLevel::Update(float _DeltaTime)

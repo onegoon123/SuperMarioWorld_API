@@ -35,7 +35,7 @@ void TitleLevel::Loading()
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("RIGHT_MARIO.BMP"))->Cut(17, 9);
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("LEFT_MARIO.BMP"))->Cut(17, 9);
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("SKY.BMP"));
-	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("STAGE1.BMP"));
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("STAGE1.BMP"))->Cut(20,1);
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("BACKGROUND01.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TITLE.BMP"));
 

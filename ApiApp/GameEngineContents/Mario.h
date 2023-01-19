@@ -9,8 +9,15 @@ enum class MarioState
 	WALK,
 	RUN,
 	BRAKE,
+	CROUCH,
+	LOOKUP,
 	JUMP,
-	SPIN
+	FALL,
+	RUNJUMP,
+	SPIN,
+	SLIDE,
+	KICK,
+	VICTORY
 };
 enum class Dir
 {
@@ -43,8 +50,8 @@ protected:
 	void Update(float _DeltaTime) override;
 	void Render(float _DeltaTime) override;
 private:
-	const float Speed = 250.0f;		// 이동 속도
-	const float RunSpeed = 300.0f;		// 이동 속도
+	const float Speed = 300.0f;		// 이동 속도
+	const float RunSpeed = 400.0f;		// 이동 속도
 	const float JumpForce = 500.0f;	// 점프력
 	const float JumpHeight = 500;
 	const float Gravity = 100;
@@ -65,7 +72,7 @@ private:
 	bool IsGrounded = true;		// 마리오가 땅 위에 있는지 여부
 	float HorizontalForce = 0;	// 수평으로 가해지는 힘
 	float JumpingTime = 0;
-	float RunChargeTime = 0;
+	float RunChargeTime = 0;	// 대시를 한 시간을 기록해서 달리기 전환을 판단하는 변수
 
 	MarioState StateValue = MarioState::IDLE;
 	Dir DirValue = Dir::Right;
@@ -100,10 +107,27 @@ private:
 	void SpinUpdate(float _DeltaTime);
 	void SpinEnd();
 
-	void ChangeAnimation(const std::string_view& _AnimationName);
+	void CrouchStart();
+	void CrouchUpdate(float _DeltaTime);
+	void CrouchEnd();
+
+	void LookUpStart();
+	void LookUpUpdate(float _DeltaTime);
+	void LookUpEnd();
+
+	void RunJumpStart();
+	void RunJumpUpdate(float _DeltaTime);
+	void RunJumpEnd();
+
+	void FallStart();
+	void FallUpdate(float _DeltaTime);
+	void FallEnd();
 #pragma endregion
 
+#pragma region __________Animation 관련 함수 ________
+	void ChangeAnimation(const std::string_view& _AnimationName);
 
+#pragma endregion
 
 #pragma region __________ 피격 관련 함수 __________
 
@@ -137,20 +161,6 @@ private:
 	void InvincibilityTime() {
 
 	}
-
-
-#pragma endregion
-
-#pragma region __________ 점프 관련 함수 __________
-
-#pragma endregion
-
-#pragma region __________ 이동 관련 함수 __________
-
-#pragma endregion
-
-#pragma region __________ 요시 관련 함수 __________
-
 #pragma endregion
 
 #pragma region __________ 파워 관련 함수 __________
@@ -161,10 +171,6 @@ private:
 		// ( 미구현 스톡에 해당하는 파워아이템을 생성)
 		StockState = PowerState::Normal;
 	}
-#pragma endregion
-
-#pragma region __________ 충돌 관련 함수 __________
-
 #pragma endregion
 
 };
