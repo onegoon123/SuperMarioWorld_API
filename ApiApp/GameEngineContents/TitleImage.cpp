@@ -31,8 +31,8 @@ void TitleImage::Start()
 	}
 	{
 		GameEngineRender* Render = CreateRender("STAGE1.BMP", RenderOrder::Map);
-		Render->SetScale({ 1024, 1728 });
-		Render->SetPosition({ 0, -416 });
+		Render->SetScale({ 20480, 1728 });
+		Render->SetPosition({ 3300, -418 });
 	}
 	{
 		GameEngineRender* Render = CreateRender("RIGHT_MARIO.BMP", RenderOrder::Player);

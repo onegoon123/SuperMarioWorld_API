@@ -75,11 +75,17 @@ void GameEngineRender::FrameAnimation::Render(float _DeltaTime)
 
 void GameEngineRender::Render(float _DeltaTime)
 {
+
 	if (nullptr != CurrentAnimation)
 	{
 		CurrentAnimation->Render(_DeltaTime);
 		Frame = CurrentAnimation->FrameIndex[CurrentAnimation->CurrentIndex];
 		Image = CurrentAnimation->Image;
+	}
+
+	if (nullptr == Image)
+	{
+		MsgAssert("이미지를 세팅해주지 않았습니다.");
 	}
 
 	float4 CameraPos = float4::Zero;
@@ -125,6 +131,7 @@ void GameEngineRender::CreateAnimation(const FrameAnimationParameter& _Paramter)
 
 
 	FrameAnimation& NewAnimation = Animation[UpperName];
+
 	NewAnimation.Image = Image;
 
 	if (0 != _Paramter.FrameIndex.size())

@@ -1,0 +1,4 @@
+STAGE0COL.bmp filter=lfs diff=lfs merge=lfs -text
+STAGE1.bmp filter=lfs diff=lfs merge=lfs -text
+STAGE1COL.bmp filter=lfs diff=lfs merge=lfs -text
+STAGE2.bmp filter=lfs diff=lfs merge=lfs -text

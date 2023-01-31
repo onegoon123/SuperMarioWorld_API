@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
+
 class Map : public GameEngineActor
 {
 public:
@@ -13,7 +14,10 @@ public:
 
 protected:
 	void Start() override;
+	void Update(float _DeltaTime) override;
 private:
-
+	GameEngineRender* SkyRender = nullptr;
+	GameEngineRender* BackGroundRender = nullptr;
+	GameEngineRender* StageRender = nullptr;
 };
 

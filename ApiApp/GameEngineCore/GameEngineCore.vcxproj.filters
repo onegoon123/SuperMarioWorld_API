@@ -29,7 +29,6 @@
     <ClInclude Include="GameEngineLevel.h">
       <Filter>Object</Filter>
     </ClInclude>
-    <ClInclude Include="..\GameEngineContents\TitleLevel.h" />
     <ClInclude Include="GameEngineRender.h">
       <Filter>Object\Rendering</Filter>
     </ClInclude>

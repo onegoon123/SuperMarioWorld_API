@@ -26,7 +26,7 @@ void MarioGameCore::Start()
 
 	// 키 설정
 	if (false == GameEngineInput::IsKey("Start")) {
-		GameEngineInput::CreateKey("Start", 0x20);	// 스타트 = 스페이스
+		GameEngineInput::CreateKey("Start", VK_SPACE);	// 스타트 = 스페이스
 		GameEngineInput::CreateKey("Up", 'W');
 		GameEngineInput::CreateKey("Left", 'A');
 		GameEngineInput::CreateKey("Down", 'S');
@@ -34,6 +34,9 @@ void MarioGameCore::Start()
 		GameEngineInput::CreateKey("Dash", 'J');
 		GameEngineInput::CreateKey("Jump", 'K');
 		GameEngineInput::CreateKey("Spin", 'L');
+		GameEngineInput::CreateKey("1", '1');
+		GameEngineInput::CreateKey("2", '2');
+		GameEngineInput::CreateKey("3", '3');
 	}
 
 

@@ -168,7 +168,6 @@
     <ClCompile Include="GameEngineResources.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\GameEngineContents\TitleLevel.h" />
     <ClInclude Include="GameEngineActor.h" />
     <ClInclude Include="GameEngineCore.h">
       <SubType>

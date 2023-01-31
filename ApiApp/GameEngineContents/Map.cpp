@@ -1,5 +1,6 @@
 #include "Map.h"
 #include <GameEnginePlatform/GameEngineWindow.h>
+#include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineRender.h>
 #include "ContentsEnums.h"
 Map::Map() {
@@ -12,23 +13,20 @@ Map::~Map() {
 
 void Map::Start()
 {
-	//SetMove(GameEngineWindow::GetScreenSize().half());
+	SkyRender = CreateRender("SKY.BMP", RenderOrder::Sky);
+	SkyRender->SetScale({ 1024,896 });
+	SkyRender->SetPosition(SkyRender->GetScale().half());
+	SkyRender->EffectCameraOff();
 
+	BackGroundRender = CreateRender("BACKGROUND01.BMP", RenderOrder::BackGround);
+	BackGroundRender->SetScale(BackGroundRender->GetImage()->GetImageScale());
+	BackGroundRender->SetPosition(BackGroundRender->GetImage()->GetImageScale().half());
 	
-	{
-		GameEngineRender* Render = CreateRender("SKY.BMP", RenderOrder::Sky);
-		Render->SetScale({ 1024,896 });
-		Render->SetPosition( GameEngineWindow::GetScreenSize().half());
-	}
-	{
-		GameEngineRender* Render = CreateRender("BACKGROUND01.BMP", RenderOrder::BackGround);
-		Render->SetScale({ 2048,1728 });
-		float4 pos = { 0,-100 };
-		Render->SetPosition(pos + GameEngineWindow::GetScreenSize().half());
-	}
+	StageRender = CreateRender("STAGE1.BMP", RenderOrder::Map);
+	StageRender->SetScale({ 20480, 1728 });
+	StageRender->SetPosition(StageRender->GetScale().half());
+}
 
-	GameEngineRender* MainRender = CreateRender("STAGE1.BMP", RenderOrder::Map);
-	MainRender->SetPosition({ 512, 32 });
-	MainRender->SetScale({ 1024, 1728 });
-
+void Map::Update(float _DeltaTime)
+{
 }

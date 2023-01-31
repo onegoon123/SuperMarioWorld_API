@@ -1,5 +1,6 @@
 #include "PlayLevel.h"
 #include <GameEngineBase/GameEngineDirectory.h>
+#include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineResources.h>
 #include "Mario.h"
 #include "Map.h"
@@ -14,13 +15,13 @@ PlayLevel::~PlayLevel()
 
 void PlayLevel::Loading()
 {
-	//GameEngineDirectory Dir;
-	//Dir.Move("ContentsResources");
-	//Dir.Move("Image");
-	//{
-	//	GameEngineImage* Image = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("MARIO.BMP"));
-	//	Image->Cut(19, 37);
-	//}
+	GameEngineDirectory Dir;
+	Dir.MoveParentToDirectory("ContentsResources");
+	Dir.Move("ContentsResources");
+	Dir.Move("Image");
+	{
+		GameEngineImage* Image = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("STAGE0COL.BMP"));
+	}
 
 	CreateActor<Mario>();
 	CreateActor<Map>();
@@ -28,5 +29,8 @@ void PlayLevel::Loading()
 
 void PlayLevel::Update(float _DeltaTime)
 {
-
+	if (GameEngineInput::IsDown("1"))
+	{
+		GameEngineCore::GetInst()->ChangeLevel("Title");
+	}
 }

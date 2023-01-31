@@ -130,11 +130,18 @@ void Mario::UpdateState(float _DeltaTime)
 
 void Mario::IdleStart()
 {
+	HorizontalForce = 0;
 	ChangeAnimation("Idle");
 }
 
 void Mario::IdleUpdate(float _DeltaTime)
 {
+	// 스타트 키가 눌린 경우
+	if (GameEngineInput::IsDown("Start"))
+	{
+		// 테스트용 코드
+		MarioPower = PowerState::Super;
+	}
 	// 점프 키를 입력한 경우
 	if (GameEngineInput::IsDown("Jump"))
 	{
@@ -196,11 +203,19 @@ void Mario::WalkStart()
 
 void Mario::WalkUpdate(float _DeltaTime)
 {
+
 	// 점프 키를 입력한 경우
 	if (GameEngineInput::IsDown("Jump"))
 	{
 		// 점프 상태로 전환
 		ChangeState(MarioState::JUMP);
+		return;
+	}
+	// 스핀 키를 입력한 경우
+	if (GameEngineInput::IsDown("Spin"))
+	{
+		// 스핀 상태로 전환
+		ChangeState(MarioState::SPIN);
 		return;
 	}
 	// 아래 방향기를 입력한 경우
@@ -254,7 +269,7 @@ void Mario::WalkUpdate(float _DeltaTime)
 		if (GameEngineInput::IsPress("Dash"))
 		{
 			// 대시처리
-			HorizontalForce = std::max<float>(HorizontalForce - (DashAcceleration * _DeltaTime), -2);
+			HorizontalForce = std::max<float>(HorizontalForce - (DashAcceleration * _DeltaTime), -1);
 			RunChargeTime += _DeltaTime;	// 대시를 한 시간 기록
 		}
 		// 대시 키를 누르지 않는 경우 (걷기)
@@ -263,16 +278,16 @@ void Mario::WalkUpdate(float _DeltaTime)
 			// 걷기처리
 
 			// 이전까지 대시로 이동중에는
-			if (-1 > HorizontalForce)
+			if (-0.5f > HorizontalForce)
 			{
 				// 서서히 느리게
-				HorizontalForce = std::min<float>(HorizontalForce + (StoppingForce * _DeltaTime), -1);
+				HorizontalForce = std::min<float>(HorizontalForce + (StoppingForce * _DeltaTime), -0.5f);
 			}
 			// 그외 경우 (일반적인 걷기)
 			else
 			{
 				// 걷는 속도 지정
-				HorizontalForce = std::max<float>(HorizontalForce - (Acceleration * _DeltaTime), -1);
+				HorizontalForce = std::max<float>(HorizontalForce - (Acceleration * _DeltaTime), -0.5f);
 			}
 			RunChargeTime = 0;
 		}
@@ -299,30 +314,31 @@ void Mario::WalkUpdate(float _DeltaTime)
 		if (GameEngineInput::IsPress("Dash"))
 		{
 			// 대시 처리
-			HorizontalForce = std::min<float>(HorizontalForce + (DashAcceleration * _DeltaTime), 2);
+			HorizontalForce = std::min<float>(HorizontalForce + (DashAcceleration * _DeltaTime), 1);
 			RunChargeTime += _DeltaTime;	// 대시를 한 시간 기록
 		}
 		// 대시 키를 누르지 않은 경우 (일반 걷기 처리)
 		else
 		{
 			// 이전까지 대시를 한 경우
-			if (1 < HorizontalForce)
+			if (0.5f < HorizontalForce)
 			{
 				// 서서히 속도를 줄임
-				HorizontalForce = std::max<float>(HorizontalForce - (StoppingForce * _DeltaTime), 1);
+				HorizontalForce = std::max<float>(HorizontalForce - (StoppingForce * _DeltaTime), 0.5f);
 			}
 			// 그외 경우 (일반적인 걷기)
 			else
 			{
 				// 걷기 처리
-				HorizontalForce = std::min<float>(HorizontalForce + (Acceleration * _DeltaTime), 1);
+				HorizontalForce = std::min<float>(HorizontalForce + (Acceleration * _DeltaTime), 0.5f);
 			}
 			RunChargeTime = 0;
 		}
 	}
-	// 속도가 1이상인 경우
-	if (1.5f < std::abs(HorizontalForce))
+	// 속도가 0.7이상인 경우
+	if (0.7f < std::abs(HorizontalForce))
 	{
+		// 대시를 입력한 시간이 1초를 넘긴 경우
 		if (1 < RunChargeTime)
 		{
 			// 런 상태로 전환
@@ -335,12 +351,7 @@ void Mario::WalkUpdate(float _DeltaTime)
 	{
 		ChangeAnimation("Walk");
 	}
-	// 대시를 입력한 시간이 1초를 넘긴 경우
 	
-	
-	// 이동처리 및 카메라 이동처리
-	SetMove(float4::Right * HorizontalForce * Speed * _DeltaTime);
-	GetLevel()->SetCameraMove(float4::Right * HorizontalForce * Speed * _DeltaTime);
 }
 
 void Mario::WalkEnd()
@@ -350,7 +361,7 @@ void Mario::WalkEnd()
 
 void Mario::RunStart()
 {
-	HorizontalForce = DirValue == Dir::Right ? 2 : -2;
+	HorizontalForce = DirValue == Dir::Right ? 1 : -1;
 	ChangeAnimation("Run");
 }
 
@@ -361,6 +372,13 @@ void Mario::RunUpdate(float _DeltaTime)
 	{
 		// 점프 상태로 전환
 		ChangeState(MarioState::JUMP);
+		return;
+	}
+	// 스핀 키를 입력한 경우
+	if (GameEngineInput::IsDown("Spin"))
+	{
+		// 스핀 상태로 전환
+		ChangeState(MarioState::SPIN);
 		return;
 	}
 	// 아래 방향기를 입력한 경우
@@ -410,8 +428,6 @@ void Mario::RunUpdate(float _DeltaTime)
 	}
 	
 	// 위에 모든 조건에 해당되지 않으면 달리기 처리 (마리오 및 카메라처리)
-	SetMove(float4::Right * HorizontalForce * RunSpeed * _DeltaTime);
-	GetLevel()->SetCameraMove(float4::Right * HorizontalForce * RunSpeed * _DeltaTime);
 }
 
 void Mario::RunEnd()
@@ -425,6 +441,20 @@ void Mario::BrakeStart()
 
 void Mario::BrakeUpdate(float _DeltaTime)
 {
+	// 점프 키를 입력한 경우
+	if (GameEngineInput::IsDown("Jump"))
+	{
+		// 점프 상태로 전환
+		ChangeState(MarioState::JUMP);
+		return;
+	}
+	// 스핀 키를 입력한 경우
+	if (GameEngineInput::IsDown("Spin"))
+	{
+		// 스핀 상태로 전환
+		ChangeState(MarioState::SPIN);
+		return;
+	}
 	// 아래 방향기를 입력한 경우
 	if (GameEngineInput::IsPress("Down"))
 	{
@@ -501,10 +531,6 @@ void Mario::BrakeUpdate(float _DeltaTime)
 			return;
 		}
 	}
-
-	// 관성으로 남은 힘만큼 이동
-	SetMove(float4::Right * HorizontalForce * Speed * _DeltaTime);
-	GetLevel()->SetCameraMove(float4::Right * HorizontalForce * Speed * _DeltaTime);
 }
 
 void Mario::BrakeEnd()
@@ -513,15 +539,111 @@ void Mario::BrakeEnd()
 
 void Mario::JumpStart()
 {
+	IsGrounded = false;
 	ChangeAnimation("Jump");
+	MoveDir += float4::Up * JumpForce;
 }
 
 void Mario::JumpUpdate(float _DeltaTime)
 {
 	if (GameEngineInput::IsUp("Jump"))
 	{
-		ChangeState(MarioState::IDLE);
+		ChangeState(MarioState::FALL);
 		return;
+	}
+	// 점프 키를 입력한 경우
+	if (GameEngineInput::IsPress("Jump"))
+	{
+	}
+	// 미입력 (방향키를 입력하지 않는경우 or 양쪽 방향키를 동시에 입력한 경우)
+	if ((GameEngineInput::IsPress("Left") && GameEngineInput::IsPress("Right")) || (!GameEngineInput::IsPress("Left") && !GameEngineInput::IsPress("Right")))
+	{
+		// 이전까지 오른쪽으로 이동하고 있던 경우
+		if (0.1f < HorizontalForce)
+		{
+			// 서서히 속도를 낮춤
+			HorizontalForce = std::max<float>(HorizontalForce - (StoppingForce * _DeltaTime), 0);
+		}
+		// 이전까지 왼쪽으로 이동하고 있던 경우
+		else if (-0.1f > HorizontalForce)
+		{
+			// 서서히 속도를 낮춤
+			HorizontalForce = std::min<float>(HorizontalForce + (StoppingForce * _DeltaTime), 0);
+		}
+		// 일정속도 이하 (멈춘경우)
+		else
+		{
+			HorizontalForce = 0;
+		}
+	}
+	// 왼쪽 방향키를 누른경우
+	else if (GameEngineInput::IsPress("Left"))
+	{
+		// 이전까지 오른쪽 방향을 보고있던 경우
+		if (Dir::Right == DirValue)
+		{
+			// 방향전환
+			DirValue = Dir::Left;
+			ChangeAnimation("Jump");
+		}
+		// 대시 키를 누르고 있는 경우
+		if (GameEngineInput::IsPress("Dash"))
+		{
+			// 대시처리
+			HorizontalForce = std::max<float>(HorizontalForce - (DashAcceleration * _DeltaTime), -1);
+		}
+		// 대시 키를 누르지 않는 경우 (걷기)
+		else
+		{
+			// 걷기처리
+
+			// 이전까지 대시로 이동중에는
+			if (-0.5f > HorizontalForce)
+			{
+				// 서서히 느리게
+				HorizontalForce = std::min<float>(HorizontalForce + (StoppingForce * _DeltaTime), -0.5f);
+			}
+			// 그외 경우 (일반적인 걷기)
+			else
+			{
+				// 걷는 속도 지정
+				HorizontalForce = std::max<float>(HorizontalForce - (Acceleration * _DeltaTime), -0.5f);
+			}
+		}
+	}
+	// 오른쪽 방향키를 누른 경우
+	else if (GameEngineInput::IsPress("Right"))
+	{
+		// 이전까지 왼쪽 방향을 본 경우
+		if (Dir::Left == DirValue)
+		{
+			// 방향전환
+			DirValue = Dir::Right;
+			ChangeAnimation("Jump");
+		}
+
+		// 대시키를 누른 경우
+		if (GameEngineInput::IsPress("Dash"))
+		{
+			// 대시 처리
+			HorizontalForce = std::min<float>(HorizontalForce + (DashAcceleration * _DeltaTime), 1);
+		}
+		// 대시 키를 누르지 않은 경우 (일반 걷기 처리)
+		else
+		{
+			// 이전까지 대시를 한 경우
+			if (0.5f < HorizontalForce)
+			{
+				// 서서히 속도를 줄임
+				HorizontalForce = std::max<float>(HorizontalForce - (StoppingForce * _DeltaTime), 0.5f);
+			}
+			// 그외 경우 (일반적인 걷기)
+			else
+			{
+				// 걷기 처리
+				HorizontalForce = std::min<float>(HorizontalForce + (Acceleration * _DeltaTime), 0.5f);
+			}
+		}
 	}
 }
 
@@ -531,15 +653,117 @@ void Mario::JumpEnd()
 
 void Mario::SpinStart()
 {
+	IsGrounded = false;
 	ChangeAnimation("Spin");
+	MoveDir += float4::Up * JumpForce;
 }
 
 void Mario::SpinUpdate(float _DeltaTime)
 {
-	if (GameEngineInput::IsUp("Spin"))
+	if (true == IsGrounded)
 	{
-		ChangeState(MarioState::IDLE);
-		return;
+		if (0 < std::abs(HorizontalForce))
+		{
+			ChangeState(MarioState::WALK);
+			return;
+		}
+		else
+		{
+			ChangeState(MarioState::IDLE);
+			return;
+		}
+	}
+	// 점프 키를 입력한 경우
+	if (GameEngineInput::IsPress("Spin"))
+	{
+	}
+	// 미입력 (방향키를 입력하지 않는경우 or 양쪽 방향키를 동시에 입력한 경우)
+	if ((GameEngineInput::IsPress("Left") && GameEngineInput::IsPress("Right")) || (!GameEngineInput::IsPress("Left") && !GameEngineInput::IsPress("Right")))
+	{
+		// 이전까지 오른쪽으로 이동하고 있던 경우
+		if (0.1f < HorizontalForce)
+		{
+			// 서서히 속도를 낮춤
+			HorizontalForce = std::max<float>(HorizontalForce - (StoppingForce * _DeltaTime), 0);
+		}
+		// 이전까지 왼쪽으로 이동하고 있던 경우
+		else if (-0.1f > HorizontalForce)
+		{
+			// 서서히 속도를 낮춤
+			HorizontalForce = std::min<float>(HorizontalForce + (StoppingForce * _DeltaTime), 0);
+		}
+		// 일정속도 이하 (멈춘경우)
+		else
+		{
+			HorizontalForce = 0;
+		}
+	}
+	// 왼쪽 방향키를 누른경우
+	else if (GameEngineInput::IsPress("Left"))
+	{
+		// 이전까지 오른쪽 방향을 보고있던 경우
+		if (Dir::Right == DirValue)
+		{
+			// 방향전환
+			DirValue = Dir::Left;
+		}
+		// 대시 키를 누르고 있는 경우
+		if (GameEngineInput::IsPress("Dash"))
+		{
+			// 대시처리
+			HorizontalForce = std::max<float>(HorizontalForce - (DashAcceleration * _DeltaTime), -1);
+		}
+		// 대시 키를 누르지 않는 경우 (걷기)
+		else
+		{
+			// 걷기처리
+
+			// 이전까지 대시로 이동중에는
+			if (-0.5f > HorizontalForce)
+			{
+				// 서서히 느리게
+				HorizontalForce = std::min<float>(HorizontalForce + (StoppingForce * _DeltaTime), -0.5f);
+			}
+			// 그외 경우 (일반적인 걷기)
+			else
+			{
+				// 걷는 속도 지정
+				HorizontalForce = std::max<float>(HorizontalForce - (Acceleration * _DeltaTime), -0.5f);
+			}
+		}
+	}
+	// 오른쪽 방향키를 누른 경우
+	else if (GameEngineInput::IsPress("Right"))
+	{
+		// 이전까지 왼쪽 방향을 본 경우
+		if (Dir::Left == DirValue)
+		{
+			// 방향전환
+			DirValue = Dir::Right;
+		}
+
+		// 대시키를 누른 경우
+		if (GameEngineInput::IsPress("Dash"))
+		{
+			// 대시 처리
+			HorizontalForce = std::min<float>(HorizontalForce + (DashAcceleration * _DeltaTime), 1);
+		}
+		// 대시 키를 누르지 않은 경우 (일반 걷기 처리)
+		else
+		{
+			// 이전까지 대시를 한 경우
+			if (0.5f < HorizontalForce)
+			{
+				// 서서히 속도를 줄임
+				HorizontalForce = std::max<float>(HorizontalForce - (StoppingForce * _DeltaTime), 0.5f);
+			}
+			// 그외 경우 (일반적인 걷기)
+			else
+			{
+				// 걷기 처리
+				HorizontalForce = std::min<float>(HorizontalForce + (Acceleration * _DeltaTime), 0.5f);
+			}
+		}
 	}
 }
 
@@ -555,6 +779,20 @@ void Mario::CrouchStart()
 void Mario::CrouchUpdate(float _DeltaTime)
 {
 
+	// 점프 키를 입력한 경우
+	if (GameEngineInput::IsDown("Jump"))
+	{
+		// 점프 상태로 전환
+		ChangeState(MarioState::JUMP);
+		return;
+	}
+	// 스핀 키를 입력한 경우
+	if (GameEngineInput::IsDown("Spin"))
+	{
+		// 스핀 상태로 전환
+		ChangeState(MarioState::SPIN);
+		return;
+	}
 	if (GameEngineInput::IsUp("Down"))
 	{
 		if (0.1f < std::abs(HorizontalForce))
@@ -583,14 +821,10 @@ void Mario::CrouchUpdate(float _DeltaTime)
 	}
 	else
 	{
+		HorizontalForce = 0;
 		return;
 	}
 	
-	
-
-	// 관성으로 남은 힘만큼 이동
-	SetMove(float4::Right * HorizontalForce * Speed * _DeltaTime);
-	GetLevel()->SetCameraMove(float4::Right * HorizontalForce * Speed * _DeltaTime);
 }
 
 void Mario::CrouchEnd()
@@ -604,6 +838,20 @@ void Mario::LookUpStart()
 
 void Mario::LookUpUpdate(float _DeltaTime)
 {
+	// 점프 키를 입력한 경우
+	if (GameEngineInput::IsDown("Jump"))
+	{
+		// 점프 상태로 전환
+		ChangeState(MarioState::JUMP);
+		return;
+	}
+	// 스핀 키를 입력한 경우
+	if (GameEngineInput::IsDown("Spin"))
+	{
+		// 스핀 상태로 전환
+		ChangeState(MarioState::SPIN);
+		return;
+	}
 	// 위쪽 방향키를 땐 경우
 	if (GameEngineInput::IsUp("Up"))
 	{
@@ -651,10 +899,119 @@ void Mario::RunJumpEnd()
 
 void Mario::FallStart()
 {
+	ChangeAnimation("Fall");
 }
 
 void Mario::FallUpdate(float _DeltaTime)
 {
+
+	if (true == IsGrounded)
+	{
+		if (0 < std::abs(HorizontalForce))
+		{
+			ChangeState(MarioState::WALK);
+			return;
+		}
+		else
+		{
+			ChangeState(MarioState::IDLE);
+			return;
+		}
+	}
+	// 점프 키를 입력한 경우
+	if (GameEngineInput::IsPress("Jump"))
+	{
+	}
+	// 미입력 (방향키를 입력하지 않는경우 or 양쪽 방향키를 동시에 입력한 경우)
+	if ((GameEngineInput::IsPress("Left") && GameEngineInput::IsPress("Right")) || (!GameEngineInput::IsPress("Left") && !GameEngineInput::IsPress("Right")))
+	{
+		// 이전까지 오른쪽으로 이동하고 있던 경우
+		if (0.1f < HorizontalForce)
+		{
+			// 서서히 속도를 낮춤
+			HorizontalForce = std::max<float>(HorizontalForce - (StoppingForce * _DeltaTime), 0);
+		}
+		// 이전까지 왼쪽으로 이동하고 있던 경우
+		else if (-0.1f > HorizontalForce)
+		{
+			// 서서히 속도를 낮춤
+			HorizontalForce = std::min<float>(HorizontalForce + (StoppingForce * _DeltaTime), 0);
+		}
+		// 일정속도 이하 (멈춘경우)
+		else
+		{
+			HorizontalForce = 0;
+		}
+	}
+	// 왼쪽 방향키를 누른경우
+	else if (GameEngineInput::IsPress("Left"))
+	{
+		// 이전까지 오른쪽 방향을 보고있던 경우
+		if (Dir::Right == DirValue)
+		{
+			// 방향전환
+			DirValue = Dir::Left;
+			ChangeAnimation("Fall");
+		}
+		// 대시 키를 누르고 있는 경우
+		if (GameEngineInput::IsPress("Dash"))
+		{
+			// 대시처리
+			HorizontalForce = std::max<float>(HorizontalForce - (DashAcceleration * _DeltaTime), -1);
+		}
+		// 대시 키를 누르지 않는 경우 (걷기)
+		else
+		{
+			// 걷기처리
+
+			// 이전까지 대시로 이동중에는
+			if (-0.5f > HorizontalForce)
+			{
+				// 서서히 느리게
+				HorizontalForce = std::min<float>(HorizontalForce + (StoppingForce * _DeltaTime), -0.5f);
+			}
+			// 그외 경우 (일반적인 걷기)
+			else
+			{
+				// 걷는 속도 지정
+				HorizontalForce = std::max<float>(HorizontalForce - (Acceleration * _DeltaTime), -0.5f);
+			}
+		}
+	}
+	// 오른쪽 방향키를 누른 경우
+	else if (GameEngineInput::IsPress("Right"))
+	{
+		// 이전까지 왼쪽 방향을 본 경우
+		if (Dir::Left == DirValue)
+		{
+			// 방향전환
+			DirValue = Dir::Right;
+			ChangeAnimation("Fall");
+		}
+
+		// 대시키를 누른 경우
+		if (GameEngineInput::IsPress("Dash"))
+		{
+			// 대시 처리
+			HorizontalForce = std::min<float>(HorizontalForce + (DashAcceleration * _DeltaTime), 1);
+		}
+		// 대시 키를 누르지 않은 경우 (일반 걷기 처리)
+		else
+		{
+			// 이전까지 대시를 한 경우
+			if (0.5f < HorizontalForce)
+			{
+				// 서서히 속도를 줄임
+				HorizontalForce = std::max<float>(HorizontalForce - (StoppingForce * _DeltaTime), 0.5f);
+			}
+			// 그외 경우 (일반적인 걷기)
+			else
+			{
+				// 걷기 처리
+				HorizontalForce = std::min<float>(HorizontalForce + (Acceleration * _DeltaTime), 0.5f);
+			}
+		}
+	}
 }
 
 void Mario::FallEnd()
