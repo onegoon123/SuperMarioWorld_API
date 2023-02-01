@@ -1,7 +1,10 @@
 #pragma once
 #include <list>
 #include <map>
+#include <vector>
+
 #include <GameEngineBase/GameEngineMath.h>
+#include <GameEngineBase/GameEngineDebug.h>
 #include <GameEngineCore/GameEngineObject.h>
 
 // 설명 :
@@ -29,6 +32,14 @@ public:
 	/// </summary>
 	/// <typeparam name="ActorType"> GameEngineActor를 상속받은 클래스 타입 </typeparam>
 	/// <param name="_Order"> Actor의 업데이트 순서 숫자가 작을수록 먼저 업데이트 됩니다. </param>
+	/// 
+
+	template<typename ActorType, typename EnumType>
+	ActorType* CreateActor(EnumType _Order)
+	{
+		return CreateActor<ActorType>(static_cast<int>(_Order));
+	}
+
 	template<typename ActorType>
 	ActorType* CreateActor(int _Order = 0)
 	{
@@ -60,6 +71,52 @@ public:
 	float4 GetCameraPos()
 	{
 		return CameraPos;
+	}
+
+	template<typename ConvertType>
+	std::vector<ConvertType*> GetConvertActors(int _GroupIndex)
+	{
+		std::vector<ConvertType*> Result;
+
+		// 어떤 
+		std::list<GameEngineActor*>& Group = Actors[_GroupIndex];
+		Result.reserve(Group.size());
+
+		for (GameEngineActor* ActorPtr : Group)
+		{
+			ConvertType* ConvertPtr = dynamic_cast<ConvertType*>(ActorPtr);
+
+			if (nullptr == ConvertType)
+			{
+				MsgAssert("컨버트 할수 없는 변환입니다.");
+			}
+
+			Result.push_back(ConvertPtr);
+		}
+
+		return Result;
+	}
+
+	template<typename EnumType>
+	std::vector<GameEngineActor*> GetActors(EnumType _GroupIndex)
+	{
+		return GetActors(static_cast<int>(_GroupIndex));
+	}
+
+	std::vector<GameEngineActor*> GetActors(int _GroupIndex)
+	{
+		std::vector<GameEngineActor*> Result;
+
+		// 어떤 
+		std::list<GameEngineActor*>& Group = Actors[_GroupIndex];
+		Result.reserve(Group.size());
+
+		for (GameEngineActor* ActorPtr : Group)
+		{
+			Result.push_back(ActorPtr);
+		}
+
+		return Result;
 	}
 
 protected:

@@ -54,10 +54,11 @@ private:
 	//const float Speed = 600.0f;		// 이동 속도
 	const float Speed = 600;		// 이동 속도
 	const float RunSpeed = 800.0f;		// 이동 속도
-	const float JumpForce = 1300.0f;	// 점프력
-	const float JumpHeight = 500;
+	const float JumpForce = 2000;		// 점프력
+	const float JumpPressForce = 3000;	// 점프 유지력
+	const float JumpTime = 0.5f;
 	const float GravityMax = 3000;
-	const float GravityAcceleration = 3000;
+	const float GravityAcceleration = 7500;
 	const float BrakingForce = 5;
 	const float StoppingForce = 1;
 	const float Acceleration = 1.5;
@@ -75,7 +76,7 @@ private:
 	bool IsGrounded = true;		// 마리오가 땅 위에 있는지 여부
 	float4 MoveDir = float4::Zero;	// 수평으로 가해지는 힘
 	float HorizontalForce = 0;
-	float JumpingTime = 0;
+	float JumpTimeCounter = 0;
 	float RunChargeTime = 0;	// 대시를 한 시간을 기록해서 달리기 전환을 판단하는 변수
 
 	MarioState StateValue = MarioState::IDLE;

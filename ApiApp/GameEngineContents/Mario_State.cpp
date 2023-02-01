@@ -541,6 +541,7 @@ void Mario::JumpStart()
 {
 	IsGrounded = false;
 	ChangeAnimation("Jump");
+	JumpTimeCounter = JumpTime;
 	MoveDir += float4::Up * JumpForce;
 }
 
@@ -554,6 +555,16 @@ void Mario::JumpUpdate(float _DeltaTime)
 	// 점프 키를 입력한 경우
 	if (GameEngineInput::IsPress("Jump"))
 	{
+		if (0 < JumpTimeCounter)
+		{
+			MoveDir += float4::Up * JumpPressForce * _DeltaTime;
+			JumpTimeCounter -= _DeltaTime;
+		}
+		else
+		{
+			ChangeState(MarioState::FALL);
+			return;
+		}
 	}
 	// 미입력 (방향키를 입력하지 않는경우 or 양쪽 방향키를 동시에 입력한 경우)
 	if ((GameEngineInput::IsPress("Left") && GameEngineInput::IsPress("Right")) || (!GameEngineInput::IsPress("Left") && !GameEngineInput::IsPress("Right")))
@@ -656,6 +667,7 @@ void Mario::SpinStart()
 	IsGrounded = false;
 	ChangeAnimation("Spin");
 	MoveDir += float4::Up * JumpForce;
+	JumpTimeCounter = JumpTime;
 }
 
 void Mario::SpinUpdate(float _DeltaTime)

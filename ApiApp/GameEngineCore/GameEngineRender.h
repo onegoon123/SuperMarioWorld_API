@@ -45,21 +45,23 @@ public:
 		Position = _Position;
 	}
 
+	inline void SetMove(float4 _Position)
+	{
+		Position += _Position;
+	}
+
 	inline void SetScale(float4 _Scale)
 	{
 		Scale = _Scale;
 	}
+
+	void SetScaleToImage();
 
 	void SetFrame(int _Frame);
 
 	inline GameEngineImage* GetImage()
 	{
 		return Image;
-	}
-
-	inline int GetOrder()
-	{
-		return Order;
 	}
 
 	inline int GetFrame()
@@ -89,14 +91,15 @@ public:
 		IsEffectCamera = false;
 	}
 
+	bool IsAnimationEnd();
 	void CreateAnimation(const FrameAnimationParameter& _Paramter);
-	void ChangeAnimation(const std::string_view& _AnimationName);
+	void ChangeAnimation(const std::string_view& _AnimationName, bool _ForceChange = false);
+
+	void SetOrder(int _Order) override;
 
 protected:
 
-
 private:
-	int Order = 0;
 	float4 Position = float4::Zero;
 	float4 Scale = float4::Zero;
 	GameEngineImage* Image = nullptr;
@@ -105,8 +108,6 @@ private:
 	int TransColor = RGB(255, 0, 255);
 
 	int Frame = 0;
-
-	void SetOrder(int _Order);
 
 	void Render(float _DeltaTime);
 
@@ -121,6 +122,9 @@ private:
 		int CurrentIndex = 0;
 		float CurrentTime = 0.0f;
 		bool Loop = true;
+
+
+		bool IsEnd();
 
 		void Render(float _DeltaTime);
 
