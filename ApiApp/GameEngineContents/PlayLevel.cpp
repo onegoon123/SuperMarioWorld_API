@@ -24,7 +24,7 @@ void PlayLevel::Loading()
 	}
 
 	CreateActor<Mario>();
-	CreateActor<Map>();
+	CreateActor<Map>()->NewMap("SKY.BMP", "BACKGROUND01.BMP", "STAGE1.BMP");
 }
 
 void PlayLevel::Update(float _DeltaTime)

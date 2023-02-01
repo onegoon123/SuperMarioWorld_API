@@ -10,7 +10,7 @@
 Mario* Mario::MainPlayer = nullptr;
 
 Mario::Mario() {
-
+	MainPlayer = this;
 }
 
 Mario::~Mario() {

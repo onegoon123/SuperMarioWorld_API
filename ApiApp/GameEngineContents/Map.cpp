@@ -11,20 +11,30 @@ Map::~Map() {
 
 }
 
-void Map::Start()
+void Map::NewMap(std::string_view _SkyName, std::string_view _BackGroundName, std::string_view _StageName)
 {
-	SkyRender = CreateRender("SKY.BMP", RenderOrder::Sky);
-	SkyRender->SetScale({ 1024,896 });
+
+	SkyName = _SkyName;
+	BackGroundName = _BackGroundName;
+	StageName = _StageName;
+
+	SkyRender = CreateRender(SkyName, RenderOrder::Sky);
+	SkyRender->SetScale(GameEngineWindow::GetScreenSize());
 	SkyRender->SetPosition(SkyRender->GetScale().half());
 	SkyRender->EffectCameraOff();
 
-	BackGroundRender = CreateRender("BACKGROUND01.BMP", RenderOrder::BackGround);
+	BackGroundRender = CreateRender(BackGroundName, RenderOrder::BackGround);
 	BackGroundRender->SetScale(BackGroundRender->GetImage()->GetImageScale());
 	BackGroundRender->SetPosition(BackGroundRender->GetImage()->GetImageScale().half());
-	
-	StageRender = CreateRender("STAGE1.BMP", RenderOrder::Map);
-	StageRender->SetScale({ 20480, 1728 });
+
+	StageRender = CreateRender(StageName, RenderOrder::Map);
+	StageRender->SetScale(StageRender->GetImage()->GetImageScale());
 	StageRender->SetPosition(StageRender->GetScale().half());
+}
+
+void Map::Start()
+{
+	
 }
 
 void Map::Update(float _DeltaTime)
