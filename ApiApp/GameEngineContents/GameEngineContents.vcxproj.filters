@@ -12,9 +12,6 @@
     <ClInclude Include="Mario.h">
       <Filter>Play</Filter>
     </ClInclude>
-    <ClInclude Include="PlayLevel.h">
-      <Filter>Play</Filter>
-    </ClInclude>
     <ClInclude Include="WorldLevel.h">
       <Filter>World</Filter>
     </ClInclude>
@@ -23,6 +20,18 @@
     </ClInclude>
     <ClInclude Include="WorldImage.h">
       <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="StageLevel1.h">
+      <Filter>Play\StageLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="StageLevel2.h">
+      <Filter>Play\StageLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="StageLevel3.h">
+      <Filter>Play\StageLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="StageLevel4.h">
+      <Filter>Play\StageLevel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -34,9 +43,6 @@
       <Filter>Title</Filter>
     </ClCompile>
     <ClCompile Include="Mario.cpp">
-      <Filter>Play</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayLevel.cpp">
       <Filter>Play</Filter>
     </ClCompile>
     <ClCompile Include="WorldLevel.cpp">
@@ -51,6 +57,18 @@
     <ClCompile Include="WorldImage.cpp">
       <Filter>World</Filter>
     </ClCompile>
+    <ClCompile Include="StageLevel1.cpp">
+      <Filter>Play\StageLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="StageLevel2.cpp">
+      <Filter>Play\StageLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="StageLevel3.cpp">
+      <Filter>Play\StageLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="StageLevel4.cpp">
+      <Filter>Play\StageLevel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Title">
@@ -61,6 +79,9 @@
     </Filter>
     <Filter Include="World">
       <UniqueIdentifier>{5f8849a8-7bce-4566-9912-577723eb10b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Play\StageLevel">
+      <UniqueIdentifier>{a525159b-9e75-47cf-9ddf-7ec7a483248a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

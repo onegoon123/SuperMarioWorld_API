@@ -101,5 +101,7 @@ private:
 	float4 Pos = { 0.0f, 0.0f };
 	std::list<GameEngineRender*> RenderList;
 	std::list<GameEngineCollision*> CollisionList;
+
+	void Release();
 };
 

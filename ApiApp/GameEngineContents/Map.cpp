@@ -1,4 +1,5 @@
 #include "Map.h"
+#include <GameEngineBase/GameEngineMath.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineRender.h>
@@ -14,28 +15,47 @@ Map::~Map() {
 
 }
 
-void Map::SetImage(const std::string_view& _SkyName, const std::string_view& _BackGroundName, const std::string_view& _StageName)
+void Map::SetImage(const std::string_view& _BackGroundName, const std::string_view& _StageName, const std::string_view& _StageColName)
 {
-
-	SkyName = _SkyName;
 	BackGroundName = _BackGroundName;
 	StageName = _StageName;
+	StageColName = _StageColName;
 
-	SkyRender = CreateRender(SkyName, RenderOrder::Sky);
-	SkyRender->SetScale(GameEngineWindow::GetScreenSize());
-	SkyRender->SetPosition(SkyRender->GetScale().half());
-	SkyRender->EffectCameraOff();
-	SkyRender->Off();
 
-	BackGroundRender = CreateRender(BackGroundName, RenderOrder::BackGround);
-	BackGroundRender->SetScale(BackGroundRender->GetImage()->GetImageScale());
-	BackGroundRender->SetPosition(BackGroundRender->GetImage()->GetImageScale().half());
-	BackGroundRender->Off();
+	if ("" != BackGroundName)
+	{
+		BackGroundRender = CreateRender(BackGroundName, RenderOrder::BackGround);
+		BackGroundRender->SetScale(BackGroundRender->GetImage()->GetImageScale());
+		BackGroundRender->SetPosition(BackGroundRender->GetImage()->GetImageScale().half());
+		BackGroundRender->Off();
 
-	StageRender = CreateRender(StageName, RenderOrder::Map);
-	StageRender->SetScale(StageRender->GetImage()->GetImageScale());
-	StageRender->SetPosition(StageRender->GetScale().half());
-	StageRender->Off();
+		for (int i = 1; i <= 15; i++)
+		{
+			GameEngineRender* Render = CreateRender(BackGroundName, RenderOrder::BackGround);
+			if (true == IsBackAnim)
+			{
+				Render->CreateAnimation({ .AnimationName = "BackGroundAnim", .ImageName = BackGroundName, .Start = 0, .End = 3 });
+				Render->SetScale({ 2048, 1728 });
+				Render->SetPosition({ 1024, 864 });
+				Render->SetMove(float4::Right * 2048 * i);
+				Render->ChangeAnimation("BackGroundAnim");
+			}
+			else
+			{
+				Render->SetScale(BackGroundRender->GetImage()->GetImageScale());
+				Render->SetPosition(BackGroundRender->GetImage()->GetImageScale().half() + float4::Right * BackGroundRender->GetImage()->GetImageScale().x * i);
+			}
+		}
+	}
+
+	if ("" != StageName)
+	{
+		StageRender = CreateRender(StageName, RenderOrder::Map);
+		StageRender->SetScale(StageRender->GetImage()->GetImageScale());
+		StageRender->SetPosition(StageRender->GetScale().half());
+		StageRender->Off();
+	}
+
 }
 
 void Map::SetStartPos(const std::vector<float4>& _StartPos)
@@ -64,20 +84,20 @@ void Map::MoveMap(int _StartPosIndex)
 	ObjectOn();
 }
 
-void Map::Start()
-{
-	
-}
-
 void Map::Update(float _DeltaTime)
 {
 }
 
 void Map::ObjectOn()
 {
-	SkyRender->On();
-	BackGroundRender->On();
-	StageRender->On();
+	if (nullptr != BackGroundRender)
+	{
+		BackGroundRender->On();
+	}
+	if (nullptr != StageRender)
+	{
+		StageRender->On();
+	}
 
 	std::vector<GameEngineActor*>::iterator StartIter = Actors.begin();
 	std::vector<GameEngineActor*>::iterator EndIter = Actors.end();
@@ -89,9 +109,14 @@ void Map::ObjectOn()
 
 void Map::ObjectOff()
 {
-	SkyRender->Off();
-	BackGroundRender->Off();
-	StageRender->Off();
+	if (nullptr != BackGroundRender)
+	{
+		BackGroundRender->Off();
+	}
+	if (nullptr != StageRender)
+	{
+		StageRender->Off();
+	}
 
 	std::vector<GameEngineActor*>::iterator StartIter = Actors.begin();
 	std::vector<GameEngineActor*>::iterator EndIter = Actors.end();

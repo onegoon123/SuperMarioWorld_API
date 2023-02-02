@@ -32,15 +32,27 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="StageLevel1.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="StageLevel2.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="StageLevel3.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="StageLevel4.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="WorldImage.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="WorldLevel.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="PlayLevel.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -67,15 +79,27 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Mario_State.cpp" />
+    <ClCompile Include="StageLevel1.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="StageLevel2.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="StageLevel3.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="StageLevel4.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="WorldImage.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="WorldLevel.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="PlayLevel.cpp">
       <SubType>
       </SubType>
     </ClCompile>

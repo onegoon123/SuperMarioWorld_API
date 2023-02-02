@@ -9,5 +9,6 @@ enum class RenderOrder
 	BackGround,
 	Map,
 	Player,
+	ForeGround,
 	UI
 };

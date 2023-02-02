@@ -21,11 +21,7 @@ void TitleImage::Start()
 
 	// 타이틀에 표시될 이미지들을 렌더링한다
 	{
-		GameEngineRender* Render = CreateRender("SKY.BMP", RenderOrder::Sky);
-		Render->SetScale({ 1024,896 });
-	}
-	{
-		GameEngineRender* Render = CreateRender("BACKGROUND01.BMP", RenderOrder::BackGround);
+		GameEngineRender* Render = CreateRender("BACKGROUND1.BMP", RenderOrder::BackGround);
 		Render->SetScale({ 2048,1728 });
 		Render->SetPosition({ 0,-100 });
 	}

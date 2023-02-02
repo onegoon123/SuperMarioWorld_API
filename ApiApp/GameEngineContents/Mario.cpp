@@ -6,6 +6,7 @@
 #include <GameEngineCore/GameEngineRender.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include "MarioGameCore.h"
+#include "Map.h"
 
 Mario* Mario::MainPlayer = nullptr;
 
@@ -29,15 +30,11 @@ void Mario::Start()
 	StockState = GameCore.GetStockStateData();
 	IsRidedYoshi = GameCore.GetRidedYoshiData();
 
-	// 시작 위치 설정
-	SetMove({ 350, 1536 });
-	GetLevel()->SetCameraMove({0, 790});
 	// 렌더 생성
 	{
 		AnimationRender = CreateRender(RenderOrder::Player);
 		AnimationRender->SetScale({ 192, 192 });
 		AnimationRender->SetPosition({ 0, -56 });
-
 		AnimationRender->CreateAnimation({ .AnimationName = "Right_Idle", .ImageName = "RIGHT_MARIO.BMP", .Start = 0, .End = 0 });
 		AnimationRender->CreateAnimation({ .AnimationName = "Right_LookUp", .ImageName = "RIGHT_MARIO.BMP", .Start = 1, .End = 1 });
 		AnimationRender->CreateAnimation({ .AnimationName = "Right_Crouch", .ImageName = "RIGHT_MARIO.BMP", .Start = 2, .End = 2 });
@@ -155,7 +152,7 @@ void Mario::MoveCalculation(float _DeltaTime)
 
 	bool Check = true;
 
-	GameEngineImage* ColImage = GameEngineResources::GetInst().ImageFind("STAGE0COL.BMP");
+	GameEngineImage* ColImage = GameEngineResources::GetInst().ImageFind(Map::MainMap->GetStageColName());
 	if (nullptr == ColImage)
 	{
 		MsgAssert("충돌용 맵 이미지가 없습니다.");

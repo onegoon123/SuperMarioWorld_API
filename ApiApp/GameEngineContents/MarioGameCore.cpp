@@ -3,6 +3,10 @@
 #include <GameEnginePlatform/GameEngineInput.h>
 #include "PlayLevel.h"
 #include "TitleLevel.h"
+#include "StageLevel1.h"
+#include "StageLevel2.h"
+#include "StageLevel3.h"
+#include "StageLevel4.h"
 
 // MarioGameCore MarioGameCore::Core = new MarioGameCore();
 
@@ -43,7 +47,10 @@ void MarioGameCore::Start()
 	new int();
 
 	CreateLevel<TitleLevel>("Title");
-	CreateLevel<PlayLevel>("Play");
+	CreateLevel<StageLevel1>("Stage1");
+	CreateLevel<StageLevel2>("Stage2");
+	CreateLevel<StageLevel3>("Stage3");
+	CreateLevel<StageLevel4>("Stage4");
 	ChangeLevel("Title");
 }
 
