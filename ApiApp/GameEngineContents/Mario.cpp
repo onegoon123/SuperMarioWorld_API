@@ -10,6 +10,10 @@
 Mario* Mario::MainPlayer = nullptr;
 
 Mario::Mario() {
+	if (MainPlayer != nullptr)
+	{
+		MsgAssert("두번째 마리오가 생성되었습니다");
+	}
 	MainPlayer = this;
 }
 
@@ -19,8 +23,6 @@ Mario::~Mario() {
 
 void Mario::Start()
 {
-	MainPlayer = this;
-
 	// 마리오의 기록 데이터를 불러온다
 	MarioGameCore& GameCore = MarioGameCore::GetInst();
 	MarioPower = GameCore.GetMarioStateData();
