@@ -21,6 +21,9 @@
     <ClInclude Include="Map.h">
       <Filter>Play</Filter>
     </ClInclude>
+    <ClInclude Include="WorldImage.h">
+      <Filter>World</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MarioGameCore.cpp" />
@@ -44,6 +47,9 @@
     </ClCompile>
     <ClCompile Include="Map.cpp">
       <Filter>Play</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldImage.cpp">
+      <Filter>World</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
