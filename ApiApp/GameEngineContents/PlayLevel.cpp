@@ -22,9 +22,6 @@ void PlayLevel::Loading()
 	{
 		GameEngineImage* Image = GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("STAGE0COL.BMP"));
 	}
-
-	CreateActor<Mario>();
-	CreateActor<Map>()->NewMap("SKY.BMP", "BACKGROUND01.BMP", "STAGE1.BMP");
 }
 
 void PlayLevel::Update(float _DeltaTime)
@@ -33,4 +30,23 @@ void PlayLevel::Update(float _DeltaTime)
 	{
 		GameEngineCore::GetInst()->ChangeLevel("Title");
 	}
+}
+
+void PlayLevel::LevelChangeEnd(GameEngineLevel* _NextLevel)
+{
+	if (nullptr != Mario::MainPlayer)
+	{
+		Mario::MainPlayer->Death();
+		Mario::MainPlayer = nullptr;
+	}
+	SetCameraPos(float4::Zero);
+}
+
+void PlayLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
+{
+	CreateActor<Mario>();
+	Map* Map1 = CreateActor<Map>();
+	Map1->SetImage("SKY.BMP", "BACKGROUND01.BMP", "STAGE1.BMP");
+	Map1->MoveMap(1);
+
 }
