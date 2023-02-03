@@ -17,7 +17,7 @@ void StageLevel1::Loading()
 {
 	BackGroundName = "BACKGROUND1.BMP";
 	StageName = "STAGE1.BMP";
-	StageColName = "STAGE0COL.BMP";
+	StageColName = "STAGE1COL.BMP";
 
 	GameEngineDirectory Dir;
 	Dir.MoveParentToDirectory("ContentsResources");
@@ -33,6 +33,10 @@ void StageLevel1::Loading()
 void StageLevel1::Update(float _DeltaTime)
 {
 	if (GameEngineInput::IsDown("1"))
+	{
+		MarioGameCore::GetInst().ChangeLevel("Title");
+	}
+	if (GameEngineInput::IsDown("2"))
 	{
 		MarioGameCore::GetInst().ChangeLevel("Stage2");
 	}

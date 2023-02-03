@@ -27,13 +27,17 @@ void StageLevel2::Loading()
 	//GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName(SkyName));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName(BackGroundName));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName(StageName));
-	//GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName(StageColName));
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName(StageColName));
 
 }
 
 void StageLevel2::Update(float _DeltaTime)
 {
 	if (GameEngineInput::IsDown("1"))
+	{
+		MarioGameCore::GetInst().ChangeLevel("Stage1");
+	}
+	if (GameEngineInput::IsDown("2"))
 	{
 		MarioGameCore::GetInst().ChangeLevel("Stage3");
 	}

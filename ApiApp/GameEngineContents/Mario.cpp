@@ -94,6 +94,7 @@ void Mario::Update(float _DeltaTime)
 {
 	UpdateState(_DeltaTime);
 	MoveCalculation(_DeltaTime);
+	GetLevel()->DebugTextPush(GetPos().ToString());
 }
 
 void Mario::ChangeAnimation(const std::string_view& _AnimationName)
@@ -149,7 +150,11 @@ void Mario::MoveCalculation(float _DeltaTime)
 	}
 
 	float4 NextPos = GetPos() + MoveDir * _DeltaTime;
-
+	if (0 >= NextPos.ix())
+	{
+		NextPos.x = 0;
+	}
+	
 	bool Check = true;
 
 	GameEngineImage* ColImage = GameEngineResources::GetInst().ImageFind(Map::MainMap->GetStageColName());
@@ -157,22 +162,27 @@ void Mario::MoveCalculation(float _DeltaTime)
 	{
 		MsgAssert("충돌용 맵 이미지가 없습니다.");
 	}
-
-	if (RGB(0, 0, 0) == ColImage->GetPixelColor(NextPos, RGB(0, 0, 0)))
+	
+	if (RGB(0, 0, 0) == ColImage->GetPixelColor(NextPos, RGB(255, 255, 255)))
 	{
 		Check = false;
 	}
 
 	if (false == Check)
 	{
+		int i = 0;
 		while (true)
 		{
 			MoveDir.y -= 1;
-
+			i++;
 			float4 NextPos = GetPos() + MoveDir * _DeltaTime;
-
+			
 			if (RGB(0, 0, 0) == ColImage->GetPixelColor(NextPos, RGB(0, 0, 0)))
 			{
+				if (1000 < i)
+				{
+					return;
+				}
 				continue;
 			}
 			IsGrounded = true;

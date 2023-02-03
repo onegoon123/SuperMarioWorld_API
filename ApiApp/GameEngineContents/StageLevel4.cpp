@@ -38,6 +38,10 @@ void StageLevel4::Update(float _DeltaTime)
 {
 	if (GameEngineInput::IsDown("1"))
 	{
+		MarioGameCore::GetInst().ChangeLevel("Stage3");
+	}
+	if (GameEngineInput::IsDown("2"))
+	{
 		GameEngineActor* EndingImage = CreateActor<GameEngineActor>();
 		GameEngineRender* EndingRender = EndingImage->CreateRender("ENDING.BMP", RenderOrder::UI);
 		EndingRender->SetScale(EndingRender->GetImage()->GetImageScale());

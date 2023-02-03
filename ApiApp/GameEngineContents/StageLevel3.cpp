@@ -36,6 +36,10 @@ void StageLevel3::Update(float _DeltaTime)
 {
 	if (GameEngineInput::IsDown("1"))
 	{
+		MarioGameCore::GetInst().ChangeLevel("Stage2");
+	}
+	if (GameEngineInput::IsDown("2"))
+	{
 		MarioGameCore::GetInst().ChangeLevel("Stage4");
 	}
 }
