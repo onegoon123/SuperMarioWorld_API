@@ -48,7 +48,8 @@ protected:
 private:
 	GameEngineRender* BackGroundRender = nullptr;
 	GameEngineRender* StageRender = nullptr;
-
+	float4 BackGroundSize = float4::Zero;
+	float4 StageSize = float4::Zero;
 	std::string_view BackGroundName = "";
 	std::string_view StageName = "";
 	std::string_view StageColName = "";

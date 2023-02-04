@@ -27,7 +27,7 @@ void StageLevel3::Loading()
 	Dir.Move("Image");
 	//GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName(SkyName));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName(BackGroundName))->Cut(4,1);
-	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName(StageName))->Cut(1, 4);
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName(StageName));
 	//GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName(StageColName));
 
 }
@@ -61,10 +61,6 @@ void StageLevel3::LevelChangeStart(GameEngineLevel* _PrevLevel)
 	Map* Map1 = CreateActor<Map>();
 	Map1->BackGroundAnimOn();
 	Map1->SetImage(BackGroundName, StageName, StageColName);
-	Map1->GetStageRender()->SetScale({ 30000, 1728 });
-	Map1->GetStageRender()->SetPosition({ 15000 , 864});
-	Map1->GetStageRender()->CreateAnimation({ .AnimationName = "MapAnim", .ImageName = StageName, .Start = 0, .End = 3 });
-	Map1->GetStageRender()->ChangeAnimation("MapAnim");
 
 	Map1->GetBackGroundRender()->CreateAnimation({ .AnimationName = "BackGroundAnim", .ImageName = BackGroundName, .Start = 0, .End = 3 });
 	Map1->GetBackGroundRender()->SetScale({ 2048, 1728 });

@@ -31,7 +31,7 @@ enum class Dir
 // 파워업 상태에 따라 불꽃쏘기, 비행 등이 가능하다
 // 요시 탑승 상태에 따라 삼키기, 뱉기, 비행, 내리기 등이 가능하다
 // 요시 탑승시 조작도 해당 클래스에서 구현된다
-
+class GameEngineImage;
 class Mario : public GameEngineActor
 {
 public:
@@ -50,10 +50,10 @@ protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 	void Render(float _DeltaTime) override;
+	void LevelChangeStart(GameEngineLevel* _PrevLevel) override;
 private:
-	//const float Speed = 600.0f;		// 이동 속도
-	const float Speed = 600;		// 이동 속도
-	const float RunSpeed = 800.0f;		// 이동 속도
+	float Speed = 600;			// 이동 속도
+	float RunSpeed = 800.0f;		// 이동 속도
 	const float JumpForce = 2000;		// 점프력
 	const float JumpPressForce = 3000;	// 점프 유지력
 	const float JumpTime = 0.5f;
@@ -83,6 +83,7 @@ private:
 	Dir DirValue = Dir::Right;
 
 	GameEngineRender* AnimationRender = nullptr;
+	GameEngineImage* ColImage = nullptr;
 
 #pragma region __________ State 관련 함수 _________
 	void ChangeState(MarioState _State);
@@ -136,6 +137,7 @@ private:
 
 #pragma region __________ 이동 관련 함수 __________
 	void MoveCalculation(float _DeltaTime);
+	void MoveCalculation2(float _DeltaTime);
 #pragma endregion
 
 #pragma region __________ 피격 관련 함수 __________

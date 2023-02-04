@@ -90,11 +90,24 @@ void Mario::Start()
 	ChangeAnimation("Idle");
 }
 
+void Mario::LevelChangeStart(GameEngineLevel* _PrevLevel)
+{
+	ColImage = GameEngineResources::GetInst().ImageFind(Map::MainMap->GetStageColName());
+}
+
 void Mario::Update(float _DeltaTime)
 {
 	UpdateState(_DeltaTime);
 	MoveCalculation(_DeltaTime);
 	GetLevel()->DebugTextPush(GetPos().ToString());
+
+	// 치트
+	if (GameEngineInput::IsDown("3"))
+	{
+		Speed *= 2;
+		RunSpeed *= 2;
+		ColImage = GameEngineResources::GetInst().ImageFind("STAGE0COL.bmp");
+	}
 }
 
 void Mario::ChangeAnimation(const std::string_view& _AnimationName)
@@ -157,7 +170,7 @@ void Mario::MoveCalculation(float _DeltaTime)
 	
 	bool Check = true;
 
-	GameEngineImage* ColImage = GameEngineResources::GetInst().ImageFind(Map::MainMap->GetStageColName());
+	
 	if (nullptr == ColImage)
 	{
 		MsgAssert("충돌용 맵 이미지가 없습니다.");
@@ -193,6 +206,70 @@ void Mario::MoveCalculation(float _DeltaTime)
 	GetLevel()->SetCameraMove(MoveDir * _DeltaTime);
 }
 
+void Mario::MoveCalculation2(float _DeltaTime)
+{
+	MoveDir += float4::Down * GravityAcceleration * _DeltaTime;
+
+	if (GravityMax < MoveDir.y)
+	{
+		MoveDir.y = GravityMax;
+	}
+
+	if (MarioState::RUN == StateValue)
+	{
+		MoveDir.x = HorizontalForce * RunSpeed;
+	}
+	else
+	{
+		MoveDir.x = HorizontalForce * Speed;
+	}
+
+	float4 NextPos = GetPos() + MoveDir * _DeltaTime;
+	if (0 >= NextPos.ix())
+	{
+		NextPos.x = 0;
+	}
+
+	bool Check = true;
+
+	GameEngineImage* ColImage = GameEngineResources::GetInst().ImageFind(Map::MainMap->GetStageColName());
+	if (nullptr == ColImage)
+	{
+		MsgAssert("충돌용 맵 이미지가 없습니다.");
+	}
+
+	if (RGB(0, 0, 0) == ColImage->GetPixelColor(NextPos, RGB(255, 255, 255)))
+	{
+		Check = false;
+	}
+
+	if (false == Check)
+	{
+		int i = 0;
+		while (true)
+		{
+			MoveDir.y -= 1;
+			i++;
+			float4 NextPos = GetPos() + MoveDir * _DeltaTime;
+
+			if (RGB(0, 0, 0) == ColImage->GetPixelColor(NextPos, RGB(0, 0, 0)))
+			{
+				if (1000 < i)
+				{
+					return;
+				}
+				continue;
+			}
+			IsGrounded = true;
+			break;
+		}
+	}
+	SetMove(MoveDir * _DeltaTime);
+	GetLevel()->SetCameraMove(MoveDir * _DeltaTime);
+}
+
 void Mario::Render(float _DeltaTime)
 { 
 }
+
+

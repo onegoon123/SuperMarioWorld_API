@@ -54,10 +54,10 @@ void StageLevel1::LevelChangeEnd(GameEngineLevel* _NextLevel)
 
 void StageLevel1::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
-	CreateActor<Mario>()->SetPos({ 350, 1536 });
-	SetCameraMove({ 0, 790 });
 	Map* Map1 = CreateActor<Map>();
 	Map1->SetImage(BackGroundName, StageName, StageColName);
 	Map1->MoveMap(1);
+	CreateActor<Mario>()->SetPos({ 350, 1536 });
+	SetCameraMove({ 0, 790 });
 
 }

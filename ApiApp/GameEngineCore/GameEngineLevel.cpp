@@ -276,6 +276,42 @@ void GameEngineLevel::ActorsRender(float _DeltaTime)
 	}
 }
 
+void GameEngineLevel::ActorLevelChangeEnd(GameEngineLevel* _NextLevel)
+{
+	{
+		std::map<int, std::list<GameEngineActor*>>::iterator GroupStartIter = Actors.begin();
+		std::map<int, std::list<GameEngineActor*>>::iterator GroupEndIter = Actors.end();
+
+		for (; GroupStartIter != GroupEndIter; ++GroupStartIter)
+		{
+			std::list<GameEngineActor*>& ActorList = GroupStartIter->second;
+
+			for (GameEngineActor* Actor : ActorList)
+			{
+				Actor->LevelChangeEnd(_NextLevel);
+			}
+		}
+	}
+}
+
+void GameEngineLevel::ActorLevelChangeStart(GameEngineLevel* _PrevLevel)
+{
+	{
+		std::map<int, std::list<GameEngineActor*>>::iterator GroupStartIter = Actors.begin();
+		std::map<int, std::list<GameEngineActor*>>::iterator GroupEndIter = Actors.end();
+
+		for (; GroupStartIter != GroupEndIter; ++GroupStartIter)
+		{
+			std::list<GameEngineActor*>& ActorList = GroupStartIter->second;
+
+			for (GameEngineActor* Actor : ActorList)
+			{
+				Actor->LevelChangeStart(_PrevLevel);
+			}
+		}
+	}
+}
+
 void GameEngineLevel::PushRender(GameEngineRender* _Render)
 {
 	if (nullptr == _Render)

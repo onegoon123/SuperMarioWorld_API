@@ -21,40 +21,46 @@ void Map::SetImage(const std::string_view& _BackGroundName, const std::string_vi
 	StageName = _StageName;
 	StageColName = _StageColName;
 
+	if ("" != StageName)
+	{
+		StageRender = CreateRender(StageName, RenderOrder::Map);
+		StageSize = StageRender->GetImage()->GetImageScale();
+		StageRender->SetScale(StageSize);
+		StageRender->SetPosition(StageSize.half());
+		StageRender->Off();
+	}
 
 	if ("" != BackGroundName)
 	{
 		BackGroundRender = CreateRender(BackGroundName, RenderOrder::BackGround);
-		BackGroundRender->SetScale(BackGroundRender->GetImage()->GetImageScale());
-		BackGroundRender->SetPosition(BackGroundRender->GetImage()->GetImageScale().half());
+		if (true == IsBackAnim)
+		{
+			BackGroundSize = BackGroundRender->GetImage()->GetImageScale();
+			BackGroundSize.x /= 4;
+		}
+		else
+		{
+			BackGroundSize = BackGroundRender->GetImage()->GetImageScale();
+		}
+		BackGroundRender->SetScale(BackGroundSize);
+		BackGroundRender->SetPosition(BackGroundSize.half());
 		BackGroundRender->Off();
 
-		for (int i = 1; i <= 15; i++)
+		int BackGroundNum = StageSize.ix() / BackGroundSize.ix();
+		for (int i = 1; i <= BackGroundNum; i++)
 		{
 			GameEngineRender* Render = CreateRender(BackGroundName, RenderOrder::BackGround);
 			if (true == IsBackAnim)
 			{
 				Render->CreateAnimation({ .AnimationName = "BackGroundAnim", .ImageName = BackGroundName, .Start = 0, .End = 3 });
-				Render->SetScale({ 2048, 1728 });
-				Render->SetPosition({ 1024, 864 });
-				Render->SetMove(float4::Right * 2048 * i);
 				Render->ChangeAnimation("BackGroundAnim");
 			}
-			else
-			{
-				Render->SetScale(BackGroundRender->GetImage()->GetImageScale());
-				Render->SetPosition(BackGroundRender->GetImage()->GetImageScale().half() + float4::Right * BackGroundRender->GetImage()->GetImageScale().x * i);
-			}
+			Render->SetScale(BackGroundSize);
+			Render->SetPosition(BackGroundSize.half());
+			Render->SetMove({ BackGroundSize.x * i, 0 });
 		}
 	}
 
-	if ("" != StageName)
-	{
-		StageRender = CreateRender(StageName, RenderOrder::Map);
-		StageRender->SetScale(StageRender->GetImage()->GetImageScale());
-		StageRender->SetPosition(StageRender->GetScale().half());
-		StageRender->Off();
-	}
 
 }
 
