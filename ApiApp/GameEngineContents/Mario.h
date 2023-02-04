@@ -58,7 +58,7 @@ private:
 	const float JumpPressForce = 3600;	// 점프 유지력
 	const float SpinPressForce = 2500;	// 스핀 유지력
 	const float JumpTime = 0.35f;
-	const float GravityMax = 2500;
+	const float GravityMax = 2000;
 	const float GravityAcceleration = 5000;
 	const float BrakingForce = 5;
 	const float StoppingForce = 1;
@@ -75,6 +75,7 @@ private:
 
 	bool IsRidedYoshi = false;	// 요시 탑승 여부
 	bool IsGrounded = true;		// 마리오가 땅 위에 있는지 여부
+	bool IsSlope = false;		// 마리오가 비탈길 위에 있는지 여부
 	float4 MoveDir = float4::Zero;	// 수평으로 가해지는 힘
 	float HorizontalForce = 0;
 	float JumpTimeCounter = 0;

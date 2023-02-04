@@ -218,8 +218,11 @@ void Mario::MoveCalculation(float _DeltaTime)
 			ChangeState(MarioState::IDLE);
 		}
 	}
+
+	// 맵 충돌 체크용 컬러 변수
+	DWORD PixelColor = ColMap->GetPixelColor(DownPos, RGB(255, 255, 255));
 	// 바닥 체크
-	if (RGB(0, 0, 0) == ColMap->GetPixelColor(DownPos, RGB(255, 255, 255)))
+	if (RGB(0, 0, 0) == PixelColor)
 	{
 		if (MarioState::FALL == StateValue || (MarioState::SPIN == StateValue && 0 < MoveDir.y))
 		{
@@ -229,7 +232,8 @@ void Mario::MoveCalculation(float _DeltaTime)
 			while (true)
 			{
 				DownPos.y -= 1;
-				if (RGB(255, 255, 255) == ColMap->GetPixelColor(DownPos, RGB(0, 0, 0)))
+				PixelColor = ColMap->GetPixelColor(DownPos, RGB(0, 0, 0));
+				if (RGB(0, 0, 0) != PixelColor)
 				{
 					SetPos(DownPos);
 					MoveDir.y = 0.0f;
@@ -244,13 +248,61 @@ void Mario::MoveCalculation(float _DeltaTime)
 		}
 
 	}
-	// 이전까지 바닥에 있다가 바닥이 없는 경우
-	else if(true == IsGrounded)
+	// 점프중이 아닌경우
+	else if (MarioState::JUMP != StateValue && (MarioState::SPIN != StateValue || 0 < MoveDir.y))
 	{
-		ChangeState(MarioState::FALL);
-		IsGrounded = false;
-	}
+		// 아래에서 통과되는 블록들 체크 ex) 구름
+		if (RGB(0, 255, 0) == PixelColor)
+		{
+			if (MarioState::FALL == StateValue || (MarioState::SPIN == StateValue && 0 < MoveDir.y))
+			{
+				IsGrounded = true;
+				DownPos.y = std::round(DownPos.y);
+				// 바닥에서 제일 위로 올라간다
+				while (true)
+				{
+					DownPos.y -= 1;
+					PixelColor = ColMap->GetPixelColor(DownPos, RGB(0, 0, 0));
+					if (RGB(255, 255, 255) == PixelColor)
+					{
+						SetPos(DownPos);
+						MoveDir.y = 0.0f;
+						break;
+					}
+				}
 
+			}
+			else if (MarioState::JUMP != StateValue && MarioState::SPIN != StateValue)
+			{
+				MoveDir.y = 0.0f;
+			}
+		}
+		else if (RGB(255, 0, 0) == PixelColor)
+		{
+			IsSlope = true;
+			IsGrounded = true;
+			DownPos.y = std::round(DownPos.y);
+			// 바닥에서 제일 위로 올라간다
+			while (true)
+			{
+				DownPos.y -= 1;
+				PixelColor = ColMap->GetPixelColor(DownPos, RGB(0, 0, 0));
+				if (RGB(255, 255, 255) == PixelColor)
+				{
+					SetPos(DownPos);
+					MoveDir.y = 0.0f;
+					break;
+				}
+			}
+		}
+		// 이전까지 바닥에 있었던 경우
+		else if (true == IsGrounded)
+		{
+			ChangeState(MarioState::FALL);
+			IsGrounded = false;
+		}
+	}
+	
 
 	// 마리오 이동 및 카메라 이동
 	SetMove(MoveDir * _DeltaTime);
