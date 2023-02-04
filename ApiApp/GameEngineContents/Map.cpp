@@ -4,7 +4,7 @@
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineRender.h>
 #include "ContentsEnums.h"
-
+#include "Mario.h"
 Map* Map::MainMap = nullptr;
 
 Map::Map() {
@@ -78,6 +78,12 @@ void Map::NewActor(const std::vector<GameEngineActor*> _Actors)
 
 void Map::MoveMap(int _StartPosIndex)
 {
+	if (StartPos.size() < _StartPosIndex)
+	{
+		MsgAssert("시작 위치 Vector의 범위를 벗어났습니다")
+	}
+	Mario::MainPlayer->SetPos(StartPos[_StartPosIndex]);
+
 	if (nullptr != MainMap)
 	{
 		if (this == MainMap)

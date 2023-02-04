@@ -92,7 +92,7 @@ void Mario::Start()
 
 void Mario::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
-	ColImage = GameEngineResources::GetInst().ImageFind(Map::MainMap->GetStageColName());
+	ColMap = GameEngineResources::GetInst().ImageFind(Map::MainMap->GetStageColName());
 }
 
 void Mario::Update(float _DeltaTime)
@@ -106,7 +106,7 @@ void Mario::Update(float _DeltaTime)
 	{
 		Speed *= 2;
 		RunSpeed *= 2;
-		ColImage = GameEngineResources::GetInst().ImageFind("STAGE0COL.bmp");
+		ColMap = GameEngineResources::GetInst().ImageFind("STAGE0COL.bmp");
 	}
 }
 
@@ -146,13 +146,30 @@ void Mario::ChangeAnimation(const std::string_view& _AnimationName)
 
 void Mario::MoveCalculation(float _DeltaTime)
 {
+	// 밑의 위치
+	float4 DownPos = GetPos() + float4::Down * 4; 
+	// 앞의 위치
+	float4 ForwardPos = GetPos();
+	ForwardPos.x += HorizontalForce * 4;
+	// MoveDir 중력 증가
 	MoveDir += float4::Down * GravityAcceleration * _DeltaTime;
 
+	// 현제 중력이 최대 중력을 초과한 경우
 	if (GravityMax < MoveDir.y)
 	{
+		// 최대 중력 제한
 		MoveDir.y = GravityMax;
 	}
+	// 공중에 있으면서 중력에 의해 떨어지고 있는 경우
+	else if (false == IsGrounded && 0 < MoveDir.y)
+	{
+		if (MarioState::SPIN != StateValue)
+		{
+			ChangeState(MarioState::FALL);
+		}
+	}
 
+	// MoveDir 좌우 이동 증가
 	if (MarioState::RUN == StateValue)
 	{
 		MoveDir.x = HorizontalForce * RunSpeed;
@@ -162,48 +179,83 @@ void Mario::MoveCalculation(float _DeltaTime)
 		MoveDir.x = HorizontalForce * Speed;
 	}
 
+	// 이번 프레임에 이동할 위치
 	float4 NextPos = GetPos() + MoveDir * _DeltaTime;
+	// 맵 이탈 방지
 	if (0 >= NextPos.ix())
 	{
-		NextPos.x = 0;
+		MoveDir.x = 0;
+	}
+	else if (Map::MainMap->GetStageSize().ix() <= NextPos.ix())
+	{
+		MoveDir.x = 0;
+	}
+	if (0 >= NextPos.iy())
+	{
+		MoveDir.y = 0;
+	}
+	else if (Map::MainMap->GetStageSize().iy() <= NextPos.iy())
+	{
+		Death();
+		MoveDir.y = 0;
 	}
 	
-	bool Check = true;
+	// ______맵 충돌 체크______
 
-	
-	if (nullptr == ColImage)
+	if (nullptr == ColMap)
 	{
 		MsgAssert("충돌용 맵 이미지가 없습니다.");
 	}
-	
-	if (RGB(0, 0, 0) == ColImage->GetPixelColor(NextPos, RGB(255, 255, 255)))
-	{
-		Check = false;
-	}
 
-	if (false == Check)
+	
+	// 벽 체크
+	if (RGB(0, 0, 0) == ColMap->GetPixelColor(ForwardPos, RGB(255, 255, 255)))
 	{
-		int i = 0;
-		while (true)
+		HorizontalForce = 0;
+		MoveDir.x = 0;
+		if (true == IsGrounded)
 		{
-			MoveDir.y -= 1;
-			i++;
-			float4 NextPos = GetPos() + MoveDir * _DeltaTime;
-			
-			if (RGB(0, 0, 0) == ColImage->GetPixelColor(NextPos, RGB(0, 0, 0)))
-			{
-				if (1000 < i)
-				{
-					return;
-				}
-				continue;
-			}
-			IsGrounded = true;
-			break;
+			ChangeState(MarioState::IDLE);
 		}
 	}
+	// 바닥 체크
+	if (RGB(0, 0, 0) == ColMap->GetPixelColor(DownPos, RGB(255, 255, 255)))
+	{
+		if (MarioState::FALL == StateValue || (MarioState::SPIN == StateValue && 0 < MoveDir.y))
+		{
+			IsGrounded = true;
+			DownPos.y = std::round(DownPos.y);
+			// 바닥에서 제일 위로 올라간다
+			while (true)
+			{
+				DownPos.y -= 1;
+				if (RGB(255, 255, 255) == ColMap->GetPixelColor(DownPos, RGB(0, 0, 0)))
+				{
+					SetPos(DownPos);
+					MoveDir.y = 0.0f;
+					break;
+				}
+			}
+			
+		}
+		else if (MarioState::JUMP != StateValue && MarioState::SPIN != StateValue)
+		{
+			MoveDir.y = 0.0f;
+		}
+
+	}
+	// 이전까지 바닥에 있다가 바닥이 없는 경우
+	else if(true == IsGrounded)
+	{
+		ChangeState(MarioState::FALL);
+		IsGrounded = false;
+	}
+
+
+	// 마리오 이동 및 카메라 이동
 	SetMove(MoveDir * _DeltaTime);
-	GetLevel()->SetCameraMove(MoveDir * _DeltaTime);
+	//GetLevel()->SetCameraMove(MoveDir * _DeltaTime);
+	GetLevel()->SetCameraMove(float4::Right * MoveDir.x * _DeltaTime);
 }
 
 void Mario::MoveCalculation2(float _DeltaTime)
@@ -232,13 +284,13 @@ void Mario::MoveCalculation2(float _DeltaTime)
 
 	bool Check = true;
 
-	GameEngineImage* ColImage = GameEngineResources::GetInst().ImageFind(Map::MainMap->GetStageColName());
-	if (nullptr == ColImage)
+	GameEngineImage* ColMap = GameEngineResources::GetInst().ImageFind(Map::MainMap->GetStageColName());
+	if (nullptr == ColMap)
 	{
 		MsgAssert("충돌용 맵 이미지가 없습니다.");
 	}
 
-	if (RGB(0, 0, 0) == ColImage->GetPixelColor(NextPos, RGB(255, 255, 255)))
+	if (RGB(0, 0, 0) == ColMap->GetPixelColor(NextPos, RGB(255, 255, 255)))
 	{
 		Check = false;
 	}
@@ -252,7 +304,7 @@ void Mario::MoveCalculation2(float _DeltaTime)
 			i++;
 			float4 NextPos = GetPos() + MoveDir * _DeltaTime;
 
-			if (RGB(0, 0, 0) == ColImage->GetPixelColor(NextPos, RGB(0, 0, 0)))
+			if (RGB(0, 0, 0) == ColMap->GetPixelColor(NextPos, RGB(0, 0, 0)))
 			{
 				if (1000 < i)
 				{
@@ -273,3 +325,156 @@ void Mario::Render(float _DeltaTime)
 }
 
 
+/*
+// 중력, 점프, 맵타일
+void Player::MoveCalculation(float _DeltaTime)
+{
+	///////////////////////////////////////////////////  중력  ///////////////////////////////////////////////////
+
+	if (true == IsGravity)
+	{
+		MoveDir += float4::Down * 3000.0f * _DeltaTime;
+	}
+
+	///////////////////////////////////////////////////  점프  ///////////////////////////////////////////////////
+
+	if (GameEngineInput::IsDown("Jump") && false == IsJump)
+	{
+		MoveDir.y += -1300.0f;
+	}
+
+	if (false == IsJump)
+	{
+		Fall = true;
+	}
+
+	/////////////////////////////////////////////////// 맵타일 ///////////////////////////////////////////////////
+
+	if (nullptr == ColMap)
+	{
+		MsgAssert("충돌용 맵 이미지가 없습니다.");
+	}
+
+	//////// RGB(0, 248, 0) ////////
+	// 좌우
+	ForwardPosR = GetPos() + (float4::Up * 5) + (float4::Right * 30);
+	ForwardPosL = GetPos() + (float4::Up * 5) + (float4::Left * 30);
+	if (RGB(0, 248, 0) == ColMap->GetPixelColor(ForwardPosR, RGB(0, 0, 0)))
+	{
+		MoveSpeed = 0.0f;
+
+		if (GameEngineInput::IsPress("LeftMove"))
+		{
+			MoveSpeed = 600.0f;
+		}
+	}
+	else if (RGB(0, 248, 0) == ColMap->GetPixelColor(ForwardPosL, RGB(0, 0, 0)))
+	{
+		MoveSpeed = 0.0f;
+
+		if (GameEngineInput::IsPress("RightMove"))
+		{
+			MoveSpeed = 600.0f;
+		}
+	}
+	else
+	{
+		MoveSpeed = 600.0f;
+	}
+
+	// 위
+	UpPos = GetPos() + (float4::Up * 100);
+	if (RGB(0, 248, 0) == ColMap->GetPixelColor(UpPos, RGB(0, 0, 0)))
+	{
+		Fall = true;
+		MoveDir.y = 100.0f;
+	}
+
+	// 땅
+	NextPos = GetPos() + MoveDir * _DeltaTime;
+	if (RGB(0, 248, 0) == ColMap->GetPixelColor(NextPos, RGB(0, 0, 0)))
+	{
+		Fall = false;
+		MoveDir.y = 0.0f;
+	}
+
+	if (RGB(74, 65, 42) != ColMap->GetPixelColor(NextPos, RGB(0, 0, 0))
+		|| RGB(0, 248, 0) != ColMap->GetPixelColor(NextPos, RGB(0, 0, 0)))
+	{
+		FallTime += _DeltaTime;
+	}
+
+	if (RGB(74, 65, 42) == ColMap->GetPixelColor(NextPos, RGB(0, 0, 0))
+		|| RGB(0, 248, 0) == ColMap->GetPixelColor(NextPos, RGB(0, 0, 0)))
+	{
+		FallTime = 0.0f;
+	}
+
+	//////// RGB(74, 65, 42) ////////
+	// 밑점프, 언덕 발판
+	if (true == IsJump && 1.0f <= MoveDir.y)
+	{
+		Pass = 1;
+	}
+
+	if (RGB(74, 65, 42) == ColMap->GetPixelColor(NextPos, RGB(0, 0, 0)))
+	{
+		if (1 == Pass) // 조건
+		{
+			Fall = false;
+
+			MoveDir.y = 0;
+
+			float4 HillPosR = GetPos() + (float4::Right * 1);
+			float4 HillPosL = GetPos() + (float4::Left * 1);
+
+			if (RGB(74, 65, 42) == ColMap->GetPixelColor(HillPosR, RGB(0, 0, 0)))
+			{
+				while (true)
+				{
+					MoveDir.y -= 1.0f;
+					SetMove(MoveDir);
+
+					if (RGB(74, 65, 42) != ColMap->GetPixelColor(GetPos(), RGB(0, 0, 0)))
+					{
+						break;
+					}
+				}
+			}
+			if (RGB(74, 65, 42) == ColMap->GetPixelColor(HillPosL, RGB(0, 0, 0)))
+			{
+				while (true)
+				{
+					MoveDir.y -= 1.0f;
+					SetMove(MoveDir);
+
+					if (RGB(74, 65, 42) != ColMap->GetPixelColor(GetPos(), RGB(0, 0, 0)))
+					{
+						break;
+					}
+				}
+			}
+		}
+	}
+
+	if (true == IsJump || true == Fall)
+	{
+		AirAttack = true;
+	}
+	else
+	{
+		AirAttack = false;
+	}
+
+
+	//////// 최종 위치 ////////
+	UpdateState(_DeltaTime);
+
+	SetMove(MoveDir * _DeltaTime);
+
+	// y축 카메라
+	// GetLevel()->SetCameraMove(MoveDir* _DeltaTime);
+
+	
+}
+*/

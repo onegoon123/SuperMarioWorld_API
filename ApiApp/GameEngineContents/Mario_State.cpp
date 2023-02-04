@@ -171,6 +171,10 @@ void Mario::IdleUpdate(float _DeltaTime)
 	// 왼쪽 방향키를 입력한 경우
 	else if (GameEngineInput::IsPress("Left"))
 	{
+		if (RGB(0, 0, 0) == ColMap->GetPixelColor(GetPos() + float4::Left * 4, RGB(0, 0, 0)))
+		{
+			return;
+		}
 		// 왼쪽으로 방향전환 및 걷기상태로 전환
 		DirValue = Dir::Left;
 		ChangeState(MarioState::WALK);
@@ -179,6 +183,10 @@ void Mario::IdleUpdate(float _DeltaTime)
 	// 오른쪽 방향키를 입력한 경우
 	else if (GameEngineInput::IsPress("Right"))
 	{
+		if (RGB(0, 0, 0) == ColMap->GetPixelColor(GetPos() + float4::Right * 4, RGB(0, 0, 0)))
+		{
+			return;
+		}
 		// 오른쪽으로 방향전환 및 걷기상태로 전환
 		DirValue = Dir::Right;
 		ChangeState(MarioState::WALK);
@@ -547,11 +555,6 @@ void Mario::JumpStart()
 
 void Mario::JumpUpdate(float _DeltaTime)
 {
-	if (GameEngineInput::IsUp("Jump"))
-	{
-		ChangeState(MarioState::FALL);
-		return;
-	}
 	// 점프 키를 입력한 경우
 	if (GameEngineInput::IsPress("Jump"))
 	{
@@ -559,11 +562,6 @@ void Mario::JumpUpdate(float _DeltaTime)
 		{
 			MoveDir += float4::Up * JumpPressForce * _DeltaTime;
 			JumpTimeCounter -= _DeltaTime;
-		}
-		else
-		{
-			ChangeState(MarioState::FALL);
-			return;
 		}
 	}
 	// 미입력 (방향키를 입력하지 않는경우 or 양쪽 방향키를 동시에 입력한 경우)
@@ -688,6 +686,11 @@ void Mario::SpinUpdate(float _DeltaTime)
 	// 점프 키를 입력한 경우
 	if (GameEngineInput::IsPress("Spin"))
 	{
+		if (0 < JumpTimeCounter)
+		{
+			MoveDir += float4::Up * SpinPressForce * _DeltaTime;
+			JumpTimeCounter -= _DeltaTime;
+		}
 	}
 	// 미입력 (방향키를 입력하지 않는경우 or 양쪽 방향키를 동시에 입력한 경우)
 	if ((GameEngineInput::IsPress("Left") && GameEngineInput::IsPress("Right")) || (!GameEngineInput::IsPress("Left") && !GameEngineInput::IsPress("Right")))
@@ -921,6 +924,16 @@ void Mario::FallUpdate(float _DeltaTime)
 	{
 		if (0 < std::abs(HorizontalForce))
 		{
+			if (-0.1f > HorizontalForce && true == GameEngineInput::IsPress("Right"))
+			{
+				ChangeState(MarioState::BRAKE);
+				return;
+			}
+			if (0.1f < HorizontalForce && true == GameEngineInput::IsPress("Left"))
+			{
+				ChangeState(MarioState::BRAKE);
+				return;
+			}
 			ChangeState(MarioState::WALK);
 			return;
 		}

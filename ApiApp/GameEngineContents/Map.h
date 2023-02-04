@@ -23,24 +23,35 @@ public:
 	void NewActor(const std::vector<GameEngineActor*> _Actors);
 	void MoveMap(int _StartPosIndex);
 
-	GameEngineRender* GetBackGroundRender()
+	inline GameEngineRender* GetBackGroundRender()
 	{
 		return BackGroundRender;
 	}
 
-	GameEngineRender* GetStageRender()
+	inline GameEngineRender* GetStageRender()
 	{
 		return StageRender;
 	}
 
-	std::string_view GetStageColName()
+	inline std::string_view GetStageColName()
 	{
 		return StageColName;
 	}
-
-	void BackGroundAnimOn()
+	inline float4 GetBackGroundSize()
+	{
+		return BackGroundSize;
+	}
+	inline float4 GetStageSize()
+	{
+		return StageSize;
+	}
+	inline void BackGroundAnimOn()
 	{
 		IsBackAnim = true;
+	}
+	inline void AddStartPos(const float4& _Pos)
+	{
+		StartPos.push_back(_Pos);
 	}
 
 protected:

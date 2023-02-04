@@ -52,13 +52,14 @@ protected:
 	void Render(float _DeltaTime) override;
 	void LevelChangeStart(GameEngineLevel* _PrevLevel) override;
 private:
-	float Speed = 600;			// 이동 속도
-	float RunSpeed = 800.0f;		// 이동 속도
-	const float JumpForce = 2000;		// 점프력
-	const float JumpPressForce = 3000;	// 점프 유지력
-	const float JumpTime = 0.5f;
-	const float GravityMax = 3000;
-	const float GravityAcceleration = 7500;
+	float Speed = 705;			// 이동 속도
+	float RunSpeed = 850.0f;		// 이동 속도
+	const float JumpForce = 1100;		// 점프력
+	const float JumpPressForce = 3600;	// 점프 유지력
+	const float SpinPressForce = 2500;	// 스핀 유지력
+	const float JumpTime = 0.35f;
+	const float GravityMax = 2500;
+	const float GravityAcceleration = 5000;
 	const float BrakingForce = 5;
 	const float StoppingForce = 1;
 	const float Acceleration = 1.5;
@@ -83,7 +84,7 @@ private:
 	Dir DirValue = Dir::Right;
 
 	GameEngineRender* AnimationRender = nullptr;
-	GameEngineImage* ColImage = nullptr;
+	GameEngineImage* ColMap = nullptr;
 
 #pragma region __________ State 관련 함수 _________
 	void ChangeState(MarioState _State);
