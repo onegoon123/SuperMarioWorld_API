@@ -52,14 +52,17 @@ protected:
 	void Render(float _DeltaTime) override;
 	void LevelChangeStart(GameEngineLevel* _PrevLevel) override;
 private:
-	float Speed = 705;			// 이동 속도
-	float RunSpeed = 850.0f;		// 이동 속도
-	const float JumpForce = 1100;		// 점프력
-	const float JumpPressForce = 3600;	// 점프 유지력
+	float Speed = 705;					// 이동 속도
+	float RunSpeed = 850.0f;			// 이동 속도
+	const float JumpForce = 950;		// 점프력
+	const float DashJumpForce = 1100;	// 점프력
+	const float RunJumpForce = 1200;	// 점프력
+	const float JumpPressForce = 3350;	// 점프 유지력
 	const float SpinPressForce = 2500;	// 스핀 유지력
-	const float JumpTime = 0.35f;
-	const float GravityMax = 2000;
-	const float GravityAcceleration = 5000;
+	const float SlopeForce = 1000;
+	const float JumpTime = 0.325f;
+	const float GravityMax = 1750;
+	const float GravityAcceleration = 4600;
 	const float BrakingForce = 5;
 	const float StoppingForce = 1;
 	const float Acceleration = 1.5;

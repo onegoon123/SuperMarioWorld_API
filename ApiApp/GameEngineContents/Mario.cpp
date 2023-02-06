@@ -163,14 +163,14 @@ void Mario::MoveCalculation(float _DeltaTime)
 	// 공중에 있으면서 중력에 의해 떨어지고 있는 경우
 	else if (false == IsGrounded && 0 < MoveDir.y)
 	{
-		if (MarioState::SPIN != StateValue)
+		if (MarioState::SPIN != StateValue && MarioState::RUNJUMP != StateValue)
 		{
 			ChangeState(MarioState::FALL);
 		}
 	}
 
 	// MoveDir 좌우 이동 증가
-	if (MarioState::RUN == StateValue)
+	if (MarioState::RUN == StateValue || MarioState::RUNJUMP == StateValue)
 	{
 		MoveDir.x = HorizontalForce * RunSpeed;
 	}
@@ -208,23 +208,15 @@ void Mario::MoveCalculation(float _DeltaTime)
 	}
 
 	
-	// 벽 체크
-	if (RGB(0, 0, 0) == ColMap->GetPixelColor(ForwardPos, RGB(255, 255, 255)))
-	{
-		HorizontalForce = 0;
-		MoveDir.x = 0;
-		if (true == IsGrounded)
-		{
-			ChangeState(MarioState::IDLE);
-		}
-	}
+	
 
 	// 맵 충돌 체크용 컬러 변수
 	DWORD PixelColor = ColMap->GetPixelColor(DownPos, RGB(255, 255, 255));
 	// 바닥 체크
 	if (RGB(0, 0, 0) == PixelColor)
 	{
-		if (MarioState::FALL == StateValue || (MarioState::SPIN == StateValue && 0 < MoveDir.y))
+		IsSlope = false;
+		if (MarioState::FALL == StateValue || (MarioState::SPIN == StateValue && 0 < MoveDir.y) || (MarioState::RUNJUMP == StateValue && 0 < MoveDir.y))
 		{
 			IsGrounded = true;
 			DownPos.y = std::round(DownPos.y);
@@ -236,25 +228,27 @@ void Mario::MoveCalculation(float _DeltaTime)
 				if (RGB(0, 0, 0) != PixelColor)
 				{
 					SetPos(DownPos);
+					ForwardPos.y = DownPos.y;
 					MoveDir.y = 0.0f;
 					break;
 				}
 			}
 			
 		}
-		else if (MarioState::JUMP != StateValue && MarioState::SPIN != StateValue)
+		else if (MarioState::JUMP != StateValue && MarioState::SPIN != StateValue && MarioState::RUNJUMP != StateValue)
 		{
 			MoveDir.y = 0.0f;
 		}
 
 	}
 	// 점프중이 아닌경우
-	else if (MarioState::JUMP != StateValue && (MarioState::SPIN != StateValue || 0 < MoveDir.y))
+	else if (MarioState::JUMP != StateValue && (MarioState::SPIN != StateValue || 0 < MoveDir.y) && (MarioState::RUNJUMP != StateValue || 0 < MoveDir.y))
 	{
 		// 아래에서 통과되는 블록들 체크 ex) 구름
 		if (RGB(0, 255, 0) == PixelColor)
 		{
-			if (MarioState::FALL == StateValue || (MarioState::SPIN == StateValue && 0 < MoveDir.y))
+			IsSlope = false;
+			if (MarioState::FALL == StateValue || (MarioState::SPIN == StateValue && 0 < MoveDir.y) || (MarioState::RUNJUMP == StateValue && 0 < MoveDir.y))
 			{
 				IsGrounded = true;
 				DownPos.y = std::round(DownPos.y);
@@ -266,17 +260,19 @@ void Mario::MoveCalculation(float _DeltaTime)
 					if (RGB(255, 255, 255) == PixelColor)
 					{
 						SetPos(DownPos);
+						ForwardPos.y = DownPos.y;
 						MoveDir.y = 0.0f;
 						break;
 					}
 				}
 
 			}
-			else if (MarioState::JUMP != StateValue && MarioState::SPIN != StateValue)
+			else if (MarioState::RUNJUMP != StateValue && MarioState::JUMP != StateValue && MarioState::SPIN != StateValue)
 			{
 				MoveDir.y = 0.0f;
 			}
 		}
+		// 비탈길 체크
 		else if (RGB(255, 0, 0) == PixelColor)
 		{
 			IsSlope = true;
@@ -290,19 +286,43 @@ void Mario::MoveCalculation(float _DeltaTime)
 				if (RGB(255, 255, 255) == PixelColor)
 				{
 					SetPos(DownPos);
+					ForwardPos.y = DownPos.y;
 					MoveDir.y = 0.0f;
 					break;
 				}
 			}
+			DownPos.x += 1;
+			PixelColor = ColMap->GetPixelColor(DownPos, RGB(0, 0, 0));
+			// 경사로가 왼쪽
+			if (RGB(255, 0, 0) == PixelColor)
+			{
+				MoveDir.x -= SlopeForce * _DeltaTime;
+			}
+			// 경사로가 오른쪽
+			else
+			{
+				MoveDir.x += SlopeForce * _DeltaTime;
+			}
 		}
-		// 이전까지 바닥에 있었던 경우
+		// 이전까지 바닥에 있었으나 현제 공중에 있는경우
 		else if (true == IsGrounded)
 		{
+			IsSlope = false;
 			ChangeState(MarioState::FALL);
 			IsGrounded = false;
 		}
 	}
 	
+	// 벽 체크
+	if (RGB(0, 0, 0) == ColMap->GetPixelColor(ForwardPos, RGB(255, 255, 255)))
+	{
+		HorizontalForce = 0;
+		MoveDir.x = 0;
+		if (true == IsGrounded)
+		{
+			ChangeState(MarioState::IDLE);
+		}
+	}
 
 	// 마리오 이동 및 카메라 이동
 	SetMove(MoveDir * _DeltaTime);

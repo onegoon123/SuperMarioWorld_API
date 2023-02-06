@@ -56,7 +56,7 @@ void StageLevel3::LevelChangeEnd(GameEngineLevel* _NextLevel)
 
 void StageLevel3::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
-	CreateActor<Mario>()->SetPos({ 350, 1536 });
+	CreateActor<Mario>();
 	SetCameraMove({ 0, 790 });
 	Map* Map1 = CreateActor<Map>();
 	Map1->BackGroundAnimOn();
@@ -67,6 +67,7 @@ void StageLevel3::LevelChangeStart(GameEngineLevel* _PrevLevel)
 	Map1->GetBackGroundRender()->SetPosition({ 1024, 864 });
 	Map1->GetBackGroundRender()->ChangeAnimation("BackGroundAnim");
 
-	Map1->MoveMap(1);
+	Map1->AddStartPos({ 350 , 1534 });
+	Map1->MoveMap(0);
 
 }
