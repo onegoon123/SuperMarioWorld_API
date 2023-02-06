@@ -86,6 +86,7 @@ private:
 
 	MarioState StateValue = MarioState::IDLE;
 	Dir DirValue = Dir::Right;
+	Dir SlopeDir = Dir::Right;
 
 	GameEngineRender* AnimationRender = nullptr;
 	GameEngineImage* ColMap = nullptr;

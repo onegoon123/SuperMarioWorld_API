@@ -187,9 +187,14 @@ void Mario::IdleUpdate(float _DeltaTime)
 		ChangeState(MarioState::CROUCH);
 		return;
 	}
-	// 양쪽 방향키를 동시에 입력한 경우
-	else if (GameEngineInput::IsPress("Left") && GameEngineInput::IsPress("Right"))
+	// 양쪽 방향키를 동시에 입력하거나 둘다 입력하지 않은 경우
+	else if ((GameEngineInput::IsPress("Left") && GameEngineInput::IsPress("Right")) || (false == GameEngineInput::IsPress("Left") && false == GameEngineInput::IsPress("Right")))
 	{
+		// 비탈길에 있는 경우
+		if (true == IsSlope)
+		{
+			ChangeState(MarioState::WALK);
+		}
 		return;
 	}
 	// 왼쪽 방향키를 입력한 경우
@@ -235,7 +240,6 @@ void Mario::WalkStart()
 
 void Mario::WalkUpdate(float _DeltaTime)
 {
-
 	// 점프 키를 입력한 경우
 	if (GameEngineInput::IsDown("Jump"))
 	{
@@ -251,33 +255,39 @@ void Mario::WalkUpdate(float _DeltaTime)
 		return;
 	}
 	// 아래 방향기를 입력한 경우
-	else if (GameEngineInput::IsPress("Down"))
+	if (GameEngineInput::IsPress("Down"))
 	{
 		// 앉은 상태로 전환
 		ChangeState(MarioState::CROUCH);
 		return;
 	}
+
+	
 	// 미입력 (방향키를 입력하지 않는경우 or 양쪽 방향키를 동시에 입력한 경우)
-	else if ((GameEngineInput::IsPress("Left") && GameEngineInput::IsPress("Right")) || (!GameEngineInput::IsPress("Left") && !GameEngineInput::IsPress("Right")))
+	if ((GameEngineInput::IsPress("Left") && GameEngineInput::IsPress("Right")) || (!GameEngineInput::IsPress("Left") && !GameEngineInput::IsPress("Right")))
 	{
-		// 이전까지 오른쪽으로 이동하고 있던 경우
-		if (0.1f < HorizontalForce)
+		// 비탈길에 있는 상황이 아닌 경우
+		if (false == IsSlope)
 		{
-			// 서서히 속도를 낮춤
-			HorizontalForce = std::max<float>(HorizontalForce - (StoppingForce * _DeltaTime), 0);
-		}
-		// 이전까지 왼쪽으로 이동하고 있던 경우
-		else if (-0.1f > HorizontalForce)
-		{
-			// 서서히 속도를 낮춤
-			HorizontalForce = std::min<float>(HorizontalForce + (StoppingForce * _DeltaTime), 0);
-		}
-		// 일정속도 이하 (멈춘경우)
-		else
-		{
-			// IDLE 상태로 전환
-			ChangeState(MarioState::IDLE);
-			return;
+				// 이전까지 오른쪽으로 이동하고 있던 경우
+				if (0.1f < HorizontalForce)
+				{
+					// 서서히 속도를 낮춤
+					HorizontalForce = std::max<float>(HorizontalForce - (StoppingForce * _DeltaTime), 0);
+				}
+				// 이전까지 왼쪽으로 이동하고 있던 경우
+				else if (-0.1f > HorizontalForce)
+				{
+					// 서서히 속도를 낮춤
+					HorizontalForce = std::min<float>(HorizontalForce + (StoppingForce * _DeltaTime), 0);
+				}
+				// 일정속도 이하 (멈춘경우)
+				else
+				{
+					// IDLE 상태로 전환
+					ChangeState(MarioState::IDLE);
+					return;
+				}
 		}
 	}
 	// 왼쪽 방향키를 누른경우
@@ -367,6 +377,39 @@ void Mario::WalkUpdate(float _DeltaTime)
 			RunChargeTime = 0;
 		}
 	}
+
+	if (true == IsSlope)
+	{
+		// 왼쪽으로 미끄러지는 경우
+		if (Dir::Left == SlopeDir)
+		{
+			// 오른쪽으로 이동중인 경우
+			if (0 < HorizontalForce)
+			{
+				HorizontalForce = std::min<float>(HorizontalForce - _DeltaTime, 0.8f);
+			}
+			// 왼쪽으로 이동중인 경우
+			else
+			{
+				HorizontalForce = std::max<float>(HorizontalForce - _DeltaTime, -0.7f);
+			}
+		}
+		// 오른쪽으로 미끄러지는 경우
+		else
+		{
+			// 오른쪽으로 이동중인 경우
+			if (0 < HorizontalForce)
+			{
+				HorizontalForce = std::min<float>(HorizontalForce + _DeltaTime, 0.7f);
+			}
+			// 왼쪽으로 이동중인 경우
+			else
+			{
+				HorizontalForce = std::max<float>(HorizontalForce + _DeltaTime, -0.8f);
+			}
+		}
+	}
+
 	// 속도가 0.7이상인 경우
 	if (0.7f < std::abs(HorizontalForce))
 	{
