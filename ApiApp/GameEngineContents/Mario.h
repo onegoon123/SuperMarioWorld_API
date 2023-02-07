@@ -134,6 +134,10 @@ private:
 	void FallStart();
 	void FallUpdate(float _DeltaTime);
 	void FallEnd();
+
+	void SlideStart();
+	void SlideUpdate(float _DeltaTime);
+	void SlideEnd();
 #pragma endregion
 
 #pragma region __________Animation 관련 함수 ________

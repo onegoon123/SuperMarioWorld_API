@@ -47,6 +47,7 @@ void Mario::Start()
 		AnimationRender->CreateAnimation({ .AnimationName = "Right_Fall", .ImageName = "RIGHT_MARIO.BMP", .Start = 12, .End = 12,});
 		AnimationRender->CreateAnimation({ .AnimationName = "Right_RunJump", .ImageName = "RIGHT_MARIO.BMP", .Start = 13, .End = 13,});
 		AnimationRender->CreateAnimation({ .AnimationName = "Right_Spin", .ImageName = "RIGHT_MARIO.BMP", .Start = 14, .End = 16, .InterTime = 0.035f});
+		AnimationRender->CreateAnimation({ .AnimationName = "Right_Slide", .ImageName = "RIGHT_MARIO.BMP", .Start = 18, .End = 18, });
 
 		AnimationRender->CreateAnimation({ .AnimationName = "Right_Super_Idle", .ImageName = "RIGHT_MARIO.BMP", .Start = 0 + 53, .End = 0 + 53 });
 		AnimationRender->CreateAnimation({ .AnimationName = "Right_Super_LookUp", .ImageName = "RIGHT_MARIO.BMP", .Start = 1 + 53, .End = 1 + 53 });
@@ -73,6 +74,7 @@ void Mario::Start()
 		AnimationRender->CreateAnimation({ .AnimationName = "Left_Fall", .ImageName =	"Left_MARIO.BMP", .Start = 12, .End = 12, });
 		AnimationRender->CreateAnimation({ .AnimationName = "Left_RunJump", .ImageName ="Left_MARIO.BMP", .Start = 13, .End = 13, });
 		AnimationRender->CreateAnimation({ .AnimationName = "Left_Spin", .ImageName =	"Left_MARIO.BMP", .Start = 14, .End = 16, .InterTime = 0.035f });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Slide", .ImageName = "Left_MARIO.BMP", .Start = 18, .End = 18, });
 
 		AnimationRender->CreateAnimation({ .AnimationName = "Left_Super_Idle",		.ImageName = "Left_MARIO.BMP", .Start = 0 + 53, .End = 0 + 53 });
 		AnimationRender->CreateAnimation({ .AnimationName = "Left_Super_LookUp",	.ImageName = "Left_MARIO.BMP", .Start = 1 + 53, .End = 1 + 53 });
