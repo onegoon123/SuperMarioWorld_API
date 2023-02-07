@@ -32,11 +32,11 @@ void TitleLevel::Loading()
 
 	// 타이틀 화면에 표시될 이미지들을 로딩한다
 	// 추가로 마리오는 미리 Cut 기능을 이용해 자른다 (이미지 분할 데이터 생성)
-	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("RIGHT_MARIO.BMP"))->Cut(17, 9);
-	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("LEFT_MARIO.BMP"))->Cut(17, 9);
-	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("STAGE1.BMP"));
-	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("BACKGROUND1.BMP"));
-	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TITLE.BMP"));
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("PLAY\\RIGHT_MARIO.BMP"))->Cut(17, 9);
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("PLAY\\LEFT_MARIO.BMP"))->Cut(17, 9);
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("PLAY\\STAGE1.BMP"));
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("PLAY\\BACKGROUND1.BMP"));
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TITLE\\TITLE.BMP"));
 
 	// 타이틀 이미지들을 표시할 엑터 생성
 	CreateActor<TitleImage>();

@@ -58,12 +58,12 @@ GameEngineRender* GameEngineActor::CreateRender(int _Order /*= 0*/)
 
 GameEngineCollision* GameEngineActor::CreateCollision(int _GroupIndex)
 {
-	GameEngineCollision* Collision = new GameEngineCollision();
+	GameEngineCollision* BodyCollision = new GameEngineCollision();
 	// 분명뭔가 좀 보기 좋지 않다.
-	Collision->SetOwner(this);
-	Collision->SetOrder(_GroupIndex);
-	CollisionList.push_back(Collision);
-	return Collision;
+	BodyCollision->SetOwner(this);
+	BodyCollision->SetOrder(_GroupIndex);
+	CollisionList.push_back(BodyCollision);
+	return BodyCollision;
 }
 
 void GameEngineActor::Release()

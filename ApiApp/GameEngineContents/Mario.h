@@ -38,6 +38,8 @@ public:
 
 	static Mario* MainPlayer;
 
+	void NewItem(ItemType _Item);
+
 	Mario();
 	~Mario();
 
@@ -67,6 +69,8 @@ private:
 	const float StoppingForce = 1;
 	const float Acceleration = 1.5;
 	const float DashAcceleration = 2;
+	const float InvincibilityTime = 1.5f;
+	const float ChangePowerTime = 0.9f;
 
 	//			 MarioPower	   StockState
 	// Normal : 기본마리오		비어있음
@@ -76,20 +80,24 @@ private:
 	PowerState MarioPower = PowerState::Normal;
 	PowerState StockState = PowerState::Normal;
 
-	bool IsRidedYoshi = false;	// 요시 탑승 여부
-	bool IsGrounded = true;		// 마리오가 땅 위에 있는지 여부
-	bool IsSlope = false;		// 마리오가 비탈길 위에 있는지 여부
+	bool IsRidedYoshi = false;		// 요시 탑승 여부
+	bool IsGrounded = true;			// 마리오가 땅 위에 있는지 여부
+	bool IsSlope = false;			// 마리오가 비탈길 위에 있는지 여부
+	bool IsInvincibility = false;	// 무적 시간 여부
 	float4 MoveDir = float4::Zero;	// 수평으로 가해지는 힘
 	float HorizontalForce = 0;
 	float JumpTimeCounter = 0;
 	float RunChargeTime = 0;	// 대시를 한 시간을 기록해서 달리기 전환을 판단하는 변수
+	float Timer = 0;
 
 	MarioState StateValue = MarioState::IDLE;
+	MarioState BeforeState = MarioState::IDLE;
 	Dir DirValue = Dir::Right;
 	Dir SlopeDir = Dir::Right;
 
 	GameEngineRender* AnimationRender = nullptr;
 	GameEngineImage* ColMap = nullptr;
+	GameEngineCollision* BodyCollision = nullptr;
 
 #pragma region __________ State 관련 함수 _________
 	void ChangeState(MarioState _State);
@@ -138,7 +146,17 @@ private:
 	void SlideStart();
 	void SlideUpdate(float _DeltaTime);
 	void SlideEnd();
+	
+	void ChangePowerStart(MarioState _BeforeState);
+	void ChangePowerUpdate(float _DeltaTime);
+	void ChangePowerEnd();
+
 #pragma endregion
+
+#pragma region __________ 충돌 관련 함수 __________
+	void CheckCollision();
+#pragma endregion
+
 
 #pragma region __________Animation 관련 함수 ________
 	void ChangeAnimation(const std::string_view& _AnimationName);
@@ -161,6 +179,7 @@ private:
 			return;
 		case PowerState::Super:
 			MarioPower = PowerState::Normal;
+			ChangeState(MarioState::CHANGEPOWER);
 			break;
 		case PowerState::Fire:
 			MarioPower = PowerState::Normal;
@@ -171,16 +190,16 @@ private:
 		default:
 			break;
 		}
-		InvincibilityTime();	// 무적 시간 활성
 		TakeOutStock();	// 스톡 아이템 소환
 	}
 	// 추락하거나 Normal 상태에서 대미지를 받을 경우 실행되는 게임오버 함수
 	void GameOver() {
-
+		Death();
 	}
 	// 피격후 일정시간 공격을 방지하는 무적 함수
-	void InvincibilityTime() {
-
+	void Invincibility() {
+		IsInvincibility = true;
+		Timer = InvincibilityTime;
 	}
 
 #pragma endregion

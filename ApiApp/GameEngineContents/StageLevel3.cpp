@@ -25,6 +25,7 @@ void StageLevel3::Loading()
 	Dir.MoveParentToDirectory("ContentsResources");
 	Dir.Move("ContentsResources");
 	Dir.Move("Image");
+	Dir.Move("Play");
 	//GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName(SkyName));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName(BackGroundName))->Cut(4,1);
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName(StageName));

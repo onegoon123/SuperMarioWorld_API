@@ -33,6 +33,12 @@
     <ClInclude Include="StageLevel4.h">
       <Filter>Play\StageLevel</Filter>
     </ClInclude>
+    <ClInclude Include="SuperMushroom.h">
+      <Filter>Play\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Bamba.h">
+      <Filter>Play\Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MarioGameCore.cpp" />
@@ -69,6 +75,12 @@
     <ClCompile Include="StageLevel4.cpp">
       <Filter>Play\StageLevel</Filter>
     </ClCompile>
+    <ClCompile Include="SuperMushroom.cpp">
+      <Filter>Play\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Bamba.cpp">
+      <Filter>Play\Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Title">
@@ -82,6 +94,9 @@
     </Filter>
     <Filter Include="Play\StageLevel">
       <UniqueIdentifier>{a525159b-9e75-47cf-9ddf-7ec7a483248a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Play\Object">
+      <UniqueIdentifier>{e8787bf4-8292-4a0c-972b-a6b7230905c2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

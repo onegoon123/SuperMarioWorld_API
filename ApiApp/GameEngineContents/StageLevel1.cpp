@@ -4,6 +4,8 @@
 #include <GameEngineCore/GameEngineResources.h>
 #include "Mario.h"
 #include "Map.h"
+#include "Bamba.h"
+#include "SuperMushroom.h"
 
 StageLevel1::StageLevel1() {
 
@@ -23,10 +25,13 @@ void StageLevel1::Loading()
 	Dir.MoveParentToDirectory("ContentsResources");
 	Dir.Move("ContentsResources");
 	Dir.Move("Image");
+	Dir.Move("Play");
 	//GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName(SkyName));
 	//GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName(BackGroundName));
 	//GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName(StageName));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName(StageColName));
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("BAMBA.BMP"))->Cut(7, 1);
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("SUPERMUSHROOM.BMP"));
 
 }
 
@@ -61,4 +66,9 @@ void StageLevel1::LevelChangeStart(GameEngineLevel* _PrevLevel)
 	Map1->MoveMap(0);
 	SetCameraMove({ 0, 790 });
 
+
+	CreateActor<Bamba>()->SetPos({ 700, 1506 });
+	CreateActor<Bamba>()->SetPos({ 3200, 1506 });
+	CreateActor<SuperMushroom>()->SetPos({ 1000, 1506 });
+	CreateActor<SuperMushroom>()->SetPos({ 500, 1200 });
 }

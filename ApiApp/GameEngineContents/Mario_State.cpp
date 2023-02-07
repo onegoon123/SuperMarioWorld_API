@@ -14,7 +14,11 @@ void Mario::ChangeState(MarioState _State)
 	MarioState PrevState = StateValue;
 
 	StateValue = _State;
-
+	if (MarioState::CHANGEPOWER == StateValue)
+	{
+		ChangePowerStart(PrevState);
+		return;
+	}
 	switch (StateValue)
 	{
 	case MarioState::IDLE:
@@ -53,6 +57,7 @@ void Mario::ChangeState(MarioState _State)
 	case MarioState::KICK:
 		break;
 	case MarioState::CHANGEPOWER:
+		ChangePowerEnd();
 		break;
 	case MarioState::VICTORY:
 		break;
@@ -96,8 +101,6 @@ void Mario::ChangeState(MarioState _State)
 		SlideStart();
 		break;
 	case MarioState::KICK:
-		break;
-	case MarioState::CHANGEPOWER:
 		break;
 	case MarioState::VICTORY:
 		break;
@@ -147,6 +150,7 @@ void Mario::UpdateState(float _DeltaTime)
 	case MarioState::KICK:
 		break;
 	case MarioState::CHANGEPOWER:
+		ChangePowerUpdate(_DeltaTime);
 		break;
 	case MarioState::VICTORY:
 		break;
@@ -163,12 +167,7 @@ void Mario::IdleStart()
 
 void Mario::IdleUpdate(float _DeltaTime)
 {
-	// 스타트 키가 눌린 경우
-	if (GameEngineInput::IsDown("Start"))
-	{
-		// 테스트용 코드
-		MarioPower = PowerState::Super;
-	}
+	
 	// 점프 키를 입력한 경우
 	if (GameEngineInput::IsDown("Jump"))
 	{
@@ -524,7 +523,7 @@ void Mario::RunUpdate(float _DeltaTime)
 		}
 	}
 	// 대시 키 입력을 땐 경우
-	if (GameEngineInput::IsUp("Dash"))
+	if (false == GameEngineInput::IsPress("Dash"))
 	{
 		// 걷기로 상태 전환
 		ChangeState(MarioState::WALK);
@@ -955,7 +954,7 @@ void Mario::CrouchUpdate(float _DeltaTime)
 		ChangeState(MarioState::SPIN);
 		return;
 	}
-	if (GameEngineInput::IsUp("Down"))
+	if (false == GameEngineInput::IsPress("Down"))
 	{
 		if (0.1f < std::abs(HorizontalForce))
 		{
@@ -1021,7 +1020,7 @@ void Mario::LookUpUpdate(float _DeltaTime)
 		return;
 	}
 	// 위쪽 방향키를 땐 경우
-	if (GameEngineInput::IsUp("Up"))
+	if (false == GameEngineInput::IsPress("Up"))
 	{
 		ChangeState(MarioState::IDLE);
 		return;
@@ -1338,7 +1337,7 @@ void Mario::SlideUpdate(float _DeltaTime)
 		ChangeState(MarioState::SPIN);
 		return;
 	}
-	if (GameEngineInput::IsUp("Down"))
+	if (false == GameEngineInput::IsPress("Down"))
 	{
 		ChangeState(MarioState::WALK);
 		return;
@@ -1379,7 +1378,7 @@ void Mario::SlideUpdate(float _DeltaTime)
 		// 오른쪽으로 이동중인 경우
 		if (0 < HorizontalForce)
 		{
-			HorizontalForce = HorizontalForce - StoppingForce * _DeltaTime;
+			HorizontalForce = HorizontalForce - DashAcceleration * _DeltaTime;
 		}
 		// 왼쪽으로 이동중인 경우
 		else
@@ -1393,7 +1392,7 @@ void Mario::SlideUpdate(float _DeltaTime)
 		// 왼쪽으로 이동중인 경우
 		if (0 > HorizontalForce)
 		{
-			HorizontalForce = HorizontalForce + StoppingForce * _DeltaTime;
+			HorizontalForce = HorizontalForce + DashAcceleration * _DeltaTime;
 		}
 		// 오른쪽으로 이동중인 경우
 		else
@@ -1407,4 +1406,79 @@ void Mario::SlideEnd()
 {
 }
 
+void Mario::ChangePowerStart(MarioState _BeforeState)
+{
+	BeforeState = _BeforeState;
 
+	std::string AnimStr = DirValue == Dir::Left ? "Left_" : "Right_";
+	Timer = ChangePowerTime;
+
+	if (PowerState::Super == MarioPower)
+	{
+		AnimationRender->ChangeAnimation(AnimStr + "Grow");
+	}
+	else
+	{
+		AnimationRender->ChangeAnimation(AnimStr + "Shrink");
+	}
+	AnimationRender->On();
+}
+
+void Mario::ChangePowerUpdate(float _DeltaTime)
+{
+	Timer -= _DeltaTime;
+	if (0 >= Timer) {
+		if (PowerState::Normal == MarioPower)
+		{
+			Invincibility();
+		}
+		switch (BeforeState)
+		{
+		case MarioState::IDLE:
+			ChangeAnimation("Idle");
+			break;
+		case MarioState::WALK:
+			ChangeAnimation("Walk");
+			break;
+		case MarioState::RUN:
+			ChangeAnimation("RUN");
+			break;
+		case MarioState::BRAKE:
+			ChangeAnimation("BRAKE");
+			break;
+		case MarioState::CROUCH:
+			ChangeAnimation("CROUCH");
+			break;
+		case MarioState::LOOKUP:
+			ChangeAnimation("LOOKUP");
+			break;
+		case MarioState::JUMP:
+			ChangeAnimation("JUMP");
+			break;
+		case MarioState::FALL:
+			ChangeAnimation("FALL");
+			break;
+		case MarioState::RUNJUMP:
+			ChangeAnimation("RUNJUMP");
+			break;
+		case MarioState::SPIN:
+			ChangeAnimation("SPIN");
+			break;
+		case MarioState::SLIDE:
+			ChangeAnimation("SLIDE");
+			break;
+		case MarioState::KICK:
+			ChangeAnimation("KICK");
+			break;
+		default:
+			ChangeState(MarioState::FALL);
+			return;
+		}
+		StateValue = BeforeState;
+	}
+}
+
+void Mario::ChangePowerEnd()
+{
+	
+}

@@ -3,12 +3,47 @@
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineResources.h>
+#include <GameEngineCore/GameEngineCollision.h>
 #include <GameEngineCore/GameEngineRender.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include "MarioGameCore.h"
 #include "Map.h"
 
 Mario* Mario::MainPlayer = nullptr;
+
+void Mario::NewItem(ItemType _Item)
+{
+	if (MarioState::CHANGEPOWER == StateValue)
+	{
+		return;
+	}
+	switch (_Item)
+	{
+	case ItemType::Coin:
+		break;
+	case ItemType::UpMushroom:
+		break;
+	case ItemType::SuperMushroom:
+	{
+		if (PowerState::Super == MarioPower)
+		{
+
+		}
+		else
+		{
+			MarioPower = PowerState::Super;
+			ChangeState(MarioState::CHANGEPOWER);
+		}
+		break;
+	}
+	case ItemType::FireFlower:
+		break;
+	case ItemType::Feather:
+		break;
+	default:
+		break;
+	}
+}
 
 Mario::Mario() {
 	if (MainPlayer != nullptr)
@@ -35,6 +70,13 @@ void Mario::Start()
 		AnimationRender = CreateRender(RenderOrder::Player);
 		AnimationRender->SetScale({ 192, 192 });
 		AnimationRender->SetPosition({ 0, -56 });
+
+		AnimationRender->CreateAnimation({ .AnimationName = "Goal", .ImageName = "LEFT_MARIO.BMP", .Start = 23, .End = 23, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Yoshi_Goal", .ImageName = "LEFT_MARIO.BMP", .Start = 39, .End = 39, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Yoshi_Super_Goal", .ImageName = "LEFT_MARIO.BMP", .Start = 39 + 53, .End = 39 + 53, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Death", .ImageName = "LEFT_MARIO.BMP", .Start = 49, .End = 49, });
+
+		// 오른쪽 기본
 		AnimationRender->CreateAnimation({ .AnimationName = "Right_Idle", .ImageName = "RIGHT_MARIO.BMP", .Start = 0, .End = 0 });
 		AnimationRender->CreateAnimation({ .AnimationName = "Right_LookUp", .ImageName = "RIGHT_MARIO.BMP", .Start = 1, .End = 1 });
 		AnimationRender->CreateAnimation({ .AnimationName = "Right_Crouch", .ImageName = "RIGHT_MARIO.BMP", .Start = 2, .End = 2 });
@@ -48,7 +90,20 @@ void Mario::Start()
 		AnimationRender->CreateAnimation({ .AnimationName = "Right_RunJump", .ImageName = "RIGHT_MARIO.BMP", .Start = 13, .End = 13,});
 		AnimationRender->CreateAnimation({ .AnimationName = "Right_Spin", .ImageName = "RIGHT_MARIO.BMP", .Start = 14, .End = 16, .InterTime = 0.035f});
 		AnimationRender->CreateAnimation({ .AnimationName = "Right_Slide", .ImageName = "RIGHT_MARIO.BMP", .Start = 18, .End = 18, });
-
+		AnimationRender->CreateAnimation({ .AnimationName = "Right_Kick", .ImageName = "RIGHT_MARIO.BMP", .Start = 19, .End = 19, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Right_Grow", .ImageName = "RIGHT_MARIO.BMP", .InterTime = 0.07f, .Loop = false, .FrameIndex = {50, 51, 50, 51, 50, 51, 52, 51, 52, 51, 52}, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Right_Shrink", .ImageName = "RIGHT_MARIO.BMP", .InterTime = 0.07f, .Loop = false, .FrameIndex = {52, 51, 52, 51, 52, 51, 50, 51, 50, 51, 50}, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Right_Hold_Idle", .ImageName = "RIGHT_MARIO.BMP", .Start = 19, .End = 19, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Right_Hold_LookUp", .ImageName = "RIGHT_MARIO.BMP", .Start = 20, .End = 20, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Right_Hold_Crouch", .ImageName = "RIGHT_MARIO.BMP", .Start = 21, .End = 21, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Right_Hold_Walk", .ImageName = "RIGHT_MARIO.BMP", .Start = 22, .End = 24, .InterTime = 0.06f });
+		AnimationRender->CreateAnimation({ .AnimationName = "Right_Hold_Dash", .ImageName = "RIGHT_MARIO.BMP", .Start = 22, .End = 24, .InterTime = 0.03f });
+		AnimationRender->CreateAnimation({ .AnimationName = "Right_Hold_Jump", .ImageName = "RIGHT_MARIO.BMP", .Start = 22, .End = 22 });
+		AnimationRender->CreateAnimation({ .AnimationName = "Yoshi_Right_Idle", .ImageName = "RIGHT_MARIO.BMP", .Start = 33, .End = 33, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Yoshi_Right_Attack", .ImageName = "RIGHT_MARIO.BMP", .Start = 34, .End = 35, .InterTime = 0.3f});
+		AnimationRender->CreateAnimation({ .AnimationName = "Yoshi_Right_Turn", .ImageName = "RIGHT_MARIO.BMP", .Start = 36, .End = 36, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Yoshi_Right_Pipe", .ImageName = "RIGHT_MARIO.BMP", .Start = 35, .End = 35, });
+		// 오른쪽 슈퍼
 		AnimationRender->CreateAnimation({ .AnimationName = "Right_Super_Idle", .ImageName = "RIGHT_MARIO.BMP", .Start = 0 + 53, .End = 0 + 53 });
 		AnimationRender->CreateAnimation({ .AnimationName = "Right_Super_LookUp", .ImageName = "RIGHT_MARIO.BMP", .Start = 1 + 53, .End = 1 + 53 });
 		AnimationRender->CreateAnimation({ .AnimationName = "Right_Super_Crouch", .ImageName = "RIGHT_MARIO.BMP", .Start = 2 + 53, .End = 2 + 53 });
@@ -61,35 +116,134 @@ void Mario::Start()
 		AnimationRender->CreateAnimation({ .AnimationName = "Right_Super_Fall", .ImageName = "RIGHT_MARIO.BMP", .Start = 12 + 53, .End = 12 + 53, });
 		AnimationRender->CreateAnimation({ .AnimationName = "Right_Super_RunJump", .ImageName = "RIGHT_MARIO.BMP", .Start = 13 + 53, .End = 13 + 53, });
 		AnimationRender->CreateAnimation({ .AnimationName = "Right_Super_Spin", .ImageName = "RIGHT_MARIO.BMP", .Start = 14 + 53, .End = 16 + 53, .InterTime = 0.035f });
-
-		AnimationRender->CreateAnimation({ .AnimationName = "Left_Idle", .ImageName =	"Left_MARIO.BMP", .Start = 0, .End = 0 });
-		AnimationRender->CreateAnimation({ .AnimationName = "Left_LookUp", .ImageName =	"Left_MARIO.BMP", .Start = 1, .End = 1 });
-		AnimationRender->CreateAnimation({ .AnimationName = "Left_Crouch", .ImageName =	"Left_MARIO.BMP", .Start = 2, .End = 2 });
-		AnimationRender->CreateAnimation({ .AnimationName = "Left_Walk", .ImageName =	"Left_MARIO.BMP", .Start = 3, .End = 5, .InterTime = 0.06f, });
-		AnimationRender->CreateAnimation({ .AnimationName = "Left_Dash", .ImageName =	"Left_MARIO.BMP", .Start = 3, .End = 5, .InterTime = 0.03f, });
-		AnimationRender->CreateAnimation({ .AnimationName = "Left_Run", .ImageName =	"Left_MARIO.BMP", .Start = 6, .End = 8, .InterTime = 0.03f });
-		AnimationRender->CreateAnimation({ .AnimationName = "Left_Brake", .ImageName =	"Left_MARIO.BMP", .Start = 9, .End = 9, });
-		AnimationRender->CreateAnimation({ .AnimationName = "Left_Pipe", .ImageName =	"Left_MARIO.BMP", .Start = 10, .End = 10, });
-		AnimationRender->CreateAnimation({ .AnimationName = "Left_Jump", .ImageName =	"Left_MARIO.BMP", .Start = 11, .End = 11, });
-		AnimationRender->CreateAnimation({ .AnimationName = "Left_Fall", .ImageName =	"Left_MARIO.BMP", .Start = 12, .End = 12, });
-		AnimationRender->CreateAnimation({ .AnimationName = "Left_RunJump", .ImageName ="Left_MARIO.BMP", .Start = 13, .End = 13, });
-		AnimationRender->CreateAnimation({ .AnimationName = "Left_Spin", .ImageName =	"Left_MARIO.BMP", .Start = 14, .End = 16, .InterTime = 0.035f });
-		AnimationRender->CreateAnimation({ .AnimationName = "Left_Slide", .ImageName = "Left_MARIO.BMP", .Start = 18, .End = 18, });
-
-		AnimationRender->CreateAnimation({ .AnimationName = "Left_Super_Idle",		.ImageName = "Left_MARIO.BMP", .Start = 0 + 53, .End = 0 + 53 });
-		AnimationRender->CreateAnimation({ .AnimationName = "Left_Super_LookUp",	.ImageName = "Left_MARIO.BMP", .Start = 1 + 53, .End = 1 + 53 });
-		AnimationRender->CreateAnimation({ .AnimationName = "Left_Super_Crouch",	.ImageName = "Left_MARIO.BMP", .Start = 2 + 53, .End = 2 + 53 });
-		AnimationRender->CreateAnimation({ .AnimationName = "Left_Super_Walk",		.ImageName = "Left_MARIO.BMP", .Start = 3 + 53, .End = 5 + 53, .InterTime = 0.06f });
-		AnimationRender->CreateAnimation({ .AnimationName = "Left_Super_Dash",		.ImageName = "Left_MARIO.BMP", .Start = 3 + 53, .End = 5 + 53, .InterTime = 0.03f });
-		AnimationRender->CreateAnimation({ .AnimationName = "Left_Super_Run",		.ImageName = "Left_MARIO.BMP", .Start = 6 + 53, .End = 8 + 53, .InterTime = 0.03f });
-		AnimationRender->CreateAnimation({ .AnimationName = "Left_Super_Brake",		.ImageName = "Left_MARIO.BMP", .Start = 9 + 53, .End = 9 + 53, });
-		AnimationRender->CreateAnimation({ .AnimationName = "Left_Super_Pipe",		.ImageName = "Left_MARIO.BMP", .Start = 10 + 53, .End = 10 + 53, });
-		AnimationRender->CreateAnimation({ .AnimationName = "Left_Super_Jump",		.ImageName = "Left_MARIO.BMP", .Start = 11 + 53, .End = 11 + 53, });
-		AnimationRender->CreateAnimation({ .AnimationName = "Left_Super_Fall",		.ImageName = "Left_MARIO.BMP", .Start = 12 + 53, .End = 12 + 53, });
-		AnimationRender->CreateAnimation({ .AnimationName = "Left_Super_RunJump",	.ImageName = "Left_MARIO.BMP", .Start = 13 + 53, .End = 13 + 53, });
-		AnimationRender->CreateAnimation({ .AnimationName = "Left_Super_Spin",		.ImageName = "Left_MARIO.BMP", .Start = 14 + 53, .End = 16 + 53, .InterTime = 0.035f });
+		AnimationRender->CreateAnimation({ .AnimationName = "Right_Super_Slide", .ImageName = "RIGHT_MARIO.BMP", .Start = 18 + 53, .End = 18 + 53, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Right_Super_Kick", .ImageName = "RIGHT_MARIO.BMP", .Start = 19 + 53, .End = 19 + 53, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Right_Super_PowerUp", .ImageName = "RIGHT_MARIO.BMP", .FrameIndex = {53, 104} });
+		AnimationRender->CreateAnimation({ .AnimationName = "Right_Super_Hold_Idle", .ImageName = "RIGHT_MARIO.BMP", .Start = 19 + 53, .End = 19 + 53, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Right_Super_Hold_LookUp", .ImageName = "RIGHT_MARIO.BMP", .Start = 20 + 53, .End = 20 + 53, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Right_Super_Hold_Crouch", .ImageName = "RIGHT_MARIO.BMP", .Start = 21 + 53, .End = 21 + 53, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Right_Super_Hold_Walk", .ImageName = "RIGHT_MARIO.BMP", .Start = 22 + 53, .End = 24 + 53, .InterTime = 0.06f });
+		AnimationRender->CreateAnimation({ .AnimationName = "Right_Super_Hold_Dash", .ImageName = "RIGHT_MARIO.BMP", .Start = 22 + 53, .End = 24 + 53, .InterTime = 0.03f });
+		AnimationRender->CreateAnimation({ .AnimationName = "Right_Super_Hold_Jump", .ImageName = "RIGHT_MARIO.BMP", .Start = 22 + 53, .End = 22 + 53 });
+		AnimationRender->CreateAnimation({ .AnimationName = "Yoshi_Right_Super_Idle", .ImageName = "RIGHT_MARIO.BMP", .Start = 33 + 53, .End = 33 + 53, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Yoshi_Right_Super_Attack", .ImageName = "RIGHT_MARIO.BMP", .Start = 34 + 53, .End = 35 + 53, .InterTime = 0.3f });
+		AnimationRender->CreateAnimation({ .AnimationName = "Yoshi_Right_Super_Turn", .ImageName = "RIGHT_MARIO.BMP", .Start = 36 + 53, .End = 36 + 53, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Yoshi_Right_Super_Pipe", .ImageName = "RIGHT_MARIO.BMP", .Start = 35 + 53, .End = 35 + 53, });
+		// 오른쪽 불꽃
+		AnimationRender->CreateAnimation({ .AnimationName = "Right_Fire_Idle", .ImageName = "RIGHT_MARIO.BMP", .Start = 0 + 104, .End = 0 + 53 });
+		AnimationRender->CreateAnimation({ .AnimationName = "Right_Fire_LookUp", .ImageName = "RIGHT_MARIO.BMP", .Start = 1 + 104, .End = 1 + 53 });
+		AnimationRender->CreateAnimation({ .AnimationName = "Right_Fire_Crouch", .ImageName = "RIGHT_MARIO.BMP", .Start = 2 + 104, .End = 2 + 53 });
+		AnimationRender->CreateAnimation({ .AnimationName = "Right_Fire_Walk", .ImageName = "RIGHT_MARIO.BMP", .Start = 3 + 104, .End = 5 + 104, .InterTime = 0.06f });
+		AnimationRender->CreateAnimation({ .AnimationName = "Right_Fire_Dash", .ImageName = "RIGHT_MARIO.BMP", .Start = 3 + 104, .End = 5 + 104, .InterTime = 0.03f });
+		AnimationRender->CreateAnimation({ .AnimationName = "Right_Fire_Run", .ImageName = "RIGHT_MARIO.BMP", .Start = 6 + 104, .End = 8 + 104, .InterTime = 0.03f });
+		AnimationRender->CreateAnimation({ .AnimationName = "Right_Fire_Brake", .ImageName = "RIGHT_MARIO.BMP", .Start = 9 + 104, .End = 9 + 104, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Right_Fire_Pipe", .ImageName = "RIGHT_MARIO.BMP", .Start = 10 + 104, .End = 10 + 104, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Right_Fire_Jump", .ImageName = "RIGHT_MARIO.BMP", .Start = 11 + 104, .End = 11 + 104, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Right_Fire_Fall", .ImageName = "RIGHT_MARIO.BMP", .Start = 12 + 104, .End = 12 + 104, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Right_Fire_RunJump", .ImageName = "RIGHT_MARIO.BMP", .Start = 13 + 53, .End = 13 + 53, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Right_Fire_Spin", .ImageName = "RIGHT_MARIO.BMP", .Start = 14 + 104, .End = 16 + 104, .InterTime = 0.035f });
+		AnimationRender->CreateAnimation({ .AnimationName = "Right_Fire_Slide", .ImageName = "RIGHT_MARIO.BMP", .Start = 18 + 104, .End = 18 + 104, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Right_Fire_Kick", .ImageName = "RIGHT_MARIO.BMP", .Start = 19 + 104, .End = 19 + 104, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Right_Fire_PowerUp", .ImageName = "RIGHT_MARIO.BMP", .FrameIndex = {104, 104} });
+		AnimationRender->CreateAnimation({ .AnimationName = "Right_Fire_Hold_Idle", .ImageName = "RIGHT_MARIO.BMP", .Start = 19 + 104, .End = 19 + 104, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Right_Fire_Hold_LookUp", .ImageName = "RIGHT_MARIO.BMP", .Start = 20 + 104, .End = 20 + 104, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Right_Fire_Hold_Crouch", .ImageName = "RIGHT_MARIO.BMP", .Start = 21 + 104, .End = 21 + 104, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Right_Fire_Hold_Walk", .ImageName = "RIGHT_MARIO.BMP", .Start = 22 + 104, .End = 24 + 104, .InterTime = 0.06f });
+		AnimationRender->CreateAnimation({ .AnimationName = "Right_Fire_Hold_Dash", .ImageName = "RIGHT_MARIO.BMP", .Start = 22 + 104, .End = 24 + 104, .InterTime = 0.03f });
+		AnimationRender->CreateAnimation({ .AnimationName = "Right_Fire_Hold_Jump", .ImageName = "RIGHT_MARIO.BMP", .Start = 22 + 104, .End = 22 + 104 });
+		AnimationRender->CreateAnimation({ .AnimationName = "Yoshi_Right_Fire_Idle", .ImageName = "RIGHT_MARIO.BMP", .Start = 33 + 104, .End = 33 + 104, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Yoshi_Right_Fire_Attack", .ImageName = "RIGHT_MARIO.BMP", .Start = 34 + 104, .End = 35 + 104, .InterTime = 0.3f });
+		AnimationRender->CreateAnimation({ .AnimationName = "Yoshi_Right_Fire_Turn", .ImageName = "RIGHT_MARIO.BMP", .Start = 36 + 104, .End = 36 + 104, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Yoshi_Right_Fire_Pipe", .ImageName = "RIGHT_MARIO.BMP", .Start = 35 + 104, .End = 35 + 104, });
+		// 왼쪽 기본
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Idle", .ImageName =	"LEFT_MARIO.BMP", .Start = 0, .End = 0 });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_LookUp", .ImageName = "LEFT_MARIO.BMP", .Start = 1, .End = 1 });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Crouch", .ImageName = "LEFT_MARIO.BMP", .Start = 2, .End = 2 });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Walk", .ImageName =	"LEFT_MARIO.BMP", .Start = 3, .End = 5, .InterTime = 0.06f });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Dash", .ImageName =	"LEFT_MARIO.BMP", .Start = 3, .End = 5, .InterTime = 0.03f });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Run", .ImageName =	"LEFT_MARIO.BMP", .Start = 6, .End = 8, .InterTime = 0.03f });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Brake", .ImageName =	"LEFT_MARIO.BMP", .Start = 9, .End = 9, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Pipe", .ImageName =	"LEFT_MARIO.BMP", .Start = 10, .End = 10, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Jump", .ImageName =	"LEFT_MARIO.BMP", .Start = 11, .End = 11, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Fall", .ImageName =	"LEFT_MARIO.BMP", .Start = 12, .End = 12, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_RunJump", .ImageName ="LEFT_MARIO.BMP", .Start = 13, .End = 13, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Spin", .ImageName =	"LEFT_MARIO.BMP", .Start = 14, .End = 16, .InterTime = 0.035f });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Slide", .ImageName =	"LEFT_MARIO.BMP", .Start = 18, .End = 18, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Kick", .ImageName =	"LEFT_MARIO.BMP", .Start = 19, .End = 19, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Grow", .ImageName = "Left_MARIO.BMP", .InterTime = 0.07f, .Loop = false, .FrameIndex = {50, 51, 50, 51, 50, 51, 52, 51, 52, 51, 52}, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Shrink", .ImageName = "Left_MARIO.BMP", .InterTime = 0.07f, .Loop = false, .FrameIndex = {52, 51, 52, 51, 52, 51, 50, 51, 50, 51, 50}, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Hold_Idle", .ImageName =	"LEFT_MARIO.BMP", .Start = 19, .End = 19, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Hold_LookUp", .ImageName ="LEFT_MARIO.BMP", .Start = 20, .End = 20, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Hold_Crouch", .ImageName ="LEFT_MARIO.BMP", .Start = 21, .End = 21, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Hold_Walk", .ImageName =	"LEFT_MARIO.BMP", .Start = 22, .End = 24, .InterTime = 0.06f });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Hold_Dash", .ImageName =	"LEFT_MARIO.BMP", .Start = 22, .End = 24, .InterTime = 0.03f });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Hold_Jump", .ImageName =	"LEFT_MARIO.BMP", .Start = 22, .End = 22 });
+		AnimationRender->CreateAnimation({ .AnimationName = "Yoshi_Left_Idle", .ImageName ="LEFT_MARIO.BMP", .Start = 33, .End = 33, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Yoshi_Left_Attack", .ImageName="LEFT_MARIO.BMP", .Start = 34, .End = 35, .InterTime = 0.3f });
+		AnimationRender->CreateAnimation({ .AnimationName = "Yoshi_Left_Turn", .ImageName = "LEFT_MARIO.BMP", .Start = 36, .End = 36, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Yoshi_Left_Pipe", .ImageName = "LEFT_MARIO.BMP", .Start = 35, .End = 35, });
+		// 오른쪽 슈퍼
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Super_Idle", .ImageName =	"LEFT_MARIO.BMP", .Start = 0 + 53, .End = 0 + 53 });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Super_LookUp", .ImageName =	"LEFT_MARIO.BMP", .Start = 1 + 53, .End = 1 + 53 });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Super_Crouch", .ImageName =	"LEFT_MARIO.BMP", .Start = 2 + 53, .End = 2 + 53 });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Super_Walk", .ImageName =	"LEFT_MARIO.BMP", .Start = 3 + 53, .End = 5 + 53, .InterTime = 0.06f });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Super_Dash", .ImageName =	"LEFT_MARIO.BMP", .Start = 3 + 53, .End = 5 + 53, .InterTime = 0.03f });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Super_Run", .ImageName =		"LEFT_MARIO.BMP", .Start = 6 + 53, .End = 8 + 53, .InterTime = 0.03f });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Super_Brake", .ImageName =	"LEFT_MARIO.BMP", .Start = 9 + 53, .End = 9 + 53, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Super_Pipe", .ImageName =	"LEFT_MARIO.BMP", .Start = 10 + 53, .End = 10 + 53, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Super_Jump", .ImageName =	"LEFT_MARIO.BMP", .Start = 11 + 53, .End = 11 + 53, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Super_Fall", .ImageName =	"LEFT_MARIO.BMP", .Start = 12 + 53, .End = 12 + 53, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Super_RunJump", .ImageName = "LEFT_MARIO.BMP", .Start = 13 + 53, .End = 13 + 53, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Super_Spin", .ImageName =	"LEFT_MARIO.BMP", .Start = 14 + 53, .End = 16 + 53, .InterTime = 0.035f });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Super_Slide", .ImageName =	"LEFT_MARIO.BMP", .Start = 18 + 53, .End = 18 + 53, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Super_Kick", .ImageName =	"LEFT_MARIO.BMP", .Start = 19 + 53, .End = 19 + 53, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Super_PowerUp", .ImageName = "LEFT_MARIO.BMP", .FrameIndex = {53, 104} });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Super_Hold_Idle", .ImageName =	"LEFT_MARIO.BMP", .Start = 19 + 53, .End = 19 + 53, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Super_Hold_LookUp", .ImageName =	"LEFT_MARIO.BMP", .Start = 20 + 53, .End = 20 + 53, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Super_Hold_Crouch", .ImageName =	"LEFT_MARIO.BMP", .Start = 21 + 53, .End = 21 + 53, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Super_Hold_Walk", .ImageName =	"LEFT_MARIO.BMP", .Start = 22 + 53, .End = 24 + 53, .InterTime = 0.06f });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Super_Hold_Dash", .ImageName =	"LEFT_MARIO.BMP", .Start = 22 + 53, .End = 24 + 53, .InterTime = 0.03f });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Super_Hold_Jump", .ImageName =	"LEFT_MARIO.BMP", .Start = 22 + 53, .End = 22 + 53 });
+		AnimationRender->CreateAnimation({ .AnimationName = "Yoshi_Left_Super_Idle", .ImageName =	"LEFT_MARIO.BMP", .Start = 33 + 53, .End = 33 + 53, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Yoshi_Left_Super_Attack", .ImageName = "LEFT_MARIO.BMP", .Start = 34 + 53, .End = 35 + 53, .InterTime = 0.3f });
+		AnimationRender->CreateAnimation({ .AnimationName = "Yoshi_Left_Super_Turn", .ImageName =	"LEFT_MARIO.BMP", .Start = 36 + 53, .End = 36 + 53, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Yoshi_Left_Super_Pipe", .ImageName =	"LEFT_MARIO.BMP", .Start = 35 + 53, .End = 35 + 53, });
+		// 오른쪽 불꽃
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Fire_Idle", .ImageName =		"LEFT_MARIO.BMP", .Start = 0 + 104, .End = 0 + 53 });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Fire_LookUp", .ImageName =	"LEFT_MARIO.BMP", .Start = 1 + 104, .End = 1 + 53 });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Fire_Crouch", .ImageName =	"LEFT_MARIO.BMP", .Start = 2 + 104, .End = 2 + 53 });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Fire_Walk", .ImageName =		"LEFT_MARIO.BMP", .Start = 3 + 104, .End = 5 + 104, .InterTime = 0.06f });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Fire_Dash", .ImageName =		"LEFT_MARIO.BMP", .Start = 3 + 104, .End = 5 + 104, .InterTime = 0.03f });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Fire_Run", .ImageName =		"LEFT_MARIO.BMP", .Start = 6 + 104, .End = 8 + 104, .InterTime = 0.03f });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Fire_Brake", .ImageName =		"LEFT_MARIO.BMP", .Start = 9 + 104, .End = 9 + 104, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Fire_Pipe", .ImageName =		"LEFT_MARIO.BMP", .Start = 10 + 104, .End = 10 + 104, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Fire_Jump", .ImageName =		"LEFT_MARIO.BMP", .Start = 11 + 104, .End = 11 + 104, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Fire_Fall", .ImageName =		"LEFT_MARIO.BMP", .Start = 12 + 104, .End = 12 + 104, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Fire_RunJump", .ImageName =	"LEFT_MARIO.BMP", .Start = 13 + 53, .End = 13 + 53, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Fire_Spin", .ImageName =		"LEFT_MARIO.BMP", .Start = 14 + 104, .End = 16 + 104, .InterTime = 0.035f });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Fire_Slide", .ImageName =		"LEFT_MARIO.BMP", .Start = 18 + 104, .End = 18 + 104, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Fire_Kick", .ImageName =		"LEFT_MARIO.BMP", .Start = 19 + 104, .End = 19 + 104, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Fire_PowerUp", .ImageName =	"LEFT_MARIO.BMP", .FrameIndex = {104, 104} });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Fire_Hold_Idle", .ImageName = "LEFT_MARIO.BMP", .Start = 19 + 104, .End = 19 + 104, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Fire_Hold_LookUp", .ImageName =	"LEFT_MARIO.BMP", .Start = 20 + 104, .End = 20 + 104, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Fire_Hold_Crouch", .ImageName =	"LEFT_MARIO.BMP", .Start = 21 + 104, .End = 21 + 104, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Fire_Hold_Walk", .ImageName =		"LEFT_MARIO.BMP", .Start = 22 + 104, .End = 24 + 104, .InterTime = 0.06f });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Fire_Hold_Dash", .ImageName =		"LEFT_MARIO.BMP", .Start = 22 + 104, .End = 24 + 104, .InterTime = 0.03f });
+		AnimationRender->CreateAnimation({ .AnimationName = "Left_Fire_Hold_Jump", .ImageName =		"LEFT_MARIO.BMP", .Start = 22 + 104, .End = 22 + 104 });
+		AnimationRender->CreateAnimation({ .AnimationName = "Yoshi_Left_Fire_Idle", .ImageName =	"LEFT_MARIO.BMP", .Start = 33 + 104, .End = 33 + 104, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Yoshi_Left_Fire_Attack", .ImageName =	"LEFT_MARIO.BMP", .Start = 34 + 104, .End = 35 + 104, .InterTime = 0.3f });
+		AnimationRender->CreateAnimation({ .AnimationName = "Yoshi_Left_Fire_Turn", .ImageName =	"LEFT_MARIO.BMP", .Start = 36 + 104, .End = 36 + 104, });
+		AnimationRender->CreateAnimation({ .AnimationName = "Yoshi_Left_Fire_Pipe", .ImageName =	"LEFT_MARIO.BMP", .Start = 35 + 104, .End = 35 + 104, });
 	}
 	ChangeAnimation("Idle");
+	
+	// Collision 생성
+	{
+		BodyCollision = CreateCollision(CollisionOrder::Player);
+		BodyCollision->SetScale({ 52, 72 });
+		BodyCollision->SetPosition({ 0, -36 });
+		BodyCollision->SetDebugRenderType(CollisionType::CT_Rect);
+	}
 }
 
 void Mario::LevelChangeStart(GameEngineLevel* _PrevLevel)
@@ -100,8 +254,34 @@ void Mario::LevelChangeStart(GameEngineLevel* _PrevLevel)
 void Mario::Update(float _DeltaTime)
 {
 	UpdateState(_DeltaTime);
-	MoveCalculation(_DeltaTime);
 	GetLevel()->DebugTextPush(GetPos().ToString());
+
+	// 시간 멈춘 상태 체크
+	if (MarioState::CHANGEPOWER == StateValue)
+	{
+		return;
+	}
+	MoveCalculation(_DeltaTime);
+	CheckCollision();
+
+	// 무적시간 체크
+	if (true == IsInvincibility)
+	{
+		Timer -= _DeltaTime;
+		if (static_cast<int>((Timer * 20)) % 2 == 0)
+		{
+			AnimationRender->On();
+		}
+		else
+		{
+			AnimationRender->Off();
+		}
+		if (0 >= Timer)
+		{
+			AnimationRender->On();
+			IsInvincibility = false;
+		}
+	}
 
 	// 치트
 	if (GameEngineInput::IsDown("3"))
@@ -142,7 +322,6 @@ void Mario::ChangeAnimation(const std::string_view& _AnimationName)
 	default:
 		break;
 	}
-
 	AnimationRender->ChangeAnimation(AnimStr + _AnimationName.data());
 }
 
@@ -469,161 +648,51 @@ void Mario::MoveCalculation2(float _DeltaTime)
 	GetLevel()->SetCameraMove(MoveDir * _DeltaTime);
 }
 
+
+void Mario::CheckCollision()
+{
+	std::vector<GameEngineCollision*> Collisions;
+	CollisionCheckParameter Check = { .TargetGroup = static_cast<int>(CollisionOrder::Monster), .TargetColType = CT_Rect, .ThisColType = CT_Rect };
+	if (true == BodyCollision->Collision(Check, Collisions))
+	{
+		GameEngineActor* ColActor = Collisions[0]->GetActor();
+		//ColActor->GetOwner<Mario>(); 전환 방식
+		
+		// 슬라이딩을 하고있는 경우
+		if (MarioState::SLIDE == StateValue)
+		{
+			// 몬스터 처치
+			ColActor->Death();
+			return;
+		}
+		// 플레이어가 몬스터보다 위에 있는 경우
+		if (GetPos().y < ColActor->GetPos().y)
+		{
+			if (0 > MoveDir.y)
+			{
+				return;
+			}
+			ColActor->Death();
+			MoveDir.y = 0;
+			// 스핀으로 밟으면 다시 스핀점프, 그 외에는 점프로
+			ChangeState(StateValue == MarioState::SPIN ? MarioState::SPIN : MarioState::JUMP);
+			return;
+		}
+		// 그 외 경우
+		else
+		{
+			if (true == IsInvincibility)
+			{
+				return;
+			}
+			// 대미지
+			GetDamaged();
+		}
+	}
+}
+
+
 void Mario::Render(float _DeltaTime)
 { 
+	//BodyCollision->DebugRender();
 }
-
-
-/*
-// 중력, 점프, 맵타일
-void Player::MoveCalculation(float _DeltaTime)
-{
-	///////////////////////////////////////////////////  중력  ///////////////////////////////////////////////////
-
-	if (true == IsGravity)
-	{
-		MoveDir += float4::Down * 3000.0f * _DeltaTime;
-	}
-
-	///////////////////////////////////////////////////  점프  ///////////////////////////////////////////////////
-
-	if (GameEngineInput::IsDown("Jump") && false == IsJump)
-	{
-		MoveDir.y += -1300.0f;
-	}
-
-	if (false == IsJump)
-	{
-		Fall = true;
-	}
-
-	/////////////////////////////////////////////////// 맵타일 ///////////////////////////////////////////////////
-
-	if (nullptr == ColMap)
-	{
-		MsgAssert("충돌용 맵 이미지가 없습니다.");
-	}
-
-	//////// RGB(0, 248, 0) ////////
-	// 좌우
-	ForwardPosR = GetPos() + (float4::Up * 5) + (float4::Right * 30);
-	ForwardPosL = GetPos() + (float4::Up * 5) + (float4::Left * 30);
-	if (RGB(0, 248, 0) == ColMap->GetPixelColor(ForwardPosR, RGB(0, 0, 0)))
-	{
-		MoveSpeed = 0.0f;
-
-		if (GameEngineInput::IsPress("LeftMove"))
-		{
-			MoveSpeed = 600.0f;
-		}
-	}
-	else if (RGB(0, 248, 0) == ColMap->GetPixelColor(ForwardPosL, RGB(0, 0, 0)))
-	{
-		MoveSpeed = 0.0f;
-
-		if (GameEngineInput::IsPress("RightMove"))
-		{
-			MoveSpeed = 600.0f;
-		}
-	}
-	else
-	{
-		MoveSpeed = 600.0f;
-	}
-
-	// 위
-	UpPos = GetPos() + (float4::Up * 100);
-	if (RGB(0, 248, 0) == ColMap->GetPixelColor(UpPos, RGB(0, 0, 0)))
-	{
-		Fall = true;
-		MoveDir.y = 100.0f;
-	}
-
-	// 땅
-	NextPos = GetPos() + MoveDir * _DeltaTime;
-	if (RGB(0, 248, 0) == ColMap->GetPixelColor(NextPos, RGB(0, 0, 0)))
-	{
-		Fall = false;
-		MoveDir.y = 0.0f;
-	}
-
-	if (RGB(74, 65, 42) != ColMap->GetPixelColor(NextPos, RGB(0, 0, 0))
-		|| RGB(0, 248, 0) != ColMap->GetPixelColor(NextPos, RGB(0, 0, 0)))
-	{
-		FallTime += _DeltaTime;
-	}
-
-	if (RGB(74, 65, 42) == ColMap->GetPixelColor(NextPos, RGB(0, 0, 0))
-		|| RGB(0, 248, 0) == ColMap->GetPixelColor(NextPos, RGB(0, 0, 0)))
-	{
-		FallTime = 0.0f;
-	}
-
-	//////// RGB(74, 65, 42) ////////
-	// 밑점프, 언덕 발판
-	if (true == IsJump && 1.0f <= MoveDir.y)
-	{
-		Pass = 1;
-	}
-
-	if (RGB(74, 65, 42) == ColMap->GetPixelColor(NextPos, RGB(0, 0, 0)))
-	{
-		if (1 == Pass) // 조건
-		{
-			Fall = false;
-
-			MoveDir.y = 0;
-
-			float4 HillPosR = GetPos() + (float4::Right * 1);
-			float4 HillPosL = GetPos() + (float4::Left * 1);
-
-			if (RGB(74, 65, 42) == ColMap->GetPixelColor(HillPosR, RGB(0, 0, 0)))
-			{
-				while (true)
-				{
-					MoveDir.y -= 1.0f;
-					SetMove(MoveDir);
-
-					if (RGB(74, 65, 42) != ColMap->GetPixelColor(GetPos(), RGB(0, 0, 0)))
-					{
-						break;
-					}
-				}
-			}
-			if (RGB(74, 65, 42) == ColMap->GetPixelColor(HillPosL, RGB(0, 0, 0)))
-			{
-				while (true)
-				{
-					MoveDir.y -= 1.0f;
-					SetMove(MoveDir);
-
-					if (RGB(74, 65, 42) != ColMap->GetPixelColor(GetPos(), RGB(0, 0, 0)))
-					{
-						break;
-					}
-				}
-			}
-		}
-	}
-
-	if (true == IsJump || true == Fall)
-	{
-		AirAttack = true;
-	}
-	else
-	{
-		AirAttack = false;
-	}
-
-
-	//////// 최종 위치 ////////
-	UpdateState(_DeltaTime);
-
-	SetMove(MoveDir * _DeltaTime);
-
-	// y축 카메라
-	// GetLevel()->SetCameraMove(MoveDir* _DeltaTime);
-
-	
-}
-*/
