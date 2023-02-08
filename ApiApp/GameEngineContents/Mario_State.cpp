@@ -61,6 +61,9 @@ void Mario::ChangeState(MarioState _State)
 		break;
 	case MarioState::VICTORY:
 		break;
+	case MarioState::GameOver:
+		GameOverEnd();
+		break;
 	default:
 		break;
 	}
@@ -103,6 +106,9 @@ void Mario::ChangeState(MarioState _State)
 	case MarioState::KICK:
 		break;
 	case MarioState::VICTORY:
+		break;
+	case MarioState::GameOver:
+		GameOverStart();
 		break;
 	default:
 		break;
@@ -154,6 +160,9 @@ void Mario::UpdateState(float _DeltaTime)
 		break;
 	case MarioState::VICTORY:
 		break;
+	case MarioState::GameOver:
+		GameOverUpdate(_DeltaTime);
+		break;
 	default:
 		break;
 	}
@@ -162,12 +171,15 @@ void Mario::UpdateState(float _DeltaTime)
 void Mario::IdleStart()
 {
 	HorizontalForce = 0;
-	ChangeAnimation("Idle");
 }
 
 void Mario::IdleUpdate(float _DeltaTime)
 {
-	
+	// 대시 키를 입력한 프레임
+	if (PowerState::Fire == MarioPower && GameEngineInput::IsDown("Dash"))
+	{
+		ChangeAnimation("JumpAttack");
+	}
 	// 점프 키를 입력한 경우
 	if (GameEngineInput::IsDown("Jump"))
 	{
@@ -196,13 +208,14 @@ void Mario::IdleUpdate(float _DeltaTime)
 		if (true == IsSlope)
 		{
 			ChangeState(MarioState::WALK);
+			return;
 		}
 		// 위를 입력한 경우
 		else if (GameEngineInput::IsPress("Up"))
 		{
 			ChangeState(MarioState::LOOKUP);
+			return;
 		}
-		return;
 	}
 	// 왼쪽 방향키를 입력한 경우
 	else if (GameEngineInput::IsPress("Left"))
@@ -228,6 +241,7 @@ void Mario::IdleUpdate(float _DeltaTime)
 		ChangeState(MarioState::WALK);
 		return;
 	}
+	ChangeAnimation("Idle");
 }
 
 void Mario::IdleEnd()
@@ -236,8 +250,7 @@ void Mario::IdleEnd()
 
 void Mario::WalkStart()
 {
-	// 걷기 애니메이션으로 전환
-	ChangeAnimation("Walk");
+	
 }
 
 void Mario::WalkUpdate(float _DeltaTime)
@@ -465,7 +478,6 @@ void Mario::WalkEnd()
 void Mario::RunStart()
 {
 	HorizontalForce = DirValue == Dir::Right ? 1.0f : -1.0f;
-	ChangeAnimation("Run");
 }
 
 void Mario::RunUpdate(float _DeltaTime)
@@ -575,6 +587,8 @@ void Mario::RunUpdate(float _DeltaTime)
 		}
 	}
 
+	ChangeAnimation("Run");
+
 }
 
 void Mario::RunEnd()
@@ -583,7 +597,7 @@ void Mario::RunEnd()
 
 void Mario::BrakeStart()
 {
-	ChangeAnimation("Brake");
+	
 }
 
 void Mario::BrakeUpdate(float _DeltaTime)
@@ -678,6 +692,8 @@ void Mario::BrakeUpdate(float _DeltaTime)
 			return;
 		}
 	}
+
+	ChangeAnimation("Brake");
 }
 
 void Mario::BrakeEnd()
@@ -687,7 +703,7 @@ void Mario::BrakeEnd()
 void Mario::JumpStart()
 {
 	IsGrounded = false;
-	ChangeAnimation("Jump");
+	
 	JumpTimeCounter = JumpTime;
 	if (0.5f < std::abs(HorizontalForce))
 	{
@@ -800,6 +816,8 @@ void Mario::JumpUpdate(float _DeltaTime)
 			}
 		}
 	}
+
+	ChangeAnimation("Jump");
 }
 
 void Mario::JumpEnd()
@@ -809,7 +827,7 @@ void Mario::JumpEnd()
 void Mario::SpinStart()
 {
 	IsGrounded = false;
-	ChangeAnimation("Spin");
+	
 	MoveDir += float4::Up * JumpForce;
 	JumpTimeCounter = JumpTime;
 }
@@ -926,6 +944,7 @@ void Mario::SpinUpdate(float _DeltaTime)
 			}
 		}
 	}
+	ChangeAnimation("Spin");
 }
 
 void Mario::SpinEnd()
@@ -934,7 +953,7 @@ void Mario::SpinEnd()
 
 void Mario::CrouchStart()
 {
-	ChangeAnimation("Crouch");
+	
 }
 
 void Mario::CrouchUpdate(float _DeltaTime)
@@ -989,9 +1008,10 @@ void Mario::CrouchUpdate(float _DeltaTime)
 	else
 	{
 		HorizontalForce = 0;
-		return;
 	}
-	
+
+	ChangeAnimation("Crouch");
+
 }
 
 void Mario::CrouchEnd()
@@ -1000,7 +1020,7 @@ void Mario::CrouchEnd()
 
 void Mario::LookUpStart()
 {
-	ChangeAnimation("LookUp");
+	
 }
 
 void Mario::LookUpUpdate(float _DeltaTime)
@@ -1046,6 +1066,7 @@ void Mario::LookUpUpdate(float _DeltaTime)
 		ChangeState(MarioState::WALK);
 		return;
 	}
+	ChangeAnimation("LookUp");
 }
 
 void Mario::LookUpEnd()
@@ -1055,7 +1076,6 @@ void Mario::LookUpEnd()
 void Mario::RunJumpStart()
 {
 	IsGrounded = false;
-	ChangeAnimation("RunJump");
 	JumpTimeCounter = JumpTime;
 	MoveDir += float4::Up * RunJumpForce;
 }
@@ -1179,6 +1199,8 @@ void Mario::RunJumpUpdate(float _DeltaTime)
 			}
 		}
 	}
+
+	ChangeAnimation("RunJump");
 }
 
 void Mario::RunJumpEnd()
@@ -1187,7 +1209,6 @@ void Mario::RunJumpEnd()
 
 void Mario::FallStart()
 {
-	ChangeAnimation("Fall");
 }
 
 void Mario::FallUpdate(float _DeltaTime)
@@ -1310,6 +1331,8 @@ void Mario::FallUpdate(float _DeltaTime)
 			}
 		}
 	}
+
+	ChangeAnimation("Fall");
 }
 
 void Mario::FallEnd()
@@ -1318,7 +1341,7 @@ void Mario::FallEnd()
 
 void Mario::SlideStart()
 {
-	ChangeAnimation("Slide");
+	
 }
 
 void Mario::SlideUpdate(float _DeltaTime)
@@ -1400,6 +1423,8 @@ void Mario::SlideUpdate(float _DeltaTime)
 			HorizontalForce = std::min<float>(HorizontalForce + DashAcceleration * _DeltaTime, 1.2f);
 		}
 	}
+
+	ChangeAnimation("Slide");
 }
 
 void Mario::SlideEnd()
@@ -1412,16 +1437,21 @@ void Mario::ChangePowerStart(MarioState _BeforeState)
 
 	std::string AnimStr = DirValue == Dir::Left ? "Left_" : "Right_";
 	Timer = ChangePowerTime;
+	AnimationRender->On();
 
 	if (PowerState::Super == MarioPower)
 	{
 		AnimationRender->ChangeAnimation(AnimStr + "Grow");
+		return;
 	}
-	else
+	if (PowerState::Normal == MarioPower)
 	{
 		AnimationRender->ChangeAnimation(AnimStr + "Shrink");
 	}
-	AnimationRender->On();
+	if (PowerState::Fire == MarioPower)
+	{
+		AnimationRender->ChangeAnimation(AnimStr + "GetFire");
+	}
 }
 
 void Mario::ChangePowerUpdate(float _DeltaTime)
@@ -1481,4 +1511,36 @@ void Mario::ChangePowerUpdate(float _DeltaTime)
 void Mario::ChangePowerEnd()
 {
 	
+}
+
+void Mario::GameOverStart()
+{
+	AnimationRender->ChangeAnimation("GameOver1");
+	Timer = 0;
+	MoveDir.y = 0;
+}
+
+void Mario::GameOverUpdate(float _DeltaTime)
+{
+	Timer += _DeltaTime;
+	
+	if (0.8f < Timer)
+	{
+		MoveDir.y -= _DeltaTime;
+	}
+	else if (0.5f < Timer)
+	{
+		AnimationRender->ChangeAnimation("GameOver2");
+		MoveDir.y += _DeltaTime;
+	}
+
+	if (1 < MoveDir.y)
+	{
+		MoveDir.y = 1;
+	}
+	SetMove(float4::Up * 2000 * MoveDir.y * _DeltaTime);
+}
+
+void Mario::GameOverEnd()
+{
 }

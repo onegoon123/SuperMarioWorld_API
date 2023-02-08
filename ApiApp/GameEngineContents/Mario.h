@@ -18,7 +18,8 @@ enum class MarioState
 	SLIDE,
 	KICK,
 	CHANGEPOWER,
-	VICTORY
+	VICTORY,
+	GameOver
 };
 enum class Dir
 {
@@ -60,7 +61,7 @@ private:
 	const float DashJumpForce = 1100;	// 점프력
 	const float RunJumpForce = 1200;	// 점프력
 	const float JumpPressForce = 3350;	// 점프 유지력
-	const float SpinPressForce = 2500;	// 스핀 유지력
+	const float SpinPressForce = 2750;	// 스핀 유지력
 	const float SlopeForce = 1000;
 	const float JumpTime = 0.325f;
 	const float GravityMax = 1750;
@@ -71,6 +72,7 @@ private:
 	const float DashAcceleration = 2;
 	const float InvincibilityTime = 1.5f;
 	const float ChangePowerTime = 0.9f;
+	const float GameOverTime = 2.0f;
 
 	//			 MarioPower	   StockState
 	// Normal : 기본마리오		비어있음
@@ -89,6 +91,8 @@ private:
 	float JumpTimeCounter = 0;
 	float RunChargeTime = 0;	// 대시를 한 시간을 기록해서 달리기 전환을 판단하는 변수
 	float Timer = 0;
+	float FireAnimTimer = 0;	// 불 쏠때 애니메이션 지속시간
+	const float FireAnimTime = 0.2f;	// 불 쏠때 애니메이션 지속시간
 
 	MarioState StateValue = MarioState::IDLE;
 	MarioState BeforeState = MarioState::IDLE;
@@ -96,6 +100,7 @@ private:
 	Dir SlopeDir = Dir::Right;
 
 	GameEngineRender* AnimationRender = nullptr;
+	std::string_view BeforeAnim = "";
 	GameEngineImage* ColMap = nullptr;
 	GameEngineCollision* BodyCollision = nullptr;
 
@@ -151,6 +156,10 @@ private:
 	void ChangePowerUpdate(float _DeltaTime);
 	void ChangePowerEnd();
 
+	void GameOverStart();
+	void GameOverUpdate(float _DeltaTime);
+	void GameOverEnd();
+
 #pragma endregion
 
 #pragma region __________ 충돌 관련 함수 __________
@@ -183,6 +192,7 @@ private:
 			break;
 		case PowerState::Fire:
 			MarioPower = PowerState::Normal;
+			ChangeState(MarioState::CHANGEPOWER);
 			break;
 		case PowerState::Cape:
 			MarioPower = PowerState::Normal;
@@ -194,7 +204,7 @@ private:
 	}
 	// 추락하거나 Normal 상태에서 대미지를 받을 경우 실행되는 게임오버 함수
 	void GameOver() {
-		Death();
+		ChangeState(MarioState::GameOver);
 	}
 	// 피격후 일정시간 공격을 방지하는 무적 함수
 	void Invincibility() {
@@ -205,6 +215,7 @@ private:
 #pragma endregion
 
 #pragma region __________ 파워 관련 함수 __________
+	void FireAttack();
 	void TakeOutStock() {
 		if (PowerState::Normal == StockState) {
 			return;

@@ -27,7 +27,8 @@ void SuperMushroom::Update(float _DeltaTime)
 	CollisionCheckParameter Check = { .TargetGroup = static_cast<int>(CollisionOrder::Player), .TargetColType = CT_Rect, .ThisColType = CT_Rect, };
 	if (true == Collision->Collision(Check))
 	{
-		Mario::MainPlayer->NewItem(ItemType::SuperMushroom);
+		//Mario::MainPlayer->NewItem(ItemType::SuperMushroom);
+		Mario::MainPlayer->NewItem(ItemType::FireFlower);
 		Death();
 	}
 }

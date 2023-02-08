@@ -39,6 +39,9 @@
     <ClInclude Include="Bamba.h">
       <Filter>Play\Object</Filter>
     </ClInclude>
+    <ClInclude Include="Fire.h">
+      <Filter>Play\Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MarioGameCore.cpp" />
@@ -79,6 +82,9 @@
       <Filter>Play\Object</Filter>
     </ClCompile>
     <ClCompile Include="Bamba.cpp">
+      <Filter>Play\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Fire.cpp">
       <Filter>Play\Object</Filter>
     </ClCompile>
   </ItemGroup>
