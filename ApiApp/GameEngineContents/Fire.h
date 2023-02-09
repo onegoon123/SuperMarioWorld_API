@@ -2,6 +2,7 @@
 #include <GameEngineCore/GameEngineActor.h>
 #include <GameEngineCore/GameEngineCollision.h>
 
+class GameEngineImage;
 class Fire : public GameEngineActor
 {
 public:
@@ -10,7 +11,7 @@ public:
 
 	void SetDir(const float4& _Dir)
 	{
-		Dir = _Dir;
+		MoveDir = _Dir * Speed;
 	}
 	static bool IsMax()
 	{
@@ -25,15 +26,20 @@ protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 	void Render(float _DeltaTime) override;
-
+	void MoveCalculation(float _DeltaTime);
 private:
 
 	GameEngineRender* AnimationRender = nullptr;
 	GameEngineCollision* BodyCollision = nullptr;
+	GameEngineImage* ColMap = nullptr;
 
 	static int Num;
 	static const int Max = 2;
-
+	bool IsSlope = false;
 	const float Speed = 850.0f;
-	float4 Dir = float4::Zero;
+	const float GravityMax = 1750;
+	const float GravityAcceleration = 3000;
+	const float JumpForce = 750;
+	const float SlopeJumpForce = 1500;
+	float4 MoveDir = float4::Zero;
 };
