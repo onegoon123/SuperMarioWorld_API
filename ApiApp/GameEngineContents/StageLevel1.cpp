@@ -6,6 +6,7 @@
 #include "Map.h"
 #include "Bamba.h"
 #include "SuperMushroom.h"
+#include "FireFlower.h"
 
 StageLevel1::StageLevel1() {
 
@@ -33,6 +34,7 @@ void StageLevel1::Loading()
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("BAMBA.BMP"))->Cut(7, 1);
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("SUPERMUSHROOM.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("FIRE.BMP"))->Cut(4, 1);
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("FIREFLOWER.BMP"))->Cut(2, 1);
 
 }
 
@@ -67,9 +69,15 @@ void StageLevel1::LevelChangeStart(GameEngineLevel* _PrevLevel)
 	Map1->MoveMap(0);
 	SetCameraMove({ 0, 790 });
 
+	std::vector<GameEngineActor*> Actors;
+	Actors.reserve(10);
+	GameEngineActor* NewActor = nullptr;
 
-	CreateActor<Bamba>()->SetPos({ 700, 1506 });
+	NewActor = CreateActor<Bamba>();
+	NewActor->SetPos({ 700, 1506 });
+	Actors.push_back(NewActor);
+
 	CreateActor<Bamba>()->SetPos({ 3200, 1506 });
-	CreateActor<SuperMushroom>()->SetPos({ 1000, 1506 });
+	CreateActor<FireFlower>()->SetPos({ 1000, 1506 });
 	CreateActor<SuperMushroom>()->SetPos({ 500, 1200 });
 }

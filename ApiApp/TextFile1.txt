@@ -1,1 +1,2 @@
-특정 색상에 가장 위까지 이동하는 함수생성 (Mario.cpp 정리)
+PlayLevel의 부모가 될 클래스 구현하기
+CreateActor를 하면서 Actors Vector에도 저장하는 함수 생성

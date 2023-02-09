@@ -26,7 +26,7 @@ void Mario::NewItem(ItemType _Item)
 		break;
 	case ItemType::SuperMushroom:
 	{
-		if (PowerState::Super == MarioPower)
+		if (PowerState::Super == MarioPower || PowerState::Fire == MarioPower)
 		{
 
 		}
