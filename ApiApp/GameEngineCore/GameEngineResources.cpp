@@ -59,7 +59,6 @@ GameEngineImage* GameEngineResources::ImageFind(const std::string_view& _Name)
 
 	if (AllImage.end() == FindIter)
 	{
-		MsgAssert("로드하지 않은 이미지를 사용하려고 했습니다" + UpperName);
 		return nullptr;
 	}
 

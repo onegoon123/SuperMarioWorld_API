@@ -121,7 +121,7 @@ void SuperMushroom::Update(float _DeltaTime)
 	// ∫Ò≈ª±Ê √º≈©
 	else if (RGB(255, 0, 0) == PixelColor)
 	{
-		MoveDir.x = Speed * DirValue * 0.6;
+		MoveDir.x = Speed * DirValue * 0.6f;
 		float4 SlopePos = NextPos;
 		SlopePos.x += 5;
 		SlopePos.y -= 5;

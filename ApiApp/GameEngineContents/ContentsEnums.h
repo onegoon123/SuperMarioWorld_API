@@ -12,6 +12,7 @@ enum class RenderOrder
 	Sky,
 	BackGround,
 	Map,
+	Block,
 	Monster,
 	Player,
 	Item,
@@ -21,6 +22,7 @@ enum class RenderOrder
 enum class CollisionOrder
 {
 	Player,
+	Block,
 	Item,
 	Monster,
 	PlayerAttack,

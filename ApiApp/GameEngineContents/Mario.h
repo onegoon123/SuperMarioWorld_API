@@ -86,6 +86,7 @@ private:
 	bool IsGrounded = true;			// 마리오가 땅 위에 있는지 여부
 	bool IsSlope = false;			// 마리오가 비탈길 위에 있는지 여부
 	bool IsInvincibility = false;	// 무적 시간 여부
+	bool IsOnBlock = false;			// 마리오가 블록 위에 있는지 여부
 	float4 MoveDir = float4::Zero;	// 수평으로 가해지는 힘
 	float HorizontalForce = 0;
 	float JumpTimeCounter = 0;
@@ -174,7 +175,6 @@ private:
 
 #pragma region __________ 이동 관련 함수 __________
 	void MoveCalculation(float _DeltaTime);
-	void MoveCalculation2(float _DeltaTime);
 #pragma endregion
 
 #pragma region __________ 피격 관련 함수 __________

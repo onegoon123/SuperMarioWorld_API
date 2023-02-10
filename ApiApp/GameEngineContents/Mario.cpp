@@ -9,6 +9,7 @@
 #include "MarioGameCore.h"
 #include "Map.h"
 #include "Fire.h"
+#include "Particle.h"
 
 Mario* Mario::MainPlayer = nullptr;
 
@@ -353,7 +354,7 @@ void Mario::MoveCalculation(float _DeltaTime)
 	float4 DownPos = GetPos() + float4::Down * 10; 
 	// 앞의 위치
 	float4 ForwardPos = GetPos();
-	ForwardPos.x += HorizontalForce * 4;
+	ForwardPos.x += HorizontalForce * Speed * _DeltaTime;
 	// MoveDir 중력 증가
 	MoveDir += float4::Down * GravityAcceleration * _DeltaTime;
 
@@ -432,7 +433,6 @@ void Mario::MoveCalculation(float _DeltaTime)
 				if (RGB(255, 255, 255) == PixelColor)
 				{
 					SetPos(DownPos);
-					ForwardPos.y = DownPos.y;
 					MoveDir.y = 0.0f;
 					break;
 				}
@@ -506,7 +506,6 @@ void Mario::MoveCalculation(float _DeltaTime)
 				if (RGB(0, 0, 0) != PixelColor)
 				{
 					SetPos(DownPos);
-					ForwardPos.y = DownPos.y;
 					MoveDir.y = 0.0f;
 					break;
 				}
@@ -538,7 +537,6 @@ void Mario::MoveCalculation(float _DeltaTime)
 					if (RGB(255, 255, 255) == PixelColor)
 					{
 						SetPos(DownPos);
-						ForwardPos.y = DownPos.y;
 						MoveDir.y = 0.0f;
 						break;
 					}
@@ -583,7 +581,7 @@ void Mario::MoveCalculation(float _DeltaTime)
 			}
 		}
 		// 이전까지 바닥에 있었으나 현제 공중에 있는경우
-		else if (true == IsGrounded)
+		else if (true == IsGrounded && false == IsOnBlock)
 		{
 			IsSlope = false;
 			ChangeState(MarioState::FALL);
@@ -594,6 +592,37 @@ void Mario::MoveCalculation(float _DeltaTime)
 	// 벽 체크
 	if (RGB(0, 0, 0) == ColMap->GetPixelColor(ForwardPos, RGB(255, 255, 255)))
 	{
+		if (0 < HorizontalForce)
+		{
+			while (true)
+			{
+				ForwardPos.x = std::round(ForwardPos.x);
+				ForwardPos.x -= 1;
+				PixelColor = ColMap->GetPixelColor(ForwardPos, RGB(0, 0, 0));
+				if (RGB(0, 0, 0) != PixelColor)
+				{
+					SetPos(ForwardPos);
+					MoveDir.x = 0.0f;
+					break;
+				}
+			}
+		}
+		else
+		{
+			while (true)
+			{
+				ForwardPos.x = std::round(ForwardPos.x);
+				ForwardPos.x += 1;
+				PixelColor = ColMap->GetPixelColor(ForwardPos, RGB(0, 0, 0));
+				if (RGB(0, 0, 0) != PixelColor)
+				{
+					SetPos(ForwardPos);
+					MoveDir.x = 0.0f;
+					break;
+				}
+			}
+		}
+
 		HorizontalForce = 0;
 		MoveDir.x = 0;
 		if (true == IsGrounded)
@@ -656,6 +685,7 @@ void Mario::FireAttack()
 void Mario::CheckCollision()
 {
 	std::vector<GameEngineCollision*> Collisions;
+	// 몬스터 체크
 	CollisionCheckParameter Check = { .TargetGroup = static_cast<int>(CollisionOrder::Monster), .TargetColType = CT_Rect, .ThisColType = CT_Rect };
 	if (true == BodyCollision->Collision(Check, Collisions))
 	{
@@ -667,31 +697,71 @@ void Mario::CheckCollision()
 		{
 			// 몬스터 처치
 			ColActor->Death();
+			Particle::CreateParticle(GetLevel(), GetPos(), "KICK");
 			return;
 		}
-		// 플레이어가 몬스터보다 위에 있는 경우
-		if (GetPos().y < ColActor->GetPos().y)
+		// 플레이어가 몬스터보다 위에 있으면서 떨어지고 있는 경우
+		if (GetPos().y < ColActor->GetPos().y - 28 && 0 < MoveDir.y)
 		{
-			if (0 > MoveDir.y)
-			{
-				return;
-			}
 			ColActor->Death();
+			Particle::CreateParticle(GetLevel(), GetPos(), "KICK");
 			MoveDir.y = 0;
 			// 스핀으로 밟으면 다시 스핀점프, 그 외에는 점프로
 			ChangeState(StateValue == MarioState::SPIN ? MarioState::SPIN : MarioState::JUMP);
 			return;
 		}
-		// 그 외 경우
-		else
+		// 그 외 무적 시간이 아닌 경우 대미지
+		else if(false == IsInvincibility)
 		{
-			if (true == IsInvincibility)
-			{
-				return;
-			}
 			// 대미지
 			GetDamaged();
 		}
+	}
+
+	// 블록 체크
+	Check = { .TargetGroup = static_cast<int>(CollisionOrder::Block), .TargetColType = CT_Rect, .ThisColType = CT_Rect };
+	if (true == BodyCollision->Collision(Check, Collisions))
+	{
+		GameEngineActor* ColActor = Collisions[0]->GetActor();
+		//ColActor->GetOwner<Mario>(); 전환 방식
+
+		// 플레이어가 블록보다 위에 있는 경우
+		if (GetPos().y < ColActor->GetPos().y - 32)
+		{
+			if (0 > MoveDir.y)
+			{
+				return;
+			}
+			IsSlope = false;
+			IsGrounded = true;
+			IsOnBlock = true;
+			float4 Pos = GetPos();
+			Pos.y = ColActor->GetPos().y - 63;
+			Pos.y = std::round(Pos.y);
+			SetPos(Pos);
+			MoveDir.y = 0.0f;
+			return;
+		}
+		// 그 외 경우
+		else
+		{
+			if (GetPos().x < ColActor->GetPos().x - 32)
+			{
+				float4 Pos = GetPos();
+				Pos.x = ColActor->GetPos().x - 63;
+				Pos.y = std::round(Pos.y);
+				SetPos(Pos);
+				if (true == IsGrounded)
+				{
+					ChangeState(MarioState::IDLE);
+				}
+			}
+		}
+	}
+	else if (true == IsOnBlock)
+	{
+		IsOnBlock = false;
+		IsGrounded = false;
 	}
 }
 

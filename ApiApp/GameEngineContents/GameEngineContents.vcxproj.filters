@@ -45,6 +45,15 @@
     <ClInclude Include="FireFlower.h">
       <Filter>Play\Object</Filter>
     </ClInclude>
+    <ClInclude Include="StageLevel.h">
+      <Filter>Play\StageLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>Play\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Block.h">
+      <Filter>Play\Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MarioGameCore.cpp" />
@@ -91,6 +100,15 @@
       <Filter>Play\Object</Filter>
     </ClCompile>
     <ClCompile Include="FireFlower.cpp">
+      <Filter>Play\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="StageLevel.cpp">
+      <Filter>Play\StageLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle.cpp">
+      <Filter>Play\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Block.cpp">
       <Filter>Play\Object</Filter>
     </ClCompile>
   </ItemGroup>

@@ -23,6 +23,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Block.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="ContentsEnums.h" />
     <ClInclude Include="Fire.h">
       <SubType>
@@ -41,6 +45,14 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="MarioGameCore.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Particle.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="StageLevel.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -86,6 +98,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Block.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Fire.cpp">
       <SubType>
       </SubType>
@@ -107,6 +123,14 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Mario_State.cpp" />
+    <ClCompile Include="Particle.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="StageLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="StageLevel1.cpp">
       <SubType>
       </SubType>

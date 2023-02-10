@@ -37,8 +37,8 @@ private:
 	static const int Max = 2;
 	bool IsSlope = false;
 	const float Speed = 850.0f;
-	const float GravityMax = 1750;
-	const float GravityAcceleration = 3000;
+	const float GravityMax = 2000;
+	const float GravityAcceleration = 4000;
 	const float JumpForce = 750;
 	const float SlopeJumpForce = 1500;
 	float4 MoveDir = float4::Zero;

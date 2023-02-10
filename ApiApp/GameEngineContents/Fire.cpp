@@ -6,6 +6,7 @@
 #include <GameEngineCore/GameEngineCollision.h>
 #include <GameEngineCore/GameEngineResources.h>
 #include "ContentsEnums.h"
+#include "Particle.h"
 #include "Map.h"
 int Fire::Num = 0;
 
@@ -61,6 +62,7 @@ void Fire::Update(float _DeltaTime)
 	if (true == BodyCollision->Collision(Check, Collisions))
 	{
 		Collisions[0]->GetActor()->Death();
+		Particle::CreateParticle(GetLevel(), GetPos(), "SMOKE1");
 		Death();
 	}
 
@@ -106,6 +108,7 @@ void Fire::MoveCalculation(float _DeltaTime)
 	// º® Ã¼Å©
 	if (RGB(0, 0, 0) == ColMap->GetPixelColor(ForwardPos, RGB(255, 255, 255)))
 	{
+		Particle::CreateParticle(GetLevel(), GetPos(), "SMOKE1");
 		Death();
 	}
 

@@ -1,7 +1,7 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
 #include <GameEngineCore/GameEngineCollision.h>
-
+class GameEngineImage;
 class Bamba : public GameEngineActor
 {
 public:
@@ -23,5 +23,13 @@ private:
 	GameEngineRender* AnimationRender = nullptr;
 	GameEngineCollision* BodyCollision = nullptr;
 
+	const float Speed = 100;
+	const float GravityMax = 1000;
+	const float GravityAcceleration = 2000;
+
+	GameEngineCollision* Collision = nullptr;
+	GameEngineImage* ColMap = nullptr;
+	float4 MoveDir = float4::Zero;
+	float DirValue = -1;
 };
 

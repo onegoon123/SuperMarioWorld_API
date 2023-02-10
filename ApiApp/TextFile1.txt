@@ -1,2 +1,0 @@
-PlayLevel의 부모가 될 클래스 구현하기
-CreateActor를 하면서 Actors Vector에도 저장하는 함수 생성

@@ -7,6 +7,7 @@
 #include "Bamba.h"
 #include "SuperMushroom.h"
 #include "FireFlower.h"
+#include "Block.h"
 
 StageLevel1::StageLevel1() {
 
@@ -35,6 +36,10 @@ void StageLevel1::Loading()
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("SUPERMUSHROOM.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("FIRE.BMP"))->Cut(4, 1);
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("FIREFLOWER.BMP"))->Cut(2, 1);
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("SMOKE.BMP"))->Cut(5, 1);
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("SKIDDUST.BMP"))->Cut(4, 1);
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("KICK.BMP"))->Cut(3, 1);
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("BLOCK.BMP"))->Cut(4, 1);
 
 }
 
@@ -50,16 +55,6 @@ void StageLevel1::Update(float _DeltaTime)
 	}
 }
 
-void StageLevel1::LevelChangeEnd(GameEngineLevel* _NextLevel)
-{
-	if (nullptr != Mario::MainPlayer)
-	{
-		Mario::MainPlayer->Death();
-		Mario::MainPlayer = nullptr;
-	}
-	SetCameraPos(float4::Zero);
-}
-
 void StageLevel1::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
 	Map* Map1 = CreateActor<Map>();
@@ -69,15 +64,14 @@ void StageLevel1::LevelChangeStart(GameEngineLevel* _PrevLevel)
 	Map1->MoveMap(0);
 	SetCameraMove({ 0, 790 });
 
-	std::vector<GameEngineActor*> Actors;
-	Actors.reserve(10);
-	GameEngineActor* NewActor = nullptr;
-
-	NewActor = CreateActor<Bamba>();
-	NewActor->SetPos({ 700, 1506 });
-	Actors.push_back(NewActor);
+	//CreateActor<Bamba>()->SetPos({ 700, 1506 });
 
 	CreateActor<Bamba>()->SetPos({ 3200, 1506 });
+	CreateActor<Bamba>()->SetPos({ 5500, 1506 });
 	CreateActor<FireFlower>()->SetPos({ 1000, 1506 });
 	CreateActor<SuperMushroom>()->SetPos({ 500, 1200 });
+	CreateActor<Block>()->SetPos({ 500, 1535 });
+	CreateActor<Block>()->SetPos({ 564, 1535 });
+	CreateActor<Block>()->SetPos({ 564, 1471 });
+	CreateActor<Block>()->SetPos({ 564, 1279 });
 }
