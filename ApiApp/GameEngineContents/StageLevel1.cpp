@@ -37,6 +37,7 @@ void StageLevel1::Loading()
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("FIRE.BMP"))->Cut(4, 1);
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("FIREFLOWER.BMP"))->Cut(2, 1);
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("SMOKE.BMP"))->Cut(5, 1);
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("SKIDDUST1.BMP"))->Cut(5, 1);
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("SKIDDUST.BMP"))->Cut(4, 1);
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("KICK.BMP"))->Cut(3, 1);
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("BLOCK.BMP"))->Cut(4, 1);
@@ -71,7 +72,6 @@ void StageLevel1::LevelChangeStart(GameEngineLevel* _PrevLevel)
 	CreateActor<FireFlower>()->SetPos({ 1000, 1506 });
 	CreateActor<SuperMushroom>()->SetPos({ 500, 1200 });
 	CreateActor<Block>()->SetPos({ 500, 1535 });
-	CreateActor<Block>()->SetPos({ 564, 1535 });
-	CreateActor<Block>()->SetPos({ 564, 1471 });
 	CreateActor<Block>()->SetPos({ 564, 1279 });
+	CreateActor<Block>()->SetPos({ 500, 1279 });
 }

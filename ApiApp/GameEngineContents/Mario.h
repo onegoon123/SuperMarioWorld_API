@@ -93,7 +93,9 @@ private:
 	float RunChargeTime = 0;	// 대시를 한 시간을 기록해서 달리기 전환을 판단하는 변수
 	float Timer = 0;
 	float FireAnimTimer = 0;	// 불 쏠때 애니메이션 지속시간
+	float ParticleDelayTimer = 0;	// 파티클 재생성 딜레이
 	const float FireAnimTime = 0.2f;	// 불 쏠때 애니메이션 지속시간
+	const float ParticleDelay = 0.1f;	// 파티클 재생성 딜레이
 
 	MarioState StateValue = MarioState::IDLE;
 	MarioState BeforeState = MarioState::IDLE;

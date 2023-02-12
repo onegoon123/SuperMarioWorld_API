@@ -6,6 +6,7 @@
 #include <GameEngineCore/GameEngineRender.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include "ContentsEnums.h"
+#include "Particle.h"
 
 
 void Mario::ChangeState(MarioState _State)
@@ -597,11 +598,17 @@ void Mario::RunEnd()
 
 void Mario::BrakeStart()
 {
-	
+	ParticleDelayTimer = 0;
 }
 
 void Mario::BrakeUpdate(float _DeltaTime)
 {
+	ParticleDelayTimer -= _DeltaTime;
+	if (0 > ParticleDelayTimer)
+	{
+		Particle::CreateParticle(GetLevel(), GetPos(), "SKID");
+		ParticleDelayTimer = ParticleDelay;
+	}
 	// 점프 키를 입력한 경우
 	if (GameEngineInput::IsDown("Jump"))
 	{
@@ -1341,11 +1348,17 @@ void Mario::FallEnd()
 
 void Mario::SlideStart()
 {
-	
+	ParticleDelayTimer = 0;
 }
 
 void Mario::SlideUpdate(float _DeltaTime)
 {
+	ParticleDelayTimer -= _DeltaTime;
+	if (0 > ParticleDelayTimer)
+	{
+		Particle::CreateParticle(GetLevel(), GetPos(), "SKID");
+		ParticleDelayTimer = ParticleDelay;
+	}
 	// 점프 키를 입력한 경우
 	if (GameEngineInput::IsDown("Jump"))
 	{

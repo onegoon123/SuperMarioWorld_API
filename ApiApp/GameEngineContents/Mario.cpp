@@ -10,15 +10,18 @@
 #include "Map.h"
 #include "Fire.h"
 #include "Particle.h"
+#include "Block.h"
 
 Mario* Mario::MainPlayer = nullptr;
 
 void Mario::NewItem(ItemType _Item)
 {
+	/*
 	if (MarioState::CHANGEPOWER == StateValue)
 	{
 		return;
 	}
+	*/
 	switch (_Item)
 	{
 	case ItemType::Coin:
@@ -281,9 +284,12 @@ void Mario::Update(float _DeltaTime)
 	{
 		return;
 	}
-	MoveCalculation(_DeltaTime);
 	CheckCollision();
-
+	MoveCalculation(_DeltaTime);
+	float4 CameraPos = GetPos();
+	CameraPos.x -= 350;
+	CameraPos.y = 825;
+	GetLevel()->SetCameraPos(CameraPos);
 	FireAttack();
 
 	// 무적시간 체크
@@ -634,7 +640,8 @@ void Mario::MoveCalculation(float _DeltaTime)
 	// 마리오 이동 및 카메라 이동
 	SetMove(MoveDir * _DeltaTime);
 	//GetLevel()->SetCameraMove(MoveDir * _DeltaTime);
-	GetLevel()->SetCameraMove(float4::Right * MoveDir.x * _DeltaTime);
+	
+	//GetLevel()->SetCameraMove(float4::Right * MoveDir.x * _DeltaTime);
 }
 
 void Mario::FireAttack()
@@ -707,7 +714,18 @@ void Mario::CheckCollision()
 			Particle::CreateParticle(GetLevel(), GetPos(), "KICK");
 			MoveDir.y = 0;
 			// 스핀으로 밟으면 다시 스핀점프, 그 외에는 점프로
-			ChangeState(StateValue == MarioState::SPIN ? MarioState::SPIN : MarioState::JUMP);
+			if (MarioState::SPIN == StateValue)
+			{
+				ChangeState(MarioState::SPIN);
+			}
+			else if (MarioState::RUNJUMP == StateValue)
+			{
+				ChangeState(MarioState::RUNJUMP);
+			}
+			else
+			{
+				ChangeState(MarioState::JUMP);
+			}
 			return;
 		}
 		// 그 외 무적 시간이 아닌 경우 대미지
@@ -722,40 +740,87 @@ void Mario::CheckCollision()
 	Check = { .TargetGroup = static_cast<int>(CollisionOrder::Block), .TargetColType = CT_Rect, .ThisColType = CT_Rect };
 	if (true == BodyCollision->Collision(Check, Collisions))
 	{
-		GameEngineActor* ColActor = Collisions[0]->GetActor();
-		//ColActor->GetOwner<Mario>(); 전환 방식
-
-		// 플레이어가 블록보다 위에 있는 경우
-		if (GetPos().y < ColActor->GetPos().y - 32)
+		bool IsHeading = false;
+		std::vector<GameEngineCollision*>::iterator Start = Collisions.begin();
+		std::vector<GameEngineCollision*>::iterator End = Collisions.end();
+		for (; Start != End; Start++)
 		{
-			if (0 > MoveDir.y)
+			Block* ColActor = (*Start)->GetOwner<Block>();
+			if (true == ColActor->GetIsRoll())
 			{
-				return;
+				continue;
 			}
-			IsSlope = false;
-			IsGrounded = true;
-			IsOnBlock = true;
-			float4 Pos = GetPos();
-			Pos.y = ColActor->GetPos().y - 63;
-			Pos.y = std::round(Pos.y);
-			SetPos(Pos);
-			MoveDir.y = 0.0f;
-			return;
-		}
-		// 그 외 경우
-		else
-		{
-			if (GetPos().x < ColActor->GetPos().x - 32)
+			// 플레이어가 블록보다 위에 있는 경우
+			if (GetPos().y < ColActor->GetPos().y - 60)
 			{
+				if (0 > MoveDir.y)
+				{
+					continue;
+				}
+				if (MarioState::SPIN == StateValue && PowerState::Normal != MarioPower)
+				{
+					ColActor->Death();
+					MoveDir.y = 0;
+					ChangeState(MarioState::SPIN);
+					continue;
+				}
+				IsSlope = false;
+				IsGrounded = true;
+				IsOnBlock = true;
 				float4 Pos = GetPos();
-				Pos.x = ColActor->GetPos().x - 63;
+				Pos.y = ColActor->GetPos().y - 63;
 				Pos.y = std::round(Pos.y);
 				SetPos(Pos);
-				if (true == IsGrounded)
+				MoveDir.y = 0.0f;
+				continue;
+			}
+			else if (GetPos().y > ColActor->GetPos().y + 60)
+			{
+				if (0 < MoveDir.y)
 				{
-					ChangeState(MarioState::IDLE);
+					continue;
+				}
+				IsHeading = true;
+				ColActor->Roll();
+				continue;
+			}
+			// 그 외 경우
+			else
+			{
+				if (GetPos().x < ColActor->GetPos().x)
+				{
+					float4 Pos = GetPos();
+					Pos.x = ColActor->GetPos().x - 52;
+					Pos.x = std::round(Pos.x);
+
+					SetPos(Pos);
+					if (true == IsGrounded)
+					{
+						ChangeState(MarioState::IDLE);
+					}
+					HorizontalForce = 0;
+					MoveDir.x = 0;
+				}
+				else if (GetPos().x > ColActor->GetPos().x)
+				{
+					float4 Pos = GetPos();
+					Pos.x = ColActor->GetPos().x + 52;
+					Pos.x = std::round(Pos.x);
+
+					SetPos(Pos);
+					if (true == IsGrounded)
+					{
+						ChangeState(MarioState::IDLE);
+					}
+					HorizontalForce = 0;
+					MoveDir.x = 0;
 				}
 			}
+		}
+
+		if (true == IsHeading)
+		{
+			MoveDir.y = 50;
 		}
 	}
 	else if (true == IsOnBlock)
