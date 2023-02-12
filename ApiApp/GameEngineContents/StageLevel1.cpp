@@ -81,6 +81,10 @@ void StageLevel1::LevelChangeStart(GameEngineLevel* _PrevLevel)
 	//CreateActor<Bamba>()->SetPos({ 700, 1506 });
 
 	CreateActor<Bamba>()->SetPos({ 3200, 1506 });
+	CreateActor<Bamba>()->SetPos({ 3100, 1506 });
+	CreateActor<Bamba>()->SetPos({ 3000, 1506 });
+	CreateActor<Bamba>()->SetPos({ 2900, 1506 });
+	CreateActor<Bamba>()->SetPos({ 2800, 1506 });
 	CreateActor<Bamba>()->SetPos({ 5500, 1506 });
 	CreateActor<FireFlower>()->SetPos({ 1000, 1506 });
 	CreateActor<SuperMushroom>()->SetPos({ 500, 1200 });

@@ -742,20 +742,17 @@ void Mario::CheckCollision()
 			ColActor->Death();
 			Particle::CreateParticle(GetLevel(), GetPos(), "KICK");
 			GameEngineResources::GetInst().SoundPlay("kick.wav");
+
 			MoveDir.y = 0;
-			// 스핀으로 밟으면 다시 스핀점프, 그 외에는 점프로
-			if (MarioState::SPIN == StateValue)
+			IsGrounded = false;
+			JumpTimeCounter = JumpTime;
+			MoveDir += float4::Up * JumpForce;
+
+			if (MarioState::RUNJUMP != StateValue && MarioState::SPIN != StateValue)
 			{
-				ChangeState(MarioState::SPIN);
+				StateValue = MarioState::JUMP;
 			}
-			else if (MarioState::RUNJUMP == StateValue)
-			{
-				ChangeState(MarioState::RUNJUMP);
-			}
-			else
-			{
-				ChangeState(MarioState::JUMP);
-			}
+
 			return;
 		}
 		// 그 외 무적 시간이 아닌 경우 대미지
