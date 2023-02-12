@@ -7,7 +7,7 @@
 #include <GameEngineCore/GameEngineLevel.h>
 #include "ContentsEnums.h"
 #include "Particle.h"
-
+#include "StageLevel.h"
 
 void Mario::ChangeState(MarioState _State)
 {
@@ -720,6 +720,8 @@ void Mario::JumpStart()
 	{
 		MoveDir += float4::Up * JumpForce;
 	}
+
+	GameEngineResources::GetInst().SoundPlay("jump.wav");
 }
 
 void Mario::JumpUpdate(float _DeltaTime)
@@ -837,6 +839,7 @@ void Mario::SpinStart()
 	
 	MoveDir += float4::Up * JumpForce;
 	JumpTimeCounter = JumpTime;
+	GameEngineResources::GetInst().SoundPlay("spin.wav");
 }
 
 void Mario::SpinUpdate(float _DeltaTime)
@@ -1085,6 +1088,7 @@ void Mario::RunJumpStart()
 	IsGrounded = false;
 	JumpTimeCounter = JumpTime;
 	MoveDir += float4::Up * RunJumpForce;
+	GameEngineResources::GetInst().SoundPlay("jump.wav");
 }
 
 void Mario::RunJumpUpdate(float _DeltaTime)
@@ -1531,6 +1535,8 @@ void Mario::GameOverStart()
 	AnimationRender->ChangeAnimation("GameOver1");
 	Timer = 0;
 	MoveDir.y = 0;
+	dynamic_cast<StageLevel*>(GetLevel())->GetBGMPlayer().Stop();
+	GameEngineResources::GetInst().SoundPlay("PlayerDown.mp3");
 }
 
 void Mario::GameOverUpdate(float _DeltaTime)

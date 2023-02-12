@@ -41,7 +41,10 @@ void TitleLevel::Loading()
 	// 타이틀 이미지들을 표시할 엑터 생성
 	CreateActor<TitleImage>();
 
-	
+	Dir.MoveParentToDirectory("ContentsResources");
+	Dir.Move("ContentsResources");
+	Dir.Move("Sound");
+	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("Title.mp3"));
 }
 
 void TitleLevel::Update(float _DeltaTime)
@@ -49,4 +52,15 @@ void TitleLevel::Update(float _DeltaTime)
 	if (GameEngineInput::IsAnyKey()) {
 		MarioGameCore::GetInst().ChangeLevel("Stage1");
 	}
+}
+
+void TitleLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
+{
+	BGMPlayer = GameEngineResources::GetInst().SoundPlayToControl("Title.mp3");
+	BGMPlayer.LoopCount(100);
+}
+
+void TitleLevel::LevelChangeEnd(GameEngineLevel* _NextLevel)
+{
+	BGMPlayer.Stop();
 }

@@ -268,7 +268,7 @@ void GameEngineLevel::ActorsRender(float _DeltaTime)
 		for (size_t i = 0; i < DebugTexts.size(); i++)
 		{
 			HDC ImageDc = GameEngineWindow::GetDoubleBufferImage()->GetImageDC();
-			TextOutA(ImageDc, TextOutStart.ix(), TextOutStart.iy(), DebugTexts[i].c_str(), DebugTexts[i].size());
+			TextOutA(ImageDc, TextOutStart.ix(), TextOutStart.iy(), DebugTexts[i].c_str(), static_cast<int>(DebugTexts[i].size()));
 			TextOutStart.y += 20.0f;
 		}
 
@@ -312,8 +312,13 @@ void GameEngineLevel::ActorLevelChangeStart(GameEngineLevel* _PrevLevel)
 	}
 }
 
-void GameEngineLevel::PushRender(GameEngineRender* _Render)
+void GameEngineLevel::PushRender(GameEngineRender* _Render, int _ChangeOrder)
 {
+	// 0 => 10
+	Renders[_Render->GetOrder()].remove(_Render);
+
+	_Render->GameEngineObject::SetOrder(_ChangeOrder);
+
 	if (nullptr == _Render)
 	{
 		MsgAssert("nullptr인 랜더를 랜더링 그룹속에 넣으려고 했습니다.");

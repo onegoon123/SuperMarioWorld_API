@@ -182,28 +182,7 @@ private:
 #pragma region __________ 피격 관련 함수 __________
 
 	// 부딪혀서 대미지를 받는 경우 실행되는 함수
-	void GetDamaged() {
-		switch (MarioPower)
-		{
-		case PowerState::Normal:
-			GameOver();		// Normal일 경우 게임오버 함수 실행후 리턴
-			return;
-		case PowerState::Super:
-			MarioPower = PowerState::Normal;
-			ChangeState(MarioState::CHANGEPOWER);
-			break;
-		case PowerState::Fire:
-			MarioPower = PowerState::Normal;
-			ChangeState(MarioState::CHANGEPOWER);
-			break;
-		case PowerState::Cape:
-			MarioPower = PowerState::Normal;
-			break;
-		default:
-			break;
-		}
-		TakeOutStock();	// 스톡 아이템 소환
-	}
+	void GetDamaged();
 	// 추락하거나 Normal 상태에서 대미지를 받을 경우 실행되는 게임오버 함수
 	void GameOver() {
 		ChangeState(MarioState::GameOver);

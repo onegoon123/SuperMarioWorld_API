@@ -19,6 +19,7 @@ void SuperMushroom::Start()
 {
 	GameEngineRender* Render = CreateRender(RenderOrder::Item);
 	Render->SetImage("SUPERMUSHROOM.BMP");
+	Render->SetScaleToImage();
 	Render->SetPosition({ 0,-29 });
 	Collision = CreateCollision(CollisionOrder::Item);
 	Collision->SetScale({ 48, 48 });

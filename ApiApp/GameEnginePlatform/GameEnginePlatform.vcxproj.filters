@@ -84,19 +84,19 @@
     <None Include="ThirdParty\FMOD\inc\fmod.cs">
       <Filter>ThirdParty\FMOD\Header</Filter>
     </None>
-    <None Include="ThirdParty\FMOD\lib\x64\fmodL.dll">
-      <Filter>ThirdParty\FMOD\bin</Filter>
-    </None>
-    <None Include="ThirdParty\FMOD\lib\x64\fmod.dll">
-      <Filter>ThirdParty\FMOD\bin</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
-    <Library Include="ThirdParty\FMOD\lib\x64\fmod_vc.lib">
+    <CopyFileToFolders Include="ThirdParty\FMOD\lib\x64\fmod.dll">
       <Filter>ThirdParty\FMOD\bin</Filter>
-    </Library>
-    <Library Include="ThirdParty\FMOD\lib\x64\fmodL_vc.lib">
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\FMOD\lib\x64\fmod_vc.lib">
       <Filter>ThirdParty\FMOD\bin</Filter>
-    </Library>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\FMOD\lib\x64\fmodL.dll">
+      <Filter>ThirdParty\FMOD\bin</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\FMOD\lib\x64\fmodL_vc.lib">
+      <Filter>ThirdParty\FMOD\bin</Filter>
+    </CopyFileToFolders>
   </ItemGroup>
 </Project>

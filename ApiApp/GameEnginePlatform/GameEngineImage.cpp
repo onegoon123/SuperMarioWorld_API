@@ -3,7 +3,6 @@
 #include <GameEngineBase/GameEngineDebug.h>
 #include "GameEngineWindow.h"
 
-// 다른 lib를 사용하겠다.
 #pragma comment(lib, "msimg32.lib")
 
 GameEngineImage::GameEngineImage()
@@ -94,16 +93,6 @@ bool GameEngineImage::ImageLoad(const GameEnginePath& _Path)
 
 bool GameEngineImage::ImageLoad(const std::string_view& _Path)
 {
-	//HDC ImageDC;
-	//HBITMAP BitMap;
-	//HBITMAP OldBitMap;
-	//BITMAP Info;
-
-	// 이미지중에 일부만 로드할수 있는데 0을 넣어주면 다 로드하겠다는 이야기가 도힙니다.
-	// LR_LOADFROMFILE 파일에서부터 로드하겠다는 의미가 됩니다.
-
-	// 이미지를 로드한 2차원 배열의 정보고
-	// 윈도우에게 new를 지시한것과 다름이 없다.
 	BitMap = static_cast<HBITMAP>(LoadImageA(nullptr, _Path.data(), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE));
 
 	if (nullptr == BitMap)

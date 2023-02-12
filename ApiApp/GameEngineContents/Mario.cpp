@@ -37,6 +37,7 @@ void Mario::NewItem(ItemType _Item)
 		else
 		{
 			MarioPower = PowerState::Super;
+			GameEngineResources::GetInst().SoundPlay("powerup.wav");
 			ChangeState(MarioState::CHANGEPOWER);
 		}
 		break;
@@ -49,6 +50,7 @@ void Mario::NewItem(ItemType _Item)
 		else
 		{
 			MarioPower = PowerState::Fire;
+			GameEngineResources::GetInst().SoundPlay("powerup.wav");
 			ChangeState(MarioState::CHANGEPOWER);
 		}
 		break;
@@ -644,6 +646,31 @@ void Mario::MoveCalculation(float _DeltaTime)
 	//GetLevel()->SetCameraMove(float4::Right * MoveDir.x * _DeltaTime);
 }
 
+void Mario::GetDamaged()
+{
+	switch (MarioPower)
+	{
+	case PowerState::Normal:
+		GameOver();		// Normal일 경우 게임오버 함수 실행후 리턴
+		return;
+	case PowerState::Super:
+		MarioPower = PowerState::Normal;
+		ChangeState(MarioState::CHANGEPOWER);
+		break;
+	case PowerState::Fire:
+		MarioPower = PowerState::Normal;
+		ChangeState(MarioState::CHANGEPOWER);
+		break;
+	case PowerState::Cape:
+		MarioPower = PowerState::Normal;
+		break;
+	default:
+		break;
+	}
+	GameEngineResources::GetInst().SoundPlay("damage.wav");
+	TakeOutStock();	// 스톡 아이템 소환
+}
+
 void Mario::FireAttack()
 {
 	// 파이어 마리오 상태일때만 실행
@@ -664,6 +691,7 @@ void Mario::FireAttack()
 	if (false == GameEngineInput::IsDown("Dash")) { return; }
 	if (true == Fire::IsMax()) { return; }
 
+	GameEngineResources::GetInst().SoundPlay("fireball.wav");
 	Fire* NewFire = GetLevel()->CreateActor<Fire>(RenderOrder::Player);
 	NewFire->SetPos(GetPos());
 	NewFire->SetMove(float4::Up * 50);
@@ -705,6 +733,7 @@ void Mario::CheckCollision()
 			// 몬스터 처치
 			ColActor->Death();
 			Particle::CreateParticle(GetLevel(), GetPos(), "KICK");
+			GameEngineResources::GetInst().SoundPlay("kick.wav");
 			return;
 		}
 		// 플레이어가 몬스터보다 위에 있으면서 떨어지고 있는 경우
@@ -712,6 +741,7 @@ void Mario::CheckCollision()
 		{
 			ColActor->Death();
 			Particle::CreateParticle(GetLevel(), GetPos(), "KICK");
+			GameEngineResources::GetInst().SoundPlay("kick.wav");
 			MoveDir.y = 0;
 			// 스핀으로 밟으면 다시 스핀점프, 그 외에는 점프로
 			if (MarioState::SPIN == StateValue)

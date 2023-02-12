@@ -42,6 +42,17 @@ void StageLevel1::Loading()
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("KICK.BMP"))->Cut(3, 1);
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("BLOCK.BMP"))->Cut(4, 1);
 
+	Dir.MoveParentToDirectory("ContentsResources");
+	Dir.Move("ContentsResources");
+	Dir.Move("Sound");
+	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("Overworld.mp3"));
+	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("PlayerDown.mp3"));
+	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("jump.wav"));
+	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("spin.wav"));
+	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("powerup.wav"));
+	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("kick.wav"));
+	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("damage.wav"));
+	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("fireball.wav"));
 }
 
 void StageLevel1::Update(float _DeltaTime)
@@ -58,6 +69,8 @@ void StageLevel1::Update(float _DeltaTime)
 
 void StageLevel1::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
+	BGMPlayer = GameEngineResources::GetInst().SoundPlayToControl("Overworld.mp3");
+
 	Map* Map1 = CreateActor<Map>();
 	Map1->SetImage(BackGroundName, StageName, StageColName);
 	CreateActor<Mario>();
@@ -74,4 +87,5 @@ void StageLevel1::LevelChangeStart(GameEngineLevel* _PrevLevel)
 	CreateActor<Block>()->SetPos({ 500, 1535 });
 	CreateActor<Block>()->SetPos({ 564, 1279 });
 	CreateActor<Block>()->SetPos({ 500, 1279 });
+
 }

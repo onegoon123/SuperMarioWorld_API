@@ -39,5 +39,6 @@ void StageLevel::LevelChangeEnd(GameEngineLevel* _NextLevel)
 		Mario::MainPlayer = nullptr;
 	}
 	SetCameraPos(float4::Zero);
+	BGMPlayer.Stop();
 }
 

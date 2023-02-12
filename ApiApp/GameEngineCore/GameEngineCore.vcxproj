@@ -74,21 +74,27 @@
     <OutDir>$(SolutionDir)Bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)Bin\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);..\;</IncludePath>
+    <LibraryPath>
+    </LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)Bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)Bin\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);..\;</IncludePath>
+    <LibraryPath>
+    </LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)Bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)Bin\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);..\;</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);;..\;</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)Bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)Bin\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);..\;</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);;..\;</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -174,6 +180,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="GameEngineResources.cpp" />
+    <ClCompile Include="NumberRenderObject.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngineActor.h" />
@@ -199,6 +209,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="GameEngineResources.h" />
+    <ClInclude Include="NumberRenderObject.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
