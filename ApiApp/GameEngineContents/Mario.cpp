@@ -85,8 +85,8 @@ void Mario::Start()
 	// 렌더 생성
 	{
 		AnimationRender = CreateRender(RenderOrder::Player);
-		AnimationRender->SetScale({ 192, 192 });
-		AnimationRender->SetPosition({ 0, -56 });
+		AnimationRender->SetScale(RenderScale);
+		AnimationRender->SetPosition(RenderPos);
 
 		AnimationRender->CreateAnimation({ .AnimationName = "Goal", .ImageName = "LEFT_MARIO.BMP", .Start = 23, .End = 23, });
 		AnimationRender->CreateAnimation({ .AnimationName = "Yoshi_Goal", .ImageName = "LEFT_MARIO.BMP", .Start = 39, .End = 39, });
@@ -264,8 +264,8 @@ void Mario::Start()
 	// Collision 생성
 	{
 		BodyCollision = CreateCollision(CollisionOrder::Player);
-		BodyCollision->SetScale({ 52, 72 });
-		BodyCollision->SetPosition({ 0, -36 });
+		BodyCollision->SetScale(CollisionScale);
+		BodyCollision->SetPosition(CollisionPos);
 		BodyCollision->SetDebugRenderType(CollisionType::CT_Rect);
 	}
 }
@@ -295,7 +295,7 @@ void Mario::Update(float _DeltaTime)
 	FireAttack();
 
 	// 무적시간 체크
-	if (true == IsInvincibility)
+	if (true == IsInvincibility && MarioState::CHANGEPOWER != StateValue)
 	{
 		Timer -= _DeltaTime;
 		if (static_cast<int>((Timer * 20)) % 2 == 0)
@@ -316,8 +316,8 @@ void Mario::Update(float _DeltaTime)
 	// 치트
 	if (GameEngineInput::IsDown("3"))
 	{
-		Speed *= 2;
-		RunSpeed *= 2;
+		//Speed *= 2;
+		//RunSpeed *= 2;
 		ColMap = GameEngineResources::GetInst().ImageFind("STAGE0COL.bmp");
 		MarioPower = PowerState::Fire;
 	}
@@ -419,16 +419,13 @@ void Mario::MoveCalculation(float _DeltaTime)
 		MsgAssert("충돌용 맵 이미지가 없습니다.");
 	}
 
-	
-	
-
 	// 맵 충돌 체크용 컬러 변수
-	DWORD PixelColor = ColMap->GetPixelColor(DownPos, RGB(255, 255, 255));
+	DWORD PixelColor = ColMap->GetPixelColor(DownPos, White);
 	// 이전까지 비탈길에 있던 경우
 	if (true == IsSlope && true == IsGrounded)
 	{
 		// 내 밑에 비탈길이 있는 경우
-		if (RGB(255, 0, 0) == PixelColor)
+		if (Red == PixelColor)
 		{
 			IsSlope = true;
 			IsGrounded = true;
@@ -437,8 +434,8 @@ void Mario::MoveCalculation(float _DeltaTime)
 			while (true)
 			{
 				DownPos.y -= 1;
-				PixelColor = ColMap->GetPixelColor(DownPos, RGB(0, 0, 0));
-				if (RGB(255, 255, 255) == PixelColor)
+				PixelColor = ColMap->GetPixelColor(DownPos, Black);
+				if (White == PixelColor)
 				{
 					SetPos(DownPos);
 					MoveDir.y = 0.0f;
@@ -446,9 +443,9 @@ void Mario::MoveCalculation(float _DeltaTime)
 				}
 			}
 			DownPos.x += 1;
-			PixelColor = ColMap->GetPixelColor(DownPos, RGB(0, 0, 0));
+			PixelColor = ColMap->GetPixelColor(DownPos, Black);
 			// 경사로가 왼쪽
-			if (RGB(255, 0, 0) == PixelColor)
+			if (Red == PixelColor)
 			{
 				SlopeDir = Dir::Left;
 			}
@@ -462,7 +459,7 @@ void Mario::MoveCalculation(float _DeltaTime)
 		else
 		{
 			// 바닥 체크
-			if (RGB(0, 0, 0) == PixelColor || RGB(0, 255, 0) == PixelColor)
+			if (Black == PixelColor || Green == PixelColor)
 			{
 				IsSlope = false;
 				if (MarioState::FALL == StateValue || (MarioState::SPIN == StateValue && 0 < MoveDir.y) || (MarioState::RUNJUMP == StateValue && 0 < MoveDir.y))
@@ -473,8 +470,8 @@ void Mario::MoveCalculation(float _DeltaTime)
 					while (true)
 					{
 						DownPos.y -= 1;
-						PixelColor = ColMap->GetPixelColor(DownPos, RGB(0, 0, 0));
-						if (RGB(0, 0, 0) != PixelColor)
+						PixelColor = ColMap->GetPixelColor(DownPos, Black);
+						if (Black != PixelColor)
 						{
 							SetPos(DownPos);
 							ForwardPos.y = DownPos.y;
@@ -499,7 +496,7 @@ void Mario::MoveCalculation(float _DeltaTime)
 		}
 	}
 	// 바닥 체크
-	else if (RGB(0, 0, 0) == PixelColor)
+	else if (Black == PixelColor)
 	{
 		IsSlope = false;
 		if (MarioState::FALL == StateValue || (MarioState::SPIN == StateValue && 0 < MoveDir.y) || (MarioState::RUNJUMP == StateValue && 0 < MoveDir.y))
@@ -510,8 +507,8 @@ void Mario::MoveCalculation(float _DeltaTime)
 			while (true)
 			{
 				DownPos.y -= 1;
-				PixelColor = ColMap->GetPixelColor(DownPos, RGB(0, 0, 0));
-				if (RGB(0, 0, 0) != PixelColor)
+				PixelColor = ColMap->GetPixelColor(DownPos, Black);
+				if (Black != PixelColor)
 				{
 					SetPos(DownPos);
 					MoveDir.y = 0.0f;
@@ -530,7 +527,7 @@ void Mario::MoveCalculation(float _DeltaTime)
 	else if (MarioState::JUMP != StateValue && (MarioState::SPIN != StateValue || 0 < MoveDir.y) && (MarioState::RUNJUMP != StateValue || 0 < MoveDir.y))
 	{
 		// 아래에서 통과되는 블록들 체크 ex) 구름
-		if (RGB(0, 255, 0) == PixelColor)
+		if (Green == PixelColor)
 		{
 			IsSlope = false;
 			if (MarioState::FALL == StateValue || (MarioState::SPIN == StateValue && 0 < MoveDir.y) || (MarioState::RUNJUMP == StateValue && 0 < MoveDir.y))
@@ -541,8 +538,8 @@ void Mario::MoveCalculation(float _DeltaTime)
 				while (true)
 				{
 					DownPos.y -= 1;
-					PixelColor = ColMap->GetPixelColor(DownPos, RGB(0, 0, 0));
-					if (RGB(255, 255, 255) == PixelColor)
+					PixelColor = ColMap->GetPixelColor(DownPos, Black);
+					if (White == PixelColor)
 					{
 						SetPos(DownPos);
 						MoveDir.y = 0.0f;
@@ -557,7 +554,7 @@ void Mario::MoveCalculation(float _DeltaTime)
 			}
 		}
 		// 비탈길 체크
-		else if (RGB(255, 0, 0) == PixelColor)
+		else if (Red == PixelColor)
 		{
 			IsSlope = true;
 			IsGrounded = true;
@@ -566,8 +563,8 @@ void Mario::MoveCalculation(float _DeltaTime)
 			while (true)
 			{
 				DownPos.y -= 1;
-				PixelColor = ColMap->GetPixelColor(DownPos, RGB(0, 0, 0));
-				if (RGB(255, 255, 255) == PixelColor)
+				PixelColor = ColMap->GetPixelColor(DownPos, Black);
+				if (White == PixelColor)
 				{
 					SetPos(DownPos);
 					ForwardPos.y = DownPos.y;
@@ -576,9 +573,9 @@ void Mario::MoveCalculation(float _DeltaTime)
 				}
 			}
 			DownPos.x += 1;
-			PixelColor = ColMap->GetPixelColor(DownPos, RGB(0, 0, 0));
+			PixelColor = ColMap->GetPixelColor(DownPos, Black);
 			// 경사로가 왼쪽
-			if (RGB(255, 0, 0) == PixelColor)
+			if (Red == PixelColor)
 			{
 				SlopeDir = Dir::Left;
 			}
@@ -598,7 +595,7 @@ void Mario::MoveCalculation(float _DeltaTime)
 	}
 	
 	// 벽 체크
-	if (RGB(0, 0, 0) == ColMap->GetPixelColor(ForwardPos, RGB(255, 255, 255)))
+	if (Black == ColMap->GetPixelColor(ForwardPos, White))
 	{
 		if (0 < HorizontalForce)
 		{
@@ -606,8 +603,8 @@ void Mario::MoveCalculation(float _DeltaTime)
 			{
 				ForwardPos.x = std::round(ForwardPos.x);
 				ForwardPos.x -= 1;
-				PixelColor = ColMap->GetPixelColor(ForwardPos, RGB(0, 0, 0));
-				if (RGB(0, 0, 0) != PixelColor)
+				PixelColor = ColMap->GetPixelColor(ForwardPos, Black);
+				if (Black != PixelColor)
 				{
 					SetPos(ForwardPos);
 					MoveDir.x = 0.0f;
@@ -621,8 +618,8 @@ void Mario::MoveCalculation(float _DeltaTime)
 			{
 				ForwardPos.x = std::round(ForwardPos.x);
 				ForwardPos.x += 1;
-				PixelColor = ColMap->GetPixelColor(ForwardPos, RGB(0, 0, 0));
-				if (RGB(0, 0, 0) != PixelColor)
+				PixelColor = ColMap->GetPixelColor(ForwardPos, Black);
+				if (Black != PixelColor)
 				{
 					SetPos(ForwardPos);
 					MoveDir.x = 0.0f;
@@ -694,15 +691,15 @@ void Mario::FireAttack()
 	GameEngineResources::GetInst().SoundPlay("fireball.wav");
 	Fire* NewFire = GetLevel()->CreateActor<Fire>(RenderOrder::Player);
 	NewFire->SetPos(GetPos());
-	NewFire->SetMove(float4::Up * 50);
+	NewFire->SetMove(float4::Up * FireCreatePos.y);
 	if (Dir::Left == DirValue)
 	{
-		NewFire->SetMove(float4::Left * 40);
+		NewFire->SetMove(float4::Left * FireCreatePos.x);
 		NewFire->SetDir(float4::Left);
 	}
 	else
 	{
-		NewFire->SetMove(float4::Right * 40);
+		NewFire->SetMove(float4::Right * FireCreatePos.x);
 		NewFire->SetDir(float4::Right);
 	}
 
@@ -760,6 +757,7 @@ void Mario::CheckCollision()
 		{
 			// 대미지
 			GetDamaged();
+			IsInvincibility = true;
 		}
 	}
 
@@ -778,7 +776,7 @@ void Mario::CheckCollision()
 				continue;
 			}
 			// 플레이어가 블록보다 위에 있는 경우
-			if (GetPos().y < ColActor->GetPos().y - 60)
+			if (GetPos().y < ColActor->GetPos().y - BlockYSize)
 			{
 				if (0 > MoveDir.y)
 				{
@@ -786,22 +784,24 @@ void Mario::CheckCollision()
 				}
 				if (MarioState::SPIN == StateValue && PowerState::Normal != MarioPower)
 				{
-					ColActor->Death();
+					ColActor->Damage();
 					MoveDir.y = 0;
-					ChangeState(MarioState::SPIN);
+					IsGrounded = false;
+					JumpTimeCounter = JumpTime;
+					MoveDir += float4::Up * JumpForce;
 					continue;
 				}
 				IsSlope = false;
 				IsGrounded = true;
 				IsOnBlock = true;
 				float4 Pos = GetPos();
-				Pos.y = ColActor->GetPos().y - 63;
+				Pos.y = ColActor->GetPos().y - BlockOnPos;
 				Pos.y = std::round(Pos.y);
 				SetPos(Pos);
 				MoveDir.y = 0.0f;
 				continue;
 			}
-			else if (GetPos().y > ColActor->GetPos().y + 60)
+			else if (GetPos().y > ColActor->GetPos().y + BlockYSize)
 			{
 				if (0 < MoveDir.y)
 				{
@@ -817,7 +817,7 @@ void Mario::CheckCollision()
 				if (GetPos().x < ColActor->GetPos().x)
 				{
 					float4 Pos = GetPos();
-					Pos.x = ColActor->GetPos().x - 52;
+					Pos.x = ColActor->GetPos().x - BlockSidePos;
 					Pos.x = std::round(Pos.x);
 
 					SetPos(Pos);
@@ -831,7 +831,7 @@ void Mario::CheckCollision()
 				else if (GetPos().x > ColActor->GetPos().x)
 				{
 					float4 Pos = GetPos();
-					Pos.x = ColActor->GetPos().x + 52;
+					Pos.x = ColActor->GetPos().x + BlockSidePos;
 					Pos.x = std::round(Pos.x);
 
 					SetPos(Pos);
@@ -847,7 +847,8 @@ void Mario::CheckCollision()
 
 		if (true == IsHeading)
 		{
-			MoveDir.y = 50;
+			GameEngineResources::GetInst().SoundPlay("bump.wav");
+			MoveDir.y = HeadingReaction;
 		}
 	}
 	else if (true == IsOnBlock)

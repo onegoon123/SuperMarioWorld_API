@@ -22,6 +22,11 @@ protected:
 	void LevelChangeStart(GameEngineLevel* _PrevLevel) override;
 	void LevelChangeEnd(GameEngineLevel* _NextLevel) override;
 
+	float4 GridPos(int x, int y)
+	{
+		return float4(static_cast<float>(x * 64 + 32), static_cast<float>((y + 24) * 64));
+	}
+
 	std::string_view BackGroundName = "";
 	std::string_view StageName = "";
 	std::string_view StageColName = "";

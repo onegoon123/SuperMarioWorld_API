@@ -8,6 +8,7 @@
 #include "ContentsEnums.h"
 #include "Particle.h"
 #include "StageLevel.h"
+#include "Map.h"
 
 void Mario::ChangeState(MarioState _State)
 {
@@ -221,7 +222,7 @@ void Mario::IdleUpdate(float _DeltaTime)
 	// 왼쪽 방향키를 입력한 경우
 	else if (GameEngineInput::IsPress("Left"))
 	{
-		if (RGB(0, 0, 0) == ColMap->GetPixelColor(GetPos() + float4::Left * 4, RGB(0, 0, 0)))
+		if (Black == ColMap->GetPixelColor(GetPos() + float4::Left * 4, Black))
 		{
 			return;
 		}
@@ -233,7 +234,7 @@ void Mario::IdleUpdate(float _DeltaTime)
 	// 오른쪽 방향키를 입력한 경우
 	else if (GameEngineInput::IsPress("Right"))
 	{
-		if (RGB(0, 0, 0) == ColMap->GetPixelColor(GetPos() + float4::Right * 4, RGB(0, 0, 0)))
+		if (Black == ColMap->GetPixelColor(GetPos() + float4::Right * 4, Black))
 		{
 			return;
 		}
@@ -1477,7 +1478,7 @@ void Mario::ChangePowerUpdate(float _DeltaTime)
 	if (0 >= Timer) {
 		if (PowerState::Normal == MarioPower)
 		{
-			Invincibility();
+			Timer = InvincibilityTime;
 		}
 		switch (BeforeState)
 		{

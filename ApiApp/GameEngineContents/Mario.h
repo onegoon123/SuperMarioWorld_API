@@ -55,24 +55,36 @@ protected:
 	void Render(float _DeltaTime) override;
 	void LevelChangeStart(GameEngineLevel* _PrevLevel) override;
 private:
-	float Speed = 705;					// 이동 속도
-	float RunSpeed = 850.0f;			// 이동 속도
-	const float JumpForce = 950;		// 점프력
-	const float DashJumpForce = 1100;	// 점프력
-	const float RunJumpForce = 1200;	// 점프력
-	const float JumpPressForce = 3350;	// 점프 유지력
-	const float SpinPressForce = 2750;	// 스핀 유지력
-	const float SlopeForce = 1000;
-	const float JumpTime = 0.325f;
-	const float GravityMax = 1750;
-	const float GravityAcceleration = 4600;
-	const float BrakingForce = 5;
-	const float StoppingForce = 1;
-	const float Acceleration = 1.5;
-	const float DashAcceleration = 2;
-	const float InvincibilityTime = 1.5f;
-	const float ChangePowerTime = 0.9f;
-	const float GameOverTime = 2.0f;
+
+	const float Speed = 705;				// 이동 속도
+	const float RunSpeed = 850.0f;			// 달릴때 이동 속도
+	const float JumpForce = 950;			// 점프력
+	const float DashJumpForce = 1100;		// 대시 시 점프력
+	const float RunJumpForce = 1200;		// 달릴시 점프력
+	const float JumpPressForce = 3350;		// 점프 유지력
+	const float SpinPressForce = 2750;		// 스핀 점프 유지력
+	const float SlopeForce = 1000;			// 비탈길에서 가해지는 힘
+	const float JumpTime = 0.325f;			// 점프 유지 지속시간
+	const float GravityMax = 1750;			// 최대 중력
+	const float GravityAcceleration = 4600;	// 중력 가속도
+	const float BrakingForce = 5;			// 브레이크 상태시 제동력
+	const float StoppingForce = 1;			// 정지시 제동력
+	const float Acceleration = 1.5;			// 걷고 있을때 가속력
+	const float DashAcceleration = 2;		// 대시 시 가속력
+	const float InvincibilityTime = 1.5f;	// 피격시 무적 시간
+	const float ChangePowerTime = 0.9f;		// 파워 변경 애니메이션 지속시간
+	const float GameOverTime = 2.0f;		// 게임오버시 애니메이션 지속시간
+	const float FireAnimTime = 0.2f;		// 불 쏠때 애니메이션 지속시간
+	const float ParticleDelay = 0.1f;		// 파티클 재생성 딜레이
+	const float HeadingReaction = 150.0f;	// 헤딩시 반작용 힘
+
+	const float4 FireCreatePos = { 30, 40 };// 불꽃 생성시 위치 (오른쪽 기준)
+	const float4 RenderScale={192,192};		// 렌더 크기
+	const float4 RenderPos = { 0, -56 };	// 렌더 위치
+	const float4 CollisionScale ={ 52, 72 };// 충돌체 크기
+	const float4 CollisionPos = { 0, -36 };	// 충돌체 위치 
+
+	
 
 	//			 MarioPower	   StockState
 	// Normal : 기본마리오		비어있음
@@ -94,8 +106,6 @@ private:
 	float Timer = 0;
 	float FireAnimTimer = 0;	// 불 쏠때 애니메이션 지속시간
 	float ParticleDelayTimer = 0;	// 파티클 재생성 딜레이
-	const float FireAnimTime = 0.2f;	// 불 쏠때 애니메이션 지속시간
-	const float ParticleDelay = 0.1f;	// 파티클 재생성 딜레이
 
 	MarioState StateValue = MarioState::IDLE;
 	MarioState BeforeState = MarioState::IDLE;
@@ -186,11 +196,6 @@ private:
 	// 추락하거나 Normal 상태에서 대미지를 받을 경우 실행되는 게임오버 함수
 	void GameOver() {
 		ChangeState(MarioState::GameOver);
-	}
-	// 피격후 일정시간 공격을 방지하는 무적 함수
-	void Invincibility() {
-		IsInvincibility = true;
-		Timer = InvincibilityTime;
 	}
 
 #pragma endregion

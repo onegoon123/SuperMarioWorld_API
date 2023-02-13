@@ -53,6 +53,8 @@ void StageLevel1::Loading()
 	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("kick.wav"));
 	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("damage.wav"));
 	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("fireball.wav"));
+	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("bump.wav"));
+	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("breakblock.wav"));
 }
 
 void StageLevel1::Update(float _DeltaTime)
@@ -77,19 +79,9 @@ void StageLevel1::LevelChangeStart(GameEngineLevel* _PrevLevel)
 	Map1->AddStartPos({ 350 , 1534 });
 	Map1->MoveMap(0);
 	SetCameraMove({ 0, 790 });
-
-	//CreateActor<Bamba>()->SetPos({ 700, 1506 });
-
-	CreateActor<Bamba>()->SetPos({ 3200, 1506 });
-	CreateActor<Bamba>()->SetPos({ 3100, 1506 });
-	CreateActor<Bamba>()->SetPos({ 3000, 1506 });
-	CreateActor<Bamba>()->SetPos({ 2900, 1506 });
-	CreateActor<Bamba>()->SetPos({ 2800, 1506 });
-	CreateActor<Bamba>()->SetPos({ 5500, 1506 });
-	CreateActor<FireFlower>()->SetPos({ 1000, 1506 });
-	CreateActor<SuperMushroom>()->SetPos({ 500, 1200 });
-	CreateActor<Block>()->SetPos({ 500, 1535 });
-	CreateActor<Block>()->SetPos({ 564, 1279 });
-	CreateActor<Block>()->SetPos({ 500, 1279 });
-
+	CreateActor<Block>()->SetPos(GridPos(0, 0));
+	CreateActor<Block>()->SetPos(GridPos(1, 0));
+	CreateActor<Block>()->SetPos(GridPos(2, 0));
+	CreateActor<Block>()->SetPos(GridPos(3, 0));
+	CreateActor<Bamba>()->SetPos(GridPos(0, -1));
 }

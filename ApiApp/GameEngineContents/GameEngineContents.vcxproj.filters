@@ -9,9 +9,6 @@
     <ClInclude Include="TitleLevel.h">
       <Filter>Title</Filter>
     </ClInclude>
-    <ClInclude Include="Mario.h">
-      <Filter>Play</Filter>
-    </ClInclude>
     <ClInclude Include="WorldLevel.h">
       <Filter>World</Filter>
     </ClInclude>
@@ -54,6 +51,9 @@
     <ClInclude Include="Block.h">
       <Filter>Play\Object</Filter>
     </ClInclude>
+    <ClInclude Include="Mario.h">
+      <Filter>Play\Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MarioGameCore.cpp" />
@@ -63,14 +63,8 @@
     <ClCompile Include="TitleLevel.cpp">
       <Filter>Title</Filter>
     </ClCompile>
-    <ClCompile Include="Mario.cpp">
-      <Filter>Play</Filter>
-    </ClCompile>
     <ClCompile Include="WorldLevel.cpp">
       <Filter>World</Filter>
-    </ClCompile>
-    <ClCompile Include="Mario_State.cpp">
-      <Filter>Play</Filter>
     </ClCompile>
     <ClCompile Include="Map.cpp">
       <Filter>Play</Filter>
@@ -109,6 +103,12 @@
       <Filter>Play\Object</Filter>
     </ClCompile>
     <ClCompile Include="Block.cpp">
+      <Filter>Play\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Mario.cpp">
+      <Filter>Play\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Mario_State.cpp">
       <Filter>Play\Object</Filter>
     </ClCompile>
   </ItemGroup>

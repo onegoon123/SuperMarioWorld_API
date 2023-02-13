@@ -4,9 +4,16 @@
 #include <string.h>
 #include <vector>
 
+const int Black = RGB(0, 0, 0);			// 바닥, 벽 표현 색상
+const int White = RGB(255, 255, 255);	// 빈 공간 표현 색상
+const int Green = RGB(0, 255, 0);		// 아래에서 통과되는 바닥 표현 색상
+const int Red = RGB(255, 0, 0);			// 비탈길 표현 색상
+
 class Map : public GameEngineActor
 {
 public:
+
+
 	Map();
 	~Map();
 

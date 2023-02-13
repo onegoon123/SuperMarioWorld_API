@@ -8,6 +8,8 @@
 #include "ContentsEnums.h"
 #include "Particle.h"
 #include "Map.h"
+#include "Block.h"
+
 int Fire::Num = 0;
 
 Fire::Fire() {
@@ -102,18 +104,18 @@ void Fire::MoveCalculation(float _DeltaTime)
 	}
 	
 	// 맵 충돌 체크용 컬러 변수
-	DWORD PixelColor = ColMap->GetPixelColor(NextPos, RGB(255, 255, 255));
+	DWORD PixelColor = ColMap->GetPixelColor(NextPos, White);
 	float4 ForwardPos = NextPos;
 	ForwardPos.y = GetPos().y - 4;
 	// 벽 체크
-	if (RGB(0, 0, 0) == ColMap->GetPixelColor(ForwardPos, RGB(255, 255, 255)))
+	if (Black == ColMap->GetPixelColor(ForwardPos, White))
 	{
 		Particle::CreateParticle(GetLevel(), GetPos(), "SMOKE1");
 		Death();
 	}
 
 	// 바닥 체크
-	if (RGB(0, 0, 0) == PixelColor)
+	if (Black == PixelColor)
 	{
 		IsSlope = false;
 		NextPos.y = std::round(NextPos.y);
@@ -121,8 +123,8 @@ void Fire::MoveCalculation(float _DeltaTime)
 		while (true)
 		{
 			NextPos.y -= 1;
-			PixelColor = ColMap->GetPixelColor(NextPos, RGB(0, 0, 0));
-			if (RGB(0, 0, 0) != PixelColor)
+			PixelColor = ColMap->GetPixelColor(NextPos, Black);
+			if (Black != PixelColor)
 			{
 				SetPos(NextPos);
  				MoveDir.y = -JumpForce;
@@ -131,7 +133,7 @@ void Fire::MoveCalculation(float _DeltaTime)
 		}
 	}
 	// 아래에서 통과되는 블록들 체크 ex) 구름
-	if (RGB(0, 255, 0) == PixelColor)
+	if (Green == PixelColor)
 	{
 		IsSlope = false;
 		NextPos.y = std::round(NextPos.y);
@@ -139,8 +141,8 @@ void Fire::MoveCalculation(float _DeltaTime)
 		while (true)
 		{
 			NextPos.y -= 1;
-			PixelColor = ColMap->GetPixelColor(NextPos, RGB(0, 0, 0));
-			if (RGB(255, 255, 255) == PixelColor)
+			PixelColor = ColMap->GetPixelColor(NextPos, Black);
+			if (White == PixelColor)
 			{
 				SetPos(NextPos);
 				MoveDir.y = -JumpForce;
@@ -149,15 +151,15 @@ void Fire::MoveCalculation(float _DeltaTime)
 		}
 	}
 	// 비탈길 체크
-	else if (RGB(255, 0, 0) == PixelColor)
+	else if (Red == PixelColor)
 	{
 		bool Check = false;
 		float4 SlopePos = NextPos;
 		SlopePos.x += 5;
 		SlopePos.y -= 5;
-		PixelColor = ColMap->GetPixelColor(SlopePos, RGB(0, 0, 0));
+		PixelColor = ColMap->GetPixelColor(SlopePos, Black);
 		// 경사로가 오른쪽
-		if (RGB(255, 0, 0) == PixelColor)
+		if (Red == PixelColor)
 		{
 			if (0 < MoveDir.x)
 			{
@@ -181,8 +183,8 @@ void Fire::MoveCalculation(float _DeltaTime)
 			while (true)
 			{
 				NextPos.y -= 1;
-				PixelColor = ColMap->GetPixelColor(NextPos, RGB(0, 0, 0));
-				if (RGB(255, 255, 255) == PixelColor)
+				PixelColor = ColMap->GetPixelColor(NextPos, Black);
+				if (White == PixelColor)
 				{
 					SetPos(NextPos);
 					MoveDir.y = -SlopeJumpForce;
@@ -192,7 +194,44 @@ void Fire::MoveCalculation(float _DeltaTime)
 			NextPos.x += 1;
 		}
 	}
-	
+	// 블록 체크
+	std::vector<GameEngineCollision*> Collisions;
+	CollisionCheckParameter Check = { .TargetGroup = static_cast<int>(CollisionOrder::Block), .TargetColType = CT_Rect, .ThisColType = CT_Rect };
+	if (true == BodyCollision->Collision(Check, Collisions))
+	{
+		bool IsHeading = false;
+		std::vector<GameEngineCollision*>::iterator Start = Collisions.begin();
+		std::vector<GameEngineCollision*>::iterator End = Collisions.end();
+		for (; Start != End; Start++)
+		{
+			Block* ColActor = (*Start)->GetOwner<Block>();
+			if (true == ColActor->GetIsRoll())
+			{
+				continue;
+			}
+			// 내 위치가 블록보다 위에 있는 경우
+			if (GetPos().y < ColActor->GetPos().y - 60)
+			{
+				MoveDir.y = -JumpForce;
+				break;
+			}
+			// 내 위치가 블록 밑에 있는 경우
+			else if (GetPos().y > ColActor->GetPos().y + 60)
+			{
+				Particle::CreateParticle(GetLevel(), GetPos(), "SMOKE1");
+				Death();
+				return;
+			}
+			// 그 외 경우 (벽에 부딫힘)
+			else
+			{
+				Particle::CreateParticle(GetLevel(), GetPos(), "SMOKE1");
+				Death();
+				return;
+			}
+		}
+	}
+
 	SetMove(MoveDir * _DeltaTime);
 }
 

@@ -1,6 +1,5 @@
 #pragma once
 #include "StageLevel.h"
-
 class StageLevel1 : public StageLevel
 {
 public:

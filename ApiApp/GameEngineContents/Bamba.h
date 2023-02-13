@@ -17,7 +17,7 @@ protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 	void Render(float _DeltaTime) override;
-
+	void Turn();
 private:
 
 	GameEngineRender* AnimationRender = nullptr;
@@ -27,7 +27,6 @@ private:
 	const float GravityMax = 1000;
 	const float GravityAcceleration = 2000;
 
-	GameEngineCollision* Collision = nullptr;
 	GameEngineImage* ColMap = nullptr;
 	float4 MoveDir = float4::Zero;
 	float DirValue = -1;
