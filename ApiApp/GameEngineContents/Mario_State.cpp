@@ -14,11 +14,16 @@ void Mario::ChangeState(MarioState _State)
 {
 	MarioState NextState = _State;
 	MarioState PrevState = StateValue;
-
 	StateValue = _State;
+
 	if (MarioState::CHANGEPOWER == StateValue)
 	{
 		ChangePowerStart(PrevState);
+		return;
+	}
+	if (MarioState::GameOver == StateValue)
+	{
+		GameOverStart();
 		return;
 	}
 	switch (StateValue)
@@ -727,6 +732,10 @@ void Mario::JumpStart()
 
 void Mario::JumpUpdate(float _DeltaTime)
 {
+	if (GameEngineInput::IsUp("Jump"))
+	{
+		JumpTimeCounter = 0;
+	}
 	// 점프 키를 입력한 경우
 	if (GameEngineInput::IsPress("Jump"))
 	{
@@ -845,6 +854,10 @@ void Mario::SpinStart()
 
 void Mario::SpinUpdate(float _DeltaTime)
 {
+	if (GameEngineInput::IsUp("Spin"))
+	{
+		JumpTimeCounter = 0;
+	}
 	if (true == IsGrounded)
 	{
 		if (0 < std::abs(HorizontalForce))
@@ -1094,6 +1107,10 @@ void Mario::RunJumpStart()
 
 void Mario::RunJumpUpdate(float _DeltaTime)
 {
+	if (GameEngineInput::IsUp("Jump"))
+	{
+		JumpTimeCounter = 0;
+	}
 	if (true == IsGrounded)
 	{
 		if ((Dir::Right == DirValue && 0.5f < HorizontalForce) || (Dir::Left == DirValue && -0.5f > HorizontalForce))
@@ -1535,7 +1552,7 @@ void Mario::GameOverStart()
 {
 	AnimationRender->ChangeAnimation("GameOver1");
 	Timer = 0;
-	MoveDir.y = 0;
+	MoveDir = float4::Zero;
 	dynamic_cast<StageLevel*>(GetLevel())->GetBGMPlayer().Stop();
 	GameEngineResources::GetInst().SoundPlay("PlayerDown.mp3");
 }

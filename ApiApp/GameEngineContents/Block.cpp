@@ -1,8 +1,8 @@
 #include "Block.h"
-#include <GameEngineCore/GameEngineRender.h>
-#include <GameEngineCore/GameEngineCollision.h>
 #include <GameEngineCore/GameEngineResources.h>
-#include "ContentsEnums.h"
+#include "Particle.h"
+#include "EnemyActor.h"
+#include "ItemActor.h"
 
 Block::Block() {
 
@@ -12,60 +12,79 @@ Block::~Block() {
 
 }
 
-void Block::Damage()
+bool Block::Damage()
 {
 	GameEngineResources::GetInst().SoundPlay("breakblock.wav");
+	Particle::CreateParticle(GetLevel(), GetPos(), {32, 32}, "Blockdebrits");
 	Death();
+	return true;
 }
 
-void Block::Roll()
+void Block::Hit()
 {
-	
-	IsRoll = true;
-	RollTimer = RollTime;
+	IsHit = true;
+	HitTimer = HitTime * 2;
+
+	std::vector<GameEngineCollision*> Collisions;
+	CollisionCheckParameter Check = { .TargetGroup = static_cast<int>(CollisionOrder::Monster), .TargetColType = CT_Rect,  .ThisColType = CT_Rect };
+	if (true == HitCollision->Collision(Check, Collisions))
+	{
+		std::vector<GameEngineCollision*>::iterator Start = Collisions.begin();
+		std::vector<GameEngineCollision*>::iterator End = Collisions.end();
+		for (; Start != End; Start++)
+		{
+			EnemyActor* ColActor = (*Start)->GetOwner<EnemyActor>();
+			ColActor->BlockHit();
+		}
+	}
+	Check = { .TargetGroup = static_cast<int>(CollisionOrder::Item), .TargetColType = CT_Rect,  .ThisColType = CT_Rect };
+	if (true == HitCollision->Collision(Check, Collisions))
+	{
+		std::vector<GameEngineCollision*>::iterator Start = Collisions.begin();
+		std::vector<GameEngineCollision*>::iterator End = Collisions.end();
+		for (; Start != End; Start++)
+		{
+			ItemActor* ColActor = (*Start)->GetOwner<ItemActor>();
+			ColActor->BlockHit();
+		}
+	}
 }
 
 void Block::Start()
 {
-	// 兄希 持失
-	{
-		AnimationRender = CreateRender(RenderOrder::Block);
-		AnimationRender->SetScale({ 64, 64 });
-		AnimationRender->SetPosition({ 0, -31 });
-		AnimationRender->CreateAnimation({ .AnimationName = "Defalut", .ImageName = "BLOCK.BMP", .Start = 3, .End = 3, });
-		AnimationRender->CreateAnimation({ .AnimationName = "TRUN", .ImageName = "BLOCK.BMP", .Start = 0, .End = 3, .InterTime = 0.13f });
-		AnimationRender->ChangeAnimation("Defalut");
-	}
 	// Collision 持失
 	{
-		BodyCollision = CreateCollision(CollisionOrder::Block);
-		BodyCollision->SetScale({ 50, 64 });
-		BodyCollision->SetPosition({ 0, -31 });
-		BodyCollision->SetDebugRenderType(CollisionType::CT_Rect);
+		Collision = CreateCollision(CollisionOrder::Block);
+		Collision->SetScale(CollisionScale);
+		Collision->SetPosition(CollisionPos);
+		Collision->SetDebugRenderType(CollisionType::CT_Rect);
+
+		HitCollision = CreateCollision(CollisionOrder::Check);
+		HitCollision->SetScale(HitCollisionScale);
+		HitCollision->SetPosition(HitCollisionPos);
+		HitCollision->SetDebugRenderType(CollisionType::CT_Rect);
 	}
 }
 
 void Block::Update(float _DeltaTime)
 {
-	if (true == IsRoll)
+	if (true == IsHit)
 	{
-		RollTimer -= _DeltaTime;
-		if (0 > RollTimer)
+		HitTimer -= _DeltaTime;
+		if (0 > HitTimer)
 		{
-			IsRoll = false;
-			AnimationRender->ChangeAnimation("Defalut");
+			IsHit = false;
+			AnimationRender->SetPosition(RenderPos);
+			HitAnimEnd();
 			return;
 		}
-		if (RollTime - 0.05f < RollTimer)
+		else if (HitTime > HitTimer)
 		{
-			AnimationRender->SetMove(float4::Up * UpSpeed * _DeltaTime);
+			AnimationRender->SetMove(float4::Down * HitAnimSpeed * _DeltaTime);
 		}
-		else if (RollTime - 0.1f < RollTimer)
+		else
 		{
-			AnimationRender->SetMove(float4::Down * UpSpeed * _DeltaTime);
-		}
-		else {
-			AnimationRender->ChangeAnimation("TRUN");
+			AnimationRender->SetMove(float4::Up * HitAnimSpeed * _DeltaTime);
 		}
 	}
 	
@@ -74,4 +93,5 @@ void Block::Update(float _DeltaTime)
 void Block::Render(float _DeltaTime)
 {
 	//BodyCollision->DebugRender();
+	//HitCollision->DebugRender();
 }

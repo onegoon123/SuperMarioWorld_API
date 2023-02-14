@@ -1,7 +1,6 @@
 #include "FireFlower.h"
 #include <GameEngineCore/GameEngineRender.h>
 #include "Mario.h"
-#include "ContentsEnums.h"
 FireFlower::FireFlower() {
 
 }

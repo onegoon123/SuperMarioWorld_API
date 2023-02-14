@@ -7,7 +7,9 @@
 #include "Bamba.h"
 #include "SuperMushroom.h"
 #include "FireFlower.h"
-#include "Block.h"
+#include "TurnBlock.h"
+#include "UIManager.h"
+#include "QuestionBlock.h"
 
 StageLevel1::StageLevel1() {
 
@@ -41,6 +43,9 @@ void StageLevel1::Loading()
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("SKIDDUST.BMP"))->Cut(4, 1);
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("KICK.BMP"))->Cut(3, 1);
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("BLOCK.BMP"))->Cut(4, 1);
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Blockdebrits.BMP"))->Cut(6, 1);
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("PLAYUI.BMP"));
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("QuestionBlock.BMP"))->Cut(5,1);
 
 	Dir.MoveParentToDirectory("ContentsResources");
 	Dir.Move("ContentsResources");
@@ -76,12 +81,27 @@ void StageLevel1::LevelChangeStart(GameEngineLevel* _PrevLevel)
 	Map* Map1 = CreateActor<Map>();
 	Map1->SetImage(BackGroundName, StageName, StageColName);
 	CreateActor<Mario>();
-	Map1->AddStartPos({ 350 , 1534 });
+	CreateActor<UIManager>();
+	Map1->AddStartPos(GridPos(5,0));
 	Map1->MoveMap(0);
 	SetCameraMove({ 0, 790 });
-	CreateActor<Block>()->SetPos(GridPos(0, 0));
-	CreateActor<Block>()->SetPos(GridPos(1, 0));
-	CreateActor<Block>()->SetPos(GridPos(2, 0));
-	CreateActor<Block>()->SetPos(GridPos(3, 0));
-	CreateActor<Bamba>()->SetPos(GridPos(0, -1));
+	CreateActor<TurnBlock>()->SetPos(GridPos(3, 5));
+	CreateActor<SuperMushroom>()->SetPos(GridPos(3, 1));
+	CreateActor<Bamba>()->SetPos(GridPos(7, 5));
+	CreateActor<TurnBlock>()->SetPos(GridPos(5, 4));
+	CreateActor<TurnBlock>()->SetPos(GridPos(5, 5));
+	CreateActor<TurnBlock>()->SetPos(GridPos(6, 4));
+	CreateActor<TurnBlock>()->SetPos(GridPos(7, 4));
+	CreateActor<TurnBlock>()->SetPos(GridPos(8, 4));
+	CreateActor<TurnBlock>()->SetPos(GridPos(9, 4));
+	CreateActor<TurnBlock>()->SetPos(GridPos(9, 5));
+	//CreateActor<SuperMushroom>()->SetPos(GridPos(8, 0));
+	CreateActor<TurnBlock>()->SetPos(GridPos(10, 0));
+	CreateActor<TurnBlock>()->SetPos(GridPos(10, 1));
+	CreateActor<TurnBlock>()->SetPos(GridPos(11, 1));
+	QuestionBlock* ItemBox = CreateActor<QuestionBlock>();
+	ItemBox->SetPos(GridPos(12, 1));
+	ItemBox->SetItem(ItemType::SuperMushroom);
+	CreateActor<TurnBlock>()->SetPos(GridPos(13, 1));
+	CreateActor<TurnBlock>()->SetPos(GridPos(14, 1));
 }

@@ -263,10 +263,15 @@ void Mario::Start()
 	
 	// Collision 생성
 	{
-		BodyCollision = CreateCollision(CollisionOrder::Player);
-		BodyCollision->SetScale(CollisionScale);
-		BodyCollision->SetPosition(CollisionPos);
-		BodyCollision->SetDebugRenderType(CollisionType::CT_Rect);
+		Collision = CreateCollision(CollisionOrder::Player);
+		Collision->SetScale(CollisionScale);
+		Collision->SetPosition(CollisionPos);
+		Collision->SetDebugRenderType(CollisionType::CT_Rect);
+		
+		FootCollision = CreateCollision(CollisionOrder::Check);
+		FootCollision->SetScale(FootCollisionScale);
+		FootCollision->SetPosition(FootCollisionPos);
+		FootCollision->SetDebugRenderType(CollisionType::CT_Rect);
 	}
 }
 
@@ -287,6 +292,7 @@ void Mario::Update(float _DeltaTime)
 		return;
 	}
 	CheckCollision();
+	BlockCheck();
 	MoveCalculation(_DeltaTime);
 	float4 CameraPos = GetPos();
 	CameraPos.x -= 350;
@@ -358,6 +364,7 @@ void Mario::ChangeAnimation(const std::string_view& _AnimationName)
 
 void Mario::MoveCalculation(float _DeltaTime)
 {
+	if (MarioState::GameOver == StateValue) { return; }
 	// 밑의 위치
 	float4 DownPos = GetPos() + float4::Down * 10; 
 	// 앞의 위치
@@ -648,7 +655,7 @@ void Mario::GetDamaged()
 	switch (MarioPower)
 	{
 	case PowerState::Normal:
-		GameOver();		// Normal일 경우 게임오버 함수 실행후 리턴
+		ChangeState(MarioState::GameOver);
 		return;
 	case PowerState::Super:
 		MarioPower = PowerState::Normal;
@@ -719,7 +726,7 @@ void Mario::CheckCollision()
 	std::vector<GameEngineCollision*> Collisions;
 	// 몬스터 체크
 	CollisionCheckParameter Check = { .TargetGroup = static_cast<int>(CollisionOrder::Monster), .TargetColType = CT_Rect, .ThisColType = CT_Rect };
-	if (true == BodyCollision->Collision(Check, Collisions))
+	if (true == Collision->Collision(Check, Collisions))
 	{
 		GameEngineActor* ColActor = Collisions[0]->GetActor();
 		//ColActor->GetOwner<Mario>(); 전환 방식
@@ -760,93 +767,102 @@ void Mario::CheckCollision()
 			IsInvincibility = true;
 		}
 	}
+}
 
-	// 블록 체크
-	Check = { .TargetGroup = static_cast<int>(CollisionOrder::Block), .TargetColType = CT_Rect, .ThisColType = CT_Rect };
-	if (true == BodyCollision->Collision(Check, Collisions))
+void Mario::BlockCheck()
+{
+	std::vector<GameEngineCollision*> Collisions;
+	CollisionCheckParameter Check = { .TargetGroup = static_cast<int>(CollisionOrder::Block), .TargetColType = CT_Rect, .ThisColType = CT_Rect };
+	if (true == FootCollision->Collision(Check, Collisions))
 	{
-		bool IsHeading = false;
 		std::vector<GameEngineCollision*>::iterator Start = Collisions.begin();
 		std::vector<GameEngineCollision*>::iterator End = Collisions.end();
+		bool IsHeading = false;
+		bool IsReJump = false;
+		float4 Pos = GetPos();
 		for (; Start != End; Start++)
 		{
-			Block* ColActor = (*Start)->GetOwner<Block>();
-			if (true == ColActor->GetIsRoll())
+			Block* ColBlock = (*Start)->GetOwner<Block>();
+			if (true == ColBlock->GetIsRoll())
 			{
 				continue;
 			}
-			// 플레이어가 블록보다 위에 있는 경우
-			if (GetPos().y < ColActor->GetPos().y - BlockYSize)
+			float4 ColPos = ColBlock->GetPos();
+			// 엑터가 블록위에 서있다
+			if (Pos.y < ColPos.y - BlockYSize)
 			{
-				if (0 > MoveDir.y)
+				if (0 >= MoveDir.y)
 				{
 					continue;
 				}
+				// 파워업 상태에서 스핀으로 착지시
 				if (MarioState::SPIN == StateValue && PowerState::Normal != MarioPower)
 				{
-					ColActor->Damage();
-					MoveDir.y = 0;
-					IsGrounded = false;
-					JumpTimeCounter = JumpTime;
-					MoveDir += float4::Up * JumpForce;
-					continue;
+					// 블록 파괴 및 다시 점프
+					if (true == ColBlock->Damage())
+					{
+						IsReJump = true;
+						continue;
+					}
 				}
+				// 그 외에 경우 블록위로 착지
 				IsSlope = false;
 				IsGrounded = true;
 				IsOnBlock = true;
 				float4 Pos = GetPos();
-				Pos.y = ColActor->GetPos().y - BlockOnPos;
+				Pos.y = ColPos.y - BlockOnPos;
 				Pos.y = std::round(Pos.y);
 				SetPos(Pos);
 				MoveDir.y = 0.0f;
 				continue;
 			}
-			else if (GetPos().y > ColActor->GetPos().y + BlockYSize)
+			else if (Pos.y > ColPos.y + BlockYSize)
 			{
-				if (0 < MoveDir.y)
+				if (0 <= MoveDir.y)
 				{
 					continue;
 				}
 				IsHeading = true;
-				ColActor->Roll();
-				continue;
+				ColBlock->Hit();
+				
 			}
-			// 그 외 경우
-			else
+			else if (Pos.x + FootCollisionScale.hx() < ColPos.x - BlockXSize)
 			{
-				if (GetPos().x < ColActor->GetPos().x)
-				{
-					float4 Pos = GetPos();
-					Pos.x = ColActor->GetPos().x - BlockSidePos;
-					Pos.x = std::round(Pos.x);
+				float4 Pos = GetPos();
+				Pos.x = ColPos.x - BlockXSize - FootCollisionScale.hx() - 2;
+				Pos.x = std::round(Pos.x);
 
-					SetPos(Pos);
-					if (true == IsGrounded)
-					{
-						ChangeState(MarioState::IDLE);
-					}
-					HorizontalForce = 0;
-					MoveDir.x = 0;
-				}
-				else if (GetPos().x > ColActor->GetPos().x)
+				SetPos(Pos);
+				if (true == IsGrounded)
 				{
-					float4 Pos = GetPos();
-					Pos.x = ColActor->GetPos().x + BlockSidePos;
-					Pos.x = std::round(Pos.x);
-
-					SetPos(Pos);
-					if (true == IsGrounded)
-					{
-						ChangeState(MarioState::IDLE);
-					}
-					HorizontalForce = 0;
-					MoveDir.x = 0;
+					ChangeState(MarioState::IDLE);
 				}
+				HorizontalForce = 0;
+				MoveDir.x = 0;
+			}
+			else if (ColPos.x + BlockXSize < Pos.x - FootCollisionScale.hx())
+			{
+				float4 Pos = GetPos();
+				Pos.x = ColPos.x + BlockXSize + FootCollisionScale.hx() + 2;
+				Pos.x = std::round(Pos.x);
+
+				SetPos(Pos);
+				if (true == IsGrounded)
+				{
+					ChangeState(MarioState::IDLE);
+				}
+				HorizontalForce = 0;
+				MoveDir.x = 0;
 			}
 		}
-
-		if (true == IsHeading)
+		if (true == IsReJump)
 		{
+			IsGrounded = false;
+			JumpTimeCounter = JumpTime;
+			MoveDir.y = 0;
+			MoveDir.y -= JumpForce;
+		}
+		if (true == IsHeading) {
 			GameEngineResources::GetInst().SoundPlay("bump.wav");
 			MoveDir.y = HeadingReaction;
 		}
@@ -858,8 +874,8 @@ void Mario::CheckCollision()
 	}
 }
 
-
 void Mario::Render(float _DeltaTime)
 { 
 	//BodyCollision->DebugRender();
+	//FootCollision->DebugRender();
 }

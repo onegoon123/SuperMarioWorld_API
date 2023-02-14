@@ -81,8 +81,10 @@ private:
 	const float4 FireCreatePos = { 30, 40 };// 불꽃 생성시 위치 (오른쪽 기준)
 	const float4 RenderScale={192,192};		// 렌더 크기
 	const float4 RenderPos = { 0, -56 };	// 렌더 위치
-	const float4 CollisionScale ={ 52, 72 };// 충돌체 크기
-	const float4 CollisionPos = { 0, -36 };	// 충돌체 위치 
+	const float4 CollisionScale ={ 52, 64 };// 충돌체 크기
+	const float4 CollisionPos = { 0, -32 };	// 충돌체 위치 
+	const float4 FootCollisionScale ={ 24, 60 };// 충돌체 크기
+	const float4 FootCollisionPos = { 0, -30 };	// 충돌체 위치 
 
 	
 
@@ -115,7 +117,8 @@ private:
 	GameEngineRender* AnimationRender = nullptr;
 	std::string_view BeforeAnim = "";
 	GameEngineImage* ColMap = nullptr;
-	GameEngineCollision* BodyCollision = nullptr;
+	GameEngineCollision* Collision = nullptr;
+	GameEngineCollision* FootCollision = nullptr;
 
 #pragma region __________ State 관련 함수 _________
 	void ChangeState(MarioState _State);
@@ -177,6 +180,7 @@ private:
 
 #pragma region __________ 충돌 관련 함수 __________
 	void CheckCollision();
+	void BlockCheck();
 #pragma endregion
 
 
@@ -194,9 +198,6 @@ private:
 	// 부딪혀서 대미지를 받는 경우 실행되는 함수
 	void GetDamaged();
 	// 추락하거나 Normal 상태에서 대미지를 받을 경우 실행되는 게임오버 함수
-	void GameOver() {
-		ChangeState(MarioState::GameOver);
-	}
 
 #pragma endregion
 

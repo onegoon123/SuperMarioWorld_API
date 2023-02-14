@@ -1,7 +1,6 @@
 #pragma once
-#include <GameEngineCore/GameEngineActor.h>
-#include <GameEngineCore/GameEngineCollision.h>
-class FireFlower : public GameEngineActor
+#include "ItemActor.h"
+class FireFlower : public ItemActor
 {
 public:
 	FireFlower();

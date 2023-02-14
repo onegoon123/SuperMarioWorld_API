@@ -13,14 +13,15 @@ enum class RenderOrder
 	BackGround,
 	Map,
 	Block,
+	Item,
 	Monster,
 	Player,
-	Item,
 	ForeGround,
 	UI
 };
 enum class CollisionOrder
 {
+	Check,
 	Player,
 	Block,
 	Item,

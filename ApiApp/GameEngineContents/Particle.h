@@ -6,6 +6,7 @@ class Particle : public GameEngineActor
 {
 public:
 	static void CreateParticle(GameEngineLevel* _Level , const float4& _Pos, const std::string_view& _Anim);
+	static void CreateParticle(GameEngineLevel* _Level , const float4& _Pos, const float4& _Scale, const std::string_view& _Anim);
 	Particle();
 	~Particle();
 
@@ -15,6 +16,10 @@ public:
 		{
 			AnimationRender->ChangeAnimation(_Str);
 		}
+	}
+	void SetScale(const float4& _Scale)
+	{
+		AnimationRender->SetScale(_Scale);
 	}
 
 	Particle(const Particle& _Other) = delete;

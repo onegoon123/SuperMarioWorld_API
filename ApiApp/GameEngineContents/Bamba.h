@@ -1,12 +1,13 @@
 #pragma once
-#include <GameEngineCore/GameEngineActor.h>
-#include <GameEngineCore/GameEngineCollision.h>
+#include "EnemyActor.h"
 class GameEngineImage;
-class Bamba : public GameEngineActor
+class Bamba : public EnemyActor
 {
 public:
 	Bamba();
 	~Bamba();
+
+	void BlockHit() override;
 
 	Bamba(const Bamba& _Other) = delete;
 	Bamba(Bamba&& _Other) noexcept = delete;
@@ -17,18 +18,12 @@ protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 	void Render(float _DeltaTime) override;
-	void Turn();
+	void Turn() override;
+	void TurnLeft() override;
+	void TurnRight() override;
+
 private:
-
 	GameEngineRender* AnimationRender = nullptr;
-	GameEngineCollision* BodyCollision = nullptr;
-
-	const float Speed = 100;
-	const float GravityMax = 1000;
-	const float GravityAcceleration = 2000;
-
-	GameEngineImage* ColMap = nullptr;
-	float4 MoveDir = float4::Zero;
-	float DirValue = -1;
+	GameEngineCollision* Collision = nullptr;
 };
 

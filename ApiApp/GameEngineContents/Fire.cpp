@@ -33,10 +33,10 @@ void Fire::Start()
 
 	// Collision 생성
 	{
-		BodyCollision = CreateCollision(CollisionOrder::PlayerAttack);
-		BodyCollision->SetScale({ 32, 32 });
-		BodyCollision->SetPosition({ 0, 0 });
-		BodyCollision->SetDebugRenderType(CollisionType::CT_Rect);
+		Collision = CreateCollision(CollisionOrder::PlayerAttack);
+		Collision->SetScale({ 32, 32 });
+		Collision->SetPosition({ 0, 0 });
+		Collision->SetDebugRenderType(CollisionType::CT_Rect);
 	}
 }
 
@@ -61,7 +61,7 @@ void Fire::Update(float _DeltaTime)
 	// 적이 공격을 받았는지 체크
 	std::vector<GameEngineCollision*> Collisions;
 	CollisionCheckParameter Check = { .TargetGroup = static_cast<int>(CollisionOrder::Monster), .TargetColType = CT_Rect, .ThisColType = CT_Rect };
-	if (true == BodyCollision->Collision(Check, Collisions))
+	if (true == Collision->Collision(Check, Collisions))
 	{
 		Collisions[0]->GetActor()->Death();
 		Particle::CreateParticle(GetLevel(), GetPos(), "SMOKE1");
@@ -197,7 +197,7 @@ void Fire::MoveCalculation(float _DeltaTime)
 	// 블록 체크
 	std::vector<GameEngineCollision*> Collisions;
 	CollisionCheckParameter Check = { .TargetGroup = static_cast<int>(CollisionOrder::Block), .TargetColType = CT_Rect, .ThisColType = CT_Rect };
-	if (true == BodyCollision->Collision(Check, Collisions))
+	if (true == Collision->Collision(Check, Collisions))
 	{
 		bool IsHeading = false;
 		std::vector<GameEngineCollision*>::iterator Start = Collisions.begin();

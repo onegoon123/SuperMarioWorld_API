@@ -12,47 +12,62 @@
     <ClInclude Include="WorldLevel.h">
       <Filter>World</Filter>
     </ClInclude>
-    <ClInclude Include="Map.h">
-      <Filter>Play</Filter>
-    </ClInclude>
     <ClInclude Include="WorldImage.h">
       <Filter>World</Filter>
     </ClInclude>
     <ClInclude Include="StageLevel1.h">
-      <Filter>Play\StageLevel</Filter>
+      <Filter>Play\Stage</Filter>
     </ClInclude>
     <ClInclude Include="StageLevel2.h">
-      <Filter>Play\StageLevel</Filter>
+      <Filter>Play\Stage</Filter>
     </ClInclude>
     <ClInclude Include="StageLevel3.h">
-      <Filter>Play\StageLevel</Filter>
+      <Filter>Play\Stage</Filter>
     </ClInclude>
     <ClInclude Include="StageLevel4.h">
-      <Filter>Play\StageLevel</Filter>
-    </ClInclude>
-    <ClInclude Include="SuperMushroom.h">
-      <Filter>Play\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Bamba.h">
-      <Filter>Play\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Fire.h">
-      <Filter>Play\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="FireFlower.h">
-      <Filter>Play\Object</Filter>
+      <Filter>Play\Stage</Filter>
     </ClInclude>
     <ClInclude Include="StageLevel.h">
-      <Filter>Play\StageLevel</Filter>
+      <Filter>Play\Stage</Filter>
     </ClInclude>
-    <ClInclude Include="Particle.h">
-      <Filter>Play\Object</Filter>
+    <ClInclude Include="UIManager.h">
+      <Filter>Play\UI</Filter>
     </ClInclude>
     <ClInclude Include="Block.h">
-      <Filter>Play\Object</Filter>
+      <Filter>Play\Object\Block</Filter>
+    </ClInclude>
+    <ClInclude Include="TurnBlock.h">
+      <Filter>Play\Object\Block</Filter>
+    </ClInclude>
+    <ClInclude Include="QuestionBlock.h">
+      <Filter>Play\Object\Block</Filter>
+    </ClInclude>
+    <ClInclude Include="Bamba.h">
+      <Filter>Play\Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Fire.h">
+      <Filter>Play\Object\Player</Filter>
     </ClInclude>
     <ClInclude Include="Mario.h">
-      <Filter>Play\Object</Filter>
+      <Filter>Play\Object\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="FireFlower.h">
+      <Filter>Play\Object\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="SuperMushroom.h">
+      <Filter>Play\Object\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyActor.h">
+      <Filter>Play\Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>Play\Object\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>Play\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemActor.h">
+      <Filter>Play\Object\Item</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -66,50 +81,65 @@
     <ClCompile Include="WorldLevel.cpp">
       <Filter>World</Filter>
     </ClCompile>
-    <ClCompile Include="Map.cpp">
-      <Filter>Play</Filter>
-    </ClCompile>
     <ClCompile Include="WorldImage.cpp">
       <Filter>World</Filter>
     </ClCompile>
     <ClCompile Include="StageLevel1.cpp">
-      <Filter>Play\StageLevel</Filter>
+      <Filter>Play\Stage</Filter>
     </ClCompile>
     <ClCompile Include="StageLevel2.cpp">
-      <Filter>Play\StageLevel</Filter>
+      <Filter>Play\Stage</Filter>
     </ClCompile>
     <ClCompile Include="StageLevel3.cpp">
-      <Filter>Play\StageLevel</Filter>
+      <Filter>Play\Stage</Filter>
     </ClCompile>
     <ClCompile Include="StageLevel4.cpp">
-      <Filter>Play\StageLevel</Filter>
-    </ClCompile>
-    <ClCompile Include="SuperMushroom.cpp">
-      <Filter>Play\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Bamba.cpp">
-      <Filter>Play\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Fire.cpp">
-      <Filter>Play\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="FireFlower.cpp">
-      <Filter>Play\Object</Filter>
+      <Filter>Play\Stage</Filter>
     </ClCompile>
     <ClCompile Include="StageLevel.cpp">
-      <Filter>Play\StageLevel</Filter>
+      <Filter>Play\Stage</Filter>
     </ClCompile>
-    <ClCompile Include="Particle.cpp">
-      <Filter>Play\Object</Filter>
+    <ClCompile Include="UIManager.cpp">
+      <Filter>Play\UI</Filter>
     </ClCompile>
     <ClCompile Include="Block.cpp">
-      <Filter>Play\Object</Filter>
+      <Filter>Play\Object\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="TurnBlock.cpp">
+      <Filter>Play\Object\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="QuestionBlock.cpp">
+      <Filter>Play\Object\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="Bamba.cpp">
+      <Filter>Play\Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Fire.cpp">
+      <Filter>Play\Object\Player</Filter>
     </ClCompile>
     <ClCompile Include="Mario.cpp">
-      <Filter>Play\Object</Filter>
+      <Filter>Play\Object\Player</Filter>
     </ClCompile>
     <ClCompile Include="Mario_State.cpp">
-      <Filter>Play\Object</Filter>
+      <Filter>Play\Object\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="FireFlower.cpp">
+      <Filter>Play\Object\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="SuperMushroom.cpp">
+      <Filter>Play\Object\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyActor.cpp">
+      <Filter>Play\Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle.cpp">
+      <Filter>Play\Object\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>Play\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemActor.cpp">
+      <Filter>Play\Object\Item</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -122,11 +152,26 @@
     <Filter Include="World">
       <UniqueIdentifier>{5f8849a8-7bce-4566-9912-577723eb10b0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Play\StageLevel">
-      <UniqueIdentifier>{a525159b-9e75-47cf-9ddf-7ec7a483248a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Play\Object">
       <UniqueIdentifier>{e8787bf4-8292-4a0c-972b-a6b7230905c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Play\UI">
+      <UniqueIdentifier>{39f7f389-117b-40e2-ac16-3afe2baee0ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Play\Object\Block">
+      <UniqueIdentifier>{e5ead905-d273-47c0-95ee-fa9ce0d71229}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Play\Object\Enemy">
+      <UniqueIdentifier>{fe9f2abf-90d4-49b9-9f94-5f359c2fb891}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Play\Object\Player">
+      <UniqueIdentifier>{c6754377-a731-4da5-8116-0a3870a0b6ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Play\Object\Item">
+      <UniqueIdentifier>{c1dfcdd0-bed0-4e36-a450-b8074ec9b5da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Play\Stage">
+      <UniqueIdentifier>{a525159b-9e75-47cf-9ddf-7ec7a483248a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -30,7 +30,7 @@ protected:
 private:
 
 	GameEngineRender* AnimationRender = nullptr;
-	GameEngineCollision* BodyCollision = nullptr;
+	GameEngineCollision* Collision = nullptr;
 	GameEngineImage* ColMap = nullptr;
 
 	static int Num;

@@ -36,6 +36,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="ItemActor.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Map.h">
       <SubType>
       </SubType>
@@ -48,7 +52,15 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="EnemyActor.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Particle.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="QuestionBlock.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -73,6 +85,14 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="SuperMushroom.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="TurnBlock.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="UIManager.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -110,6 +130,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="ItemActor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Map.cpp">
       <SubType>
       </SubType>
@@ -123,7 +147,15 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Mario_State.cpp" />
+    <ClCompile Include="EnemyActor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Particle.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="QuestionBlock.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -148,6 +180,14 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="SuperMushroom.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="TurnBlock.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="UIManager.cpp">
       <SubType>
       </SubType>
     </ClCompile>

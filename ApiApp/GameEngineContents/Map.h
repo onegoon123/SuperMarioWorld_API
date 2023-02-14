@@ -56,8 +56,9 @@ public:
 	{
 		IsBackAnim = true;
 	}
-	inline void AddStartPos(const float4& _Pos)
+	inline void AddStartPos(float4 _Pos)
 	{
+		_Pos.y -= 1;
 		StartPos.push_back(_Pos);
 	}
 

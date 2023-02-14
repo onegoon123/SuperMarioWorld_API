@@ -24,7 +24,7 @@ protected:
 
 	float4 GridPos(int x, int y)
 	{
-		return float4(static_cast<float>(x * 64 + 32), static_cast<float>((y + 24) * 64));
+		return float4(static_cast<float>(x * 64 + 32), static_cast<float>((-y + 24) * 64));
 	}
 
 	std::string_view BackGroundName = "";

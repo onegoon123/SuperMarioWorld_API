@@ -1,44 +1,42 @@
-#include "SuperMushroom.h"
-#include <GameEnginePlatform/GameEngineWindow.h>
+#include "EnemyActor.h"
 #include <GameEngineCore/GameEngineRender.h>
 #include <GameEngineCore/GameEngineResources.h>
-#include <GameEngineCore/GameEngineLevel.h>
-#include "Mario.h"
 #include "Map.h"
 #include "Block.h"
+#include "ContentsEnums.h"
 
-SuperMushroom::SuperMushroom() {
-}
-
-SuperMushroom::~SuperMushroom() {
+EnemyActor::EnemyActor() {
 
 }
 
-void SuperMushroom::BlockHit()
+EnemyActor::~EnemyActor() {
+
+}
+
+void EnemyActor::Start()
 {
-}
-
-void SuperMushroom::Start()
-{
-	ItemActor::Start();
-
 	Collision = CreateCollision(CollisionOrder::Check);
 	Collision->SetScale(CollisionScale);
-	MoveDir = DirValue * Speed;
-
-	GameEngineRender* Render = CreateRender(RenderOrder::Item);
-	Render->SetImage("SUPERMUSHROOM.BMP");
-	Render->SetScaleToImage();
-	Render->SetPosition({ 0, -30});
-
-	ThisItemType = ItemType::SuperMushroom;
 }
 
-void SuperMushroom::Update(float _DeltaTime)
+void EnemyActor::Update(float _DeltaTime)
 {
-	ItemActor::Update(_DeltaTime);
+	// 화면 밖으로 나갔는지 체크
+	float4 InCameraPos = GetPos() - GetLevel()->GetCameraPos();
+	if (0 > InCameraPos.x + 100)
+	{
+		OffCamera();
+	}
+	else if (GameEngineWindow::GetScreenSize().x < InCameraPos.x - 100)
+	{
+		OffCamera();
+	}
+	else
+	{
+		OnCamera();
+	}
 
-	if (false == GetIsOnCamera())
+	if (false == IsOnCamera)
 	{
 		return;
 	}
@@ -126,9 +124,9 @@ void SuperMushroom::Update(float _DeltaTime)
 				break;
 			}
 		}
-
+		
 	}
-
+	
 	// 블록 체크
 	std::vector<GameEngineCollision*> Collisions;
 	CollisionCheckParameter Check = { .TargetGroup = static_cast<int>(CollisionOrder::Block), .TargetColType = CT_Rect, .ThisColType = CT_Rect };
@@ -160,46 +158,49 @@ void SuperMushroom::Update(float _DeltaTime)
 			// 그 외 경우
 			else
 			{
-				if (GetPos().x < ColActor->GetPos().x)
-				{
-					TurnLeft();
-				}
-				else {
-					TurnRight();
-				}
+				Turn();
 			}
 		}
 	}
 
 	SetMove(MoveDir * _DeltaTime);
+
 }
 
-void SuperMushroom::LevelChangeStart(GameEngineLevel* _PrevLevel)
+void EnemyActor::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
 	ColMap = GameEngineResources::GetInst().ImageFind(Map::MainMap->GetStageColName());
 }
 
-void SuperMushroom::OffCamera()
+void EnemyActor::OffCamera()
 {
+	IsOnCamera = false;
 }
 
-void SuperMushroom::OnCamera()
+void EnemyActor::OnCamera()
 {
+	IsOnCamera = true;
 }
 
-void SuperMushroom::Turn()
+inline void EnemyActor::DirSetting(const float4& _DirValue)
+{
+	DirValue = _DirValue;
+	MoveDir = DirValue * Speed;
+}
+
+inline void EnemyActor::Turn()
 {
 	DirValue = -DirValue;
 	MoveDir = DirValue * Speed;
 }
 
-void SuperMushroom::TurnLeft()
+inline void EnemyActor::TurnLeft()
 {
 	DirValue = float4::Left;
 	MoveDir = DirValue * Speed;
 }
 
-void SuperMushroom::TurnRight()
+inline void EnemyActor::TurnRight()
 {
 	DirValue = float4::Right;
 	MoveDir = DirValue * Speed;
