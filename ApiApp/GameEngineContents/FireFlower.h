@@ -5,7 +5,8 @@ class FireFlower : public ItemActor
 public:
 	FireFlower();
 	~FireFlower();
-
+	void OffCamera() override {};
+	void OnCamera() override {};
 	FireFlower(const FireFlower& _Other) = delete;
 	FireFlower(FireFlower&& _Other) noexcept = delete;
 	FireFlower& operator=(const FireFlower& _Other) = delete;
@@ -17,5 +18,6 @@ protected:
 private:
 
 	GameEngineCollision* Collision = nullptr;
+	const float4 CollisionScale = { 16, 16 };
 };
 

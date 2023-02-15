@@ -39,5 +39,5 @@ void QuestionBlock::Start()
 void QuestionBlock::HitAnimEnd()
 {
 	AnimationRender->ChangeAnimation("EMPTY");
-	ItemActor->On();
+	ItemActor->BlockOut();
 }

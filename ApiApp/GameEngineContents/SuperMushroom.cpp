@@ -26,10 +26,10 @@ void SuperMushroom::Start()
 	Collision->SetScale(CollisionScale);
 	MoveDir = DirValue * Speed;
 
-	GameEngineRender* Render = CreateRender(RenderOrder::Item);
-	Render->SetImage("SUPERMUSHROOM.BMP");
-	Render->SetScaleToImage();
-	Render->SetPosition({ 0, -30});
+	ItemRender = CreateRender(RenderOrder::Item);
+	ItemRender->SetImage("SUPERMUSHROOM.BMP");
+	ItemRender->SetScaleToImage();
+	ItemRender->SetPosition({ 0, -30});
 
 	ThisItemType = ItemType::SuperMushroom;
 }

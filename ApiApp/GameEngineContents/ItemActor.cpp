@@ -11,17 +11,39 @@ ItemActor::~ItemActor() {
 
 }
 
+void ItemActor::BlockOut()
+{
+	On();
+	IsBlockOut = true;
+	Timer = BlockOutTime;
+	ItemRender->SetOrder(static_cast<int>(RenderOrder::Map));
+}
+
 void ItemActor::Start()
 {
 	Collision = CreateCollision(CollisionOrder::Item);
 	Collision->SetScale(CollisionScale);
 	Collision->SetPosition(CollisionPos);
 	Collision->SetDebugRenderType(CT_Rect);
+
 }
 
 
 void ItemActor::Update(float _DeltaTime)
 {
+
+	if (true == IsBlockOut)
+	{
+		Timer -= _DeltaTime;
+		SetMove(float4::Up * 128 * _DeltaTime);
+		if (0 > Timer)
+		{
+			IsBlockOut = false;
+			ItemRender->SetOrder(static_cast<int>(RenderOrder::Item));
+		}
+		return;
+	}
+
 	// 화면 밖으로 나갔는지 체크
 	float4 InCameraPos = GetPos() - GetLevel()->GetCameraPos();
 	if (0 > InCameraPos.x + 100)
@@ -57,5 +79,5 @@ void ItemActor::Update(float _DeltaTime)
 
 void ItemActor::Render(float _DeltaTime)
 {
-	Collision->DebugRender();
+	//Collision->DebugRender();
 }

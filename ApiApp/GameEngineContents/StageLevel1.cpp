@@ -86,7 +86,6 @@ void StageLevel1::LevelChangeStart(GameEngineLevel* _PrevLevel)
 	Map1->MoveMap(0);
 	SetCameraMove({ 0, 790 });
 	CreateActor<TurnBlock>()->SetPos(GridPos(3, 5));
-	CreateActor<SuperMushroom>()->SetPos(GridPos(3, 1));
 	CreateActor<Bamba>()->SetPos(GridPos(7, 5));
 	CreateActor<TurnBlock>()->SetPos(GridPos(5, 4));
 	CreateActor<TurnBlock>()->SetPos(GridPos(5, 5));
@@ -96,12 +95,11 @@ void StageLevel1::LevelChangeStart(GameEngineLevel* _PrevLevel)
 	CreateActor<TurnBlock>()->SetPos(GridPos(9, 4));
 	CreateActor<TurnBlock>()->SetPos(GridPos(9, 5));
 	//CreateActor<SuperMushroom>()->SetPos(GridPos(8, 0));
-	CreateActor<TurnBlock>()->SetPos(GridPos(10, 0));
 	CreateActor<TurnBlock>()->SetPos(GridPos(10, 1));
 	CreateActor<TurnBlock>()->SetPos(GridPos(11, 1));
 	QuestionBlock* ItemBox = CreateActor<QuestionBlock>();
 	ItemBox->SetPos(GridPos(12, 1));
-	ItemBox->SetItem(ItemType::SuperMushroom);
+	ItemBox->SetItem(ItemType::FireFlower);
 	CreateActor<TurnBlock>()->SetPos(GridPos(13, 1));
 	CreateActor<TurnBlock>()->SetPos(GridPos(14, 1));
 }

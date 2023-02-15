@@ -1,7 +1,10 @@
 #pragma once
 #include "Block.h"
 #include <GameEngineCore/GameEngineLevel.h>
+#include "ItemActor.h"
 #include "SuperMushroom.h"
+#include "FireFlower.h"
+
 class QuestionBlock : public Block
 {
 public:
@@ -23,6 +26,7 @@ public:
 			ItemActor = GetLevel()->CreateActor<SuperMushroom>();
 			break;
 		case ItemType::FireFlower:
+			ItemActor = GetLevel()->CreateActor<FireFlower>();
 			break;
 		case ItemType::Feather:
 			break;
@@ -49,5 +53,5 @@ protected:
 	void HitAnimEnd() override;
 private:
 	bool IsEmpty = false;
-	GameEngineActor* ItemActor = nullptr;
+	ItemActor* ItemActor = nullptr;
 };
