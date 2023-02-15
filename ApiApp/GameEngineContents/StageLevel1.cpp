@@ -10,6 +10,7 @@
 #include "TurnBlock.h"
 #include "UIManager.h"
 #include "QuestionBlock.h"
+#include "Goal.h"
 
 StageLevel1::StageLevel1() {
 
@@ -21,6 +22,7 @@ StageLevel1::~StageLevel1() {
 
 void StageLevel1::Loading()
 {
+
 	BackGroundName = "BACKGROUND1.BMP";
 	StageName = "STAGE1.BMP";
 	StageColName = "STAGE1COL.BMP";
@@ -45,6 +47,10 @@ void StageLevel1::Loading()
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("BLOCK.BMP"))->Cut(4, 1);
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Blockdebrits.BMP"))->Cut(6, 1);
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("PLAYUI.BMP"));
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("NONE.BMP"));
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("NUMBER.BMP"))->Cut(10, 1);
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("NUMBERBIG.BMP"))->Cut(10, 1);
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("NUMBERYELLOW.BMP"))->Cut(10, 1);
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("QuestionBlock.BMP"))->Cut(5,1);
 
 	Dir.MoveParentToDirectory("ContentsResources");
@@ -64,6 +70,8 @@ void StageLevel1::Loading()
 
 void StageLevel1::Update(float _DeltaTime)
 {
+	StageLevel::Update(_DeltaTime);
+
 	if (GameEngineInput::IsDown("1"))
 	{
 		MarioGameCore::GetInst().ChangeLevel("Title");
@@ -76,12 +84,14 @@ void StageLevel1::Update(float _DeltaTime)
 
 void StageLevel1::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
+	StageLevel::LevelChangeStart(_PrevLevel);
+
 	BGMPlayer = GameEngineResources::GetInst().SoundPlayToControl("Overworld.mp3");
 
 	Map* Map1 = CreateActor<Map>();
 	Map1->SetImage(BackGroundName, StageName, StageColName);
 	CreateActor<Mario>();
-	CreateActor<UIManager>();
+	UI = CreateActor<UIManager>();
 	Map1->AddStartPos(GridPos(5,0));
 	Map1->MoveMap(0);
 	SetCameraMove({ 0, 790 });
@@ -102,4 +112,5 @@ void StageLevel1::LevelChangeStart(GameEngineLevel* _PrevLevel)
 	ItemBox->SetItem(ItemType::FireFlower);
 	CreateActor<TurnBlock>()->SetPos(GridPos(13, 1));
 	CreateActor<TurnBlock>()->SetPos(GridPos(14, 1));
+	CreateActor<Goal>()->SetGoal(GridPos(302, 0), "Stage2");
 }

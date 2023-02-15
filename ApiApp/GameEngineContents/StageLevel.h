@@ -1,6 +1,7 @@
 #pragma once
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineResources.h>
+#include "UIManager.h"
 class StageLevel : public GameEngineLevel
 {
 public:
@@ -19,6 +20,7 @@ public:
 
 protected:
 	void Loading() override;
+	void Update(float _DeltaTime) override;
 	void LevelChangeStart(GameEngineLevel* _PrevLevel) override;
 	void LevelChangeEnd(GameEngineLevel* _NextLevel) override;
 
@@ -32,5 +34,11 @@ protected:
 	std::string_view StageColName = "";
 
 	GameEngineSoundPlayer BGMPlayer;
+	UIManager* UI;
 private:
+	int Life = 3;
+	int Score = 0;
+	int Coin = 0;
+	float Timer = 0;
+	const float Time = 300;
 };

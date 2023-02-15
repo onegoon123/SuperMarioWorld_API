@@ -40,16 +40,16 @@ public:
 		ObjectDeath = true;
 	}
 
-	void On()
+	virtual void On()
 	{
 		ObjectUpdate = true;
 	}
-	void Off()
+	virtual void Off()
 	{
 		ObjectUpdate = false;
 	}
 
-	void OnOffSwtich()
+	virtual void OnOffSwtich()
 	{
 		ObjectUpdate = !ObjectUpdate;
 	}
@@ -98,7 +98,7 @@ public:
 protected:
 
 private:
-	int Order = -1;
+	int Order;
 
 	// 자기를 관리하거나 자기를 소유한 오브젝트들을 부모라는 느낌으로 보려고 하는것.
 	GameEngineObject* Parent = nullptr;
@@ -106,7 +106,7 @@ private:
 	bool ObjectDeath = false;
 	bool ObjectUpdate = true;
 
-	std::string Name = "";
+	std::string Name;
 
 };
 

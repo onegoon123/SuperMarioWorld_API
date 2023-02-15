@@ -282,6 +282,7 @@ void Mario::LevelChangeStart(GameEngineLevel* _PrevLevel)
 
 void Mario::Update(float _DeltaTime)
 {
+
 	FireAnimTimer += _DeltaTime;
 	UpdateState(_DeltaTime);
 	GetLevel()->DebugTextPush(GetPos().ToString());

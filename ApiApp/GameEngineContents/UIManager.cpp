@@ -9,12 +9,64 @@ UIManager::~UIManager() {
 
 }
 
+void UIManager::SetLife(int Value)
+{
+	LifeNumber.SetValue(Value);
+}
+
+void UIManager::SetTime(int Value)
+{
+	TimeNumber.SetValue(Value);
+}
+
+void UIManager::SetCoin(int Value)
+{
+	CoinNumber.SetValue(Value);
+}
+
+void UIManager::SetScore(int Value)
+{
+	ScoreNumber.SetValue(Value);
+}
+
+
 void UIManager::Start()
 {
 	UIImage = CreateRender("PLAYUI.bmp", RenderOrder::UI);
 	UIImage->SetScaleToImage();
 	UIImage->EffectCameraOff();
 	UIImage->SetPosition({512, 128});
+
+	
+	LifeNumber.SetOwner(this);
+	LifeNumber.SetImage("NUMBER.BMP", NumberScale, static_cast<int>(RenderOrder::UI), RGB(255, 0, 255), "NONE.bmp");
+	LifeNumber.SetRenderPos({ 180, 110 });
+	LifeNumber.SetAlign(Align::Right);
+	LifeNumber.SetValue(0);
+	
+	StarNumber.SetOwner(this);
+	StarNumber.SetImage("NUMBERBIG.BMP", NumberBigScale, static_cast<int>(RenderOrder::UI), RGB(255, 0, 255), "NONE.bmp");
+	StarNumber.SetRenderPos({ 430, 100 });
+	StarNumber.SetAlign(Align::Right);
+	StarNumber.SetValue(0);
+
+	TimeNumber.SetOwner(this);
+	TimeNumber.SetImage("NUMBERYELLOW.BMP", NumberScale, static_cast<int>(RenderOrder::UI), RGB(255, 0, 255), "NONE.bmp");
+	TimeNumber.SetRenderPos({ 688, 110 });
+	TimeNumber.SetAlign(Align::Right);
+	TimeNumber.SetValue(300);
+
+	CoinNumber.SetOwner(this);
+	CoinNumber.SetImage("NUMBER.BMP", NumberScale, static_cast<int>(RenderOrder::UI), RGB(255, 0, 255), "NONE.bmp");
+	CoinNumber.SetRenderPos({ 948, 76 });
+	CoinNumber.SetAlign(Align::Right);
+	CoinNumber.SetValue(0);
+
+	ScoreNumber.SetOwner(this);
+	ScoreNumber.SetImage("NUMBER.BMP", NumberScale, static_cast<int>(RenderOrder::UI), RGB(255, 0, 255), "NONE.bmp");
+	ScoreNumber.SetRenderPos({ 948, 110 });
+	ScoreNumber.SetAlign(Align::Right);
+	ScoreNumber.SetValue(0);
 }
 
 void UIManager::Update(float _DeltaTime)

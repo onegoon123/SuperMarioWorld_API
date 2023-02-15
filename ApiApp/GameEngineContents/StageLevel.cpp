@@ -4,6 +4,8 @@
 #include <GameEngineCore/GameEngineActor.h>
 #include "Mario.h"
 #include "ContentsEnums.h"
+
+#include <GameEnginePlatform/GameEngineInput.h>
 StageLevel::StageLevel() {
 
 }
@@ -16,9 +18,22 @@ void StageLevel::Loading()
 {
 }
 
-void StageLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
+void StageLevel::Update(float _DeltaTime)
 {
 	
+	Timer -= _DeltaTime * 30;
+	UI->SetTime(static_cast<int>(Timer));
+	if (GameEngineInput::IsPress("3"))
+	{
+		UI->SetLife(++Life);
+		UI->SetScore(++Score);
+		UI->SetCoin(++Coin);
+	}
+}
+
+void StageLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
+{
+	Timer = Time;
 }
 
 void StageLevel::LevelChangeEnd(GameEngineLevel* _NextLevel)

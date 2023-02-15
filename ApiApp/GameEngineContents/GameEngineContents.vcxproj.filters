@@ -69,6 +69,9 @@
     <ClInclude Include="ItemActor.h">
       <Filter>Play\Object\Item</Filter>
     </ClInclude>
+    <ClInclude Include="Goal.h">
+      <Filter>Play\Stage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MarioGameCore.cpp" />
@@ -140,6 +143,9 @@
     </ClCompile>
     <ClCompile Include="ItemActor.cpp">
       <Filter>Play\Object\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Goal.cpp">
+      <Filter>Play\Stage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
