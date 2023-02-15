@@ -42,4 +42,5 @@ void WorldLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
 
 void WorldLevel::LevelChangeEnd(GameEngineLevel* _NextLevel)
 {
+	BGMPlayer.Stop();
 }
