@@ -37,7 +37,6 @@ void TitleLevel::Loading()
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("PLAY\\STAGE1.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("PLAY\\BACKGROUND1.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TITLE\\TITLE.BMP"));
-
 	// 타이틀 이미지들을 표시할 엑터 생성
 	CreateActor<TitleImage>();
 
@@ -45,6 +44,7 @@ void TitleLevel::Loading()
 	Dir.Move("ContentsResources");
 	Dir.Move("Sound");
 	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("Title.mp3"));
+	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("YoshiIsland.mp3"));
 }
 
 void TitleLevel::Update(float _DeltaTime)
