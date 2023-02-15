@@ -117,6 +117,20 @@ void WorldImage::Start()
 			Render->ChangeAnimation("CLOUD");
 			Render->SetPosition({ 630, 450 });
 		}
+		{
+			GameEngineRender* Render = CreateRender(RenderOrder::Item);
+			Render->SetScale({ 68 ,68 });
+			Render->CreateAnimation({ .AnimationName = "STAGE", .ImageName = "STAGEBUTTON.BMP", .Start = 0, .End = 6, .InterTime = 0.1f });
+			Render->ChangeAnimation("STAGE");
+			Render->SetPosition({ 289, 706 });
+		}
+		{
+			GameEngineRender* Render = CreateRender(RenderOrder::Item);
+			Render->SetScale({ 68 ,68 });
+			Render->CreateAnimation({ .AnimationName = "STAGE", .ImageName = "STAGEBUTTON.BMP", .Start = 0, .End = 6, .InterTime = 0.1f });
+			Render->ChangeAnimation("STAGE");
+			Render->SetPosition({ 676, 706 });
+		}
 	}
 }
 

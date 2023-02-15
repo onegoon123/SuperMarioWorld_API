@@ -23,6 +23,7 @@ void WorldLevel::Loading()
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("MARIO.BMP"))->Cut(4, 5);
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("CLOUD.BMP"))->Cut(1, 4);
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TIDE.BMP"))->Cut(1,8);
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("STAGEBUTTON.BMP"))->Cut(1,7);
 
 	CreateActor<WorldImage>();
 	CreateActor<WorldMario>()->SetPos({ 475, 650 });
