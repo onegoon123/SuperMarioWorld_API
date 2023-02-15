@@ -8,9 +8,11 @@ public:
 	~UIManager();
 
 	void SetLife(int Value);
+	void SetStar(int Value);
 	void SetTime(int Value);
 	void SetCoin(int Value);
 	void SetScore(int Value);
+	void SetValue(int Life, int Star, int Coin, int Score);
 
 	UIManager(const UIManager& _Other) = delete;
 	UIManager(UIManager&& _Other) noexcept = delete;

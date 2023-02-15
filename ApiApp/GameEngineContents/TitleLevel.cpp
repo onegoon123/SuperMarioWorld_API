@@ -50,7 +50,7 @@ void TitleLevel::Loading()
 void TitleLevel::Update(float _DeltaTime)
 {
 	if (GameEngineInput::IsAnyKey()) {
-		MarioGameCore::GetInst().ChangeLevel("Stage1");
+		MarioGameCore::GetInst().ChangeLevel("World");
 	}
 }
 

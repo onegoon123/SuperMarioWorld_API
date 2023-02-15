@@ -14,26 +14,32 @@ StageLevel::~StageLevel() {
 
 }
 
+void StageLevel::MarioDie()
+{
+	Life--;
+}
+
 void StageLevel::Loading()
 {
 }
 
 void StageLevel::Update(float _DeltaTime)
 {
-	
-	Timer -= _DeltaTime * 30;
-	UI->SetTime(static_cast<int>(Timer));
-	if (GameEngineInput::IsPress("3"))
-	{
-		UI->SetLife(++Life);
-		UI->SetScore(++Score);
-		UI->SetCoin(++Coin);
+	Timer -= _DeltaTime;
+	if (0 > Timer) {
+		MarioGameCore::GetInst().ChangeLevel("Title");
 	}
+	UI->SetTime(static_cast<int>(Timer));
 }
 
 void StageLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
 	Timer = Time;
+	Life = MarioGameCore::GetInst().GetLife();
+	Star = MarioGameCore::GetInst().GetStar();
+	Coin = MarioGameCore::GetInst().GetCoin();
+	Score = MarioGameCore::GetInst().GetScore();
+	UI->SetValue(Life, Star, Coin, Score);
 }
 
 void StageLevel::LevelChangeEnd(GameEngineLevel* _NextLevel)

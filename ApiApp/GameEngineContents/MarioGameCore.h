@@ -31,6 +31,30 @@ public:
 	inline bool GetRidedYoshiData() const {
 		return RidedYoshiData;
 	}
+	inline int GetLife() {
+		return Life;
+	}
+	inline int GetStar() {
+		return Star;
+	}
+	inline int GetCoin() {
+		return Coin;
+	}
+	inline int GetScore() {
+		return Score;
+	}
+	inline void SetLife(int _Life) {
+		Life = _Life;
+	}
+	inline void SetStar(int _Star) {
+		Star = _Star;
+	}
+	inline void SetCoin(int _Coin) {
+		Coin = _Coin;
+	}
+	inline void SetScore(int _Score) {
+		Coin = _Score;
+	}
 	inline void SetMarioStateData(PowerState _StateData) {
 		MarioStateData = _StateData;
 	}
@@ -59,6 +83,10 @@ private:
 	// 마리오 데이터
 	PowerState MarioStateData = PowerState::Normal;
 	PowerState StockStateData = PowerState::Normal;
+	int Life = 5;
+	int	Star = 0;
+	int	Coin = 0;
+	int	Score = 0;
 	bool RidedYoshiData = false;
 };
 

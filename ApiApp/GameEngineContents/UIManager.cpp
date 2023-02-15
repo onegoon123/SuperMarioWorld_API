@@ -14,6 +14,11 @@ void UIManager::SetLife(int Value)
 	LifeNumber.SetValue(Value);
 }
 
+void UIManager::SetStar(int Value)
+{
+	StarNumber.SetValue(Value);
+}
+
 void UIManager::SetTime(int Value)
 {
 	TimeNumber.SetValue(Value);
@@ -29,6 +34,14 @@ void UIManager::SetScore(int Value)
 	ScoreNumber.SetValue(Value);
 }
 
+void UIManager::SetValue(int Life, int Star, int Coin, int Score)
+{
+	LifeNumber.SetValue(Life);
+	StarNumber.SetValue(Star);
+	CoinNumber.SetValue(Coin);
+	ScoreNumber.SetValue(Score);
+}
+
 
 void UIManager::Start()
 {
@@ -36,13 +49,12 @@ void UIManager::Start()
 	UIImage->SetScaleToImage();
 	UIImage->EffectCameraOff();
 	UIImage->SetPosition({512, 128});
-
 	
 	LifeNumber.SetOwner(this);
 	LifeNumber.SetImage("NUMBER.BMP", NumberScale, static_cast<int>(RenderOrder::UI), RGB(255, 0, 255), "NONE.bmp");
 	LifeNumber.SetRenderPos({ 180, 110 });
 	LifeNumber.SetAlign(Align::Right);
-	LifeNumber.SetValue(0);
+	LifeNumber.SetValue(5);
 	
 	StarNumber.SetOwner(this);
 	StarNumber.SetImage("NUMBERBIG.BMP", NumberBigScale, static_cast<int>(RenderOrder::UI), RGB(255, 0, 255), "NONE.bmp");
@@ -52,7 +64,7 @@ void UIManager::Start()
 
 	TimeNumber.SetOwner(this);
 	TimeNumber.SetImage("NUMBERYELLOW.BMP", NumberScale, static_cast<int>(RenderOrder::UI), RGB(255, 0, 255), "NONE.bmp");
-	TimeNumber.SetRenderPos({ 688, 110 });
+	TimeNumber.SetRenderPos({ 690, 110 });
 	TimeNumber.SetAlign(Align::Right);
 	TimeNumber.SetValue(300);
 

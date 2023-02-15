@@ -13,6 +13,8 @@ public:
 		return BGMPlayer;
 	}
 
+	void MarioDie();
+
 	StageLevel(const StageLevel& _Other) = delete;
 	StageLevel(StageLevel&& _Other) noexcept = delete;
 	StageLevel& operator=(const StageLevel& _Other) = delete;
@@ -37,6 +39,7 @@ protected:
 	UIManager* UI;
 private:
 	int Life = 3;
+	int Star = 0;
 	int Score = 0;
 	int Coin = 0;
 	float Timer = 0;

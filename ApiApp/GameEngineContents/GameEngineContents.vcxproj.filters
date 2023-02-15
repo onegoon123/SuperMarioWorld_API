@@ -72,6 +72,9 @@
     <ClInclude Include="Goal.h">
       <Filter>Play\Stage</Filter>
     </ClInclude>
+    <ClInclude Include="WorldMario.h">
+      <Filter>World</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MarioGameCore.cpp" />
@@ -146,6 +149,9 @@
     </ClCompile>
     <ClCompile Include="Goal.cpp">
       <Filter>Play\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldMario.cpp">
+      <Filter>World</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

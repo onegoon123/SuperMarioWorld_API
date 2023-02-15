@@ -84,7 +84,7 @@ void StageLevel1::Update(float _DeltaTime)
 
 void StageLevel1::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
-	StageLevel::LevelChangeStart(_PrevLevel);
+	
 
 	BGMPlayer = GameEngineResources::GetInst().SoundPlayToControl("Overworld.mp3");
 
@@ -95,22 +95,15 @@ void StageLevel1::LevelChangeStart(GameEngineLevel* _PrevLevel)
 	Map1->AddStartPos(GridPos(5,0));
 	Map1->MoveMap(0);
 	SetCameraMove({ 0, 790 });
-	CreateActor<TurnBlock>()->SetPos(GridPos(3, 5));
-	CreateActor<Bamba>()->SetPos(GridPos(7, 5));
-	CreateActor<TurnBlock>()->SetPos(GridPos(5, 4));
-	CreateActor<TurnBlock>()->SetPos(GridPos(5, 5));
-	CreateActor<TurnBlock>()->SetPos(GridPos(6, 4));
-	CreateActor<TurnBlock>()->SetPos(GridPos(7, 4));
-	CreateActor<TurnBlock>()->SetPos(GridPos(8, 4));
-	CreateActor<TurnBlock>()->SetPos(GridPos(9, 4));
-	CreateActor<TurnBlock>()->SetPos(GridPos(9, 5));
-	//CreateActor<SuperMushroom>()->SetPos(GridPos(8, 0));
-	CreateActor<TurnBlock>()->SetPos(GridPos(10, 1));
-	CreateActor<TurnBlock>()->SetPos(GridPos(11, 1));
+
+
+	CreateActor<Bamba>()->SetPos(GridPos(10, 1));
+
 	QuestionBlock* ItemBox = CreateActor<QuestionBlock>();
-	ItemBox->SetPos(GridPos(12, 1));
-	ItemBox->SetItem(ItemType::FireFlower);
-	CreateActor<TurnBlock>()->SetPos(GridPos(13, 1));
-	CreateActor<TurnBlock>()->SetPos(GridPos(14, 1));
+	ItemBox->SetPos(GridPos(4, 4));
+	ItemBox->SetItem(ItemType::SuperMushroom);
+
 	CreateActor<Goal>()->SetGoal(GridPos(302, 0), "Stage2");
+
+	StageLevel::LevelChangeStart(_PrevLevel);
 }

@@ -1561,7 +1561,11 @@ void Mario::GameOverUpdate(float _DeltaTime)
 {
 	Timer += _DeltaTime;
 	
-	if (0.8f < Timer)
+	if (3.5f < Timer)
+	{
+		dynamic_cast<StageLevel*>(GetLevel())->MarioDie();
+	}
+	else if (0.8f < Timer)
 	{
 		MoveDir.y -= _DeltaTime;
 	}
