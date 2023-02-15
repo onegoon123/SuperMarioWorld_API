@@ -18,21 +18,25 @@ public:
 		~Point() {
 			if (Up != nullptr)
 			{
+				Up->Down = nullptr;
 				delete Up;
 				Up = nullptr;
 			}
-			if (Down != nullptr)
-			{
-				delete Down;
-				Down = nullptr;
-			}
 			if (Left != nullptr)
 			{
+				Left->Right = nullptr;
 				delete Left;
 				Left = nullptr;
 			}
+			if (Down != nullptr)
+			{
+				Down->Up = nullptr;
+				delete Down;
+				Down = nullptr;
+			}
 			if (Right != nullptr)
 			{
+				Right->Left = nullptr;
 				delete Right;
 				Right = nullptr;
 			}

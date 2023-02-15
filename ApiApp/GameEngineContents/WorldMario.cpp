@@ -7,7 +7,11 @@ WorldMario::WorldMario() {
 }
 
 WorldMario::~WorldMario() {
-
+	if (nullptr != Map)
+	{
+		delete Map;
+		Map = nullptr;
+	}
 }
 
 void WorldMario::Start()
