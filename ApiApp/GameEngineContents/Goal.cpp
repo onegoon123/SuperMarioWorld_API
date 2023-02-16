@@ -1,7 +1,7 @@
 #include "Goal.h"
 #include "ContentsEnums.h"
 #include "MarioGameCore.h"
-
+#include "LevelLoader.h"
 Goal::Goal() {
 
 }
@@ -22,7 +22,7 @@ void Goal::Update(float _DeltaTime)
 	CollisionCheckParameter Check = { .TargetGroup = static_cast<int>(CollisionOrder::Player), .TargetColType = CT_Rect, .ThisColType = CT_Rect,  };
 	if (true == Collision->Collision(Check))
 	{
-		MarioGameCore::GetInst().ChangeLevel(LevelStr);
+		LevelLoader::ChangeLevel("World");
 	}
 }
 

@@ -3,6 +3,7 @@
 #include <GameEngineBase/GameEngineDebug.h>
 #include "GameEngineWindow.h"
 
+// 다른 lib를 사용하겠다.
 #pragma comment(lib, "msimg32.lib")
 
 GameEngineImage::GameEngineImage()
@@ -93,6 +94,16 @@ bool GameEngineImage::ImageLoad(const GameEnginePath& _Path)
 
 bool GameEngineImage::ImageLoad(const std::string_view& _Path)
 {
+	//HDC ImageDC;
+	//HBITMAP BitMap;
+	//HBITMAP OldBitMap;
+	//BITMAP Info;
+
+	// 이미지중에 일부만 로드할수 있는데 0을 넣어주면 다 로드하겠다는 이야기가 도힙니다.
+	// LR_LOADFROMFILE 파일에서부터 로드하겠다는 의미가 됩니다.
+
+	// 이미지를 로드한 2차원 배열의 정보고
+	// 윈도우에게 new를 지시한것과 다름이 없다.
 	BitMap = static_cast<HBITMAP>(LoadImageA(nullptr, _Path.data(), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE));
 
 	if (nullptr == BitMap)
@@ -173,6 +184,42 @@ void GameEngineImage::TransCopy(const GameEngineImage* _OtherImage, float4 _Copy
 		_OtherImageSize.iy(),
 		_Color);
 }
+
+void GameEngineImage::AlphaCopy(const GameEngineImage* _OtherImage, int _CutIndex, float4 _CopyCenterPos, float4 _CopySize, int _Color)
+{
+	if (false == _OtherImage->IsCut)
+	{
+		MsgAssert(" 잘리지 않은 이미지로 cut출력 함수를 사용하려고 했습니다.");
+		return;
+	}
+
+	ImageCutData Data = _OtherImage->GetCutData(_CutIndex);
+	AlphaCopy(_OtherImage, _CopyCenterPos, _CopySize, Data.GetStartPos(), Data.GetScale(), _Color);
+}
+
+void GameEngineImage::AlphaCopy(const GameEngineImage* _OtherImage, float4 _CopyCenterPos, float4 _CopySize, float4 _OtherImagePos, float4 _OtherImageSize, int _Alpha)
+{
+	BLENDFUNCTION BF;
+
+	BF.BlendOp = AC_SRC_OVER;
+	BF.BlendFlags = 0;
+	BF.SourceConstantAlpha = _Alpha;
+	BF.AlphaFormat = AC_SRC_ALPHA;
+
+	AlphaBlend(ImageDC, // 여기에 그려라.
+		_CopyCenterPos.ix() - _CopySize.hix(), // 여기를 시작으로
+		_CopyCenterPos.iy() - _CopySize.hiy(),
+		_CopySize.ix(), // 이 크기로
+		_CopySize.iy(),
+		_OtherImage->GetImageDC(),
+		_OtherImagePos.ix(),// 이미지의 x y에서부터
+		_OtherImagePos.iy(),
+		_OtherImageSize.ix(), // 이미지의 x y까지의 위치를
+		_OtherImageSize.iy(),
+		BF);
+}
+
+
 
 void GameEngineImage::Cut(int _X, int _Y)
 {

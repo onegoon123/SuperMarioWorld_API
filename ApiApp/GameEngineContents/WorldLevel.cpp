@@ -2,6 +2,8 @@
 #include <GameEngineBase/GameEngineDirectory.h>
 #include "WorldImage.h"
 #include "WorldMario.h"
+
+#include "LevelLoader.h"
 WorldLevel::WorldLevel() {
 
 }
@@ -27,6 +29,7 @@ void WorldLevel::Loading()
 
 	CreateActor<WorldImage>();
 	CreateActor<WorldMario>()->SetPos({ 475, 650 });
+	CreateActor<LevelLoader>();
 }
 
 void WorldLevel::Update(float _DeltaTime)

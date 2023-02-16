@@ -19,7 +19,7 @@ enum class MarioState
 	KICK,
 	CHANGEPOWER,
 	VICTORY,
-	GameOver
+	GameOver,
 };
 enum class Dir
 {
@@ -40,6 +40,10 @@ public:
 	static Mario* MainPlayer;
 
 	void NewItem(ItemType _Item);
+	void Die();
+	bool GetIsGameOver() {
+		return StateValue == MarioState::GameOver;
+	}
 
 	Mario();
 	~Mario();
@@ -56,8 +60,8 @@ protected:
 	void LevelChangeStart(GameEngineLevel* _PrevLevel) override;
 private:
 
-	const float Speed = 705;				// 이동 속도
-	const float RunSpeed = 850.0f;			// 달릴때 이동 속도
+	float Speed = 705;				// 이동 속도
+	float RunSpeed = 850.0f;			// 달릴때 이동 속도
 	const float JumpForce = 950;			// 점프력
 	const float DashJumpForce = 1100;		// 대시 시 점프력
 	const float RunJumpForce = 1200;		// 달릴시 점프력
@@ -101,6 +105,7 @@ private:
 	bool IsSlope = false;			// 마리오가 비탈길 위에 있는지 여부
 	bool IsInvincibility = false;	// 무적 시간 여부
 	bool IsOnBlock = false;			// 마리오가 블록 위에 있는지 여부
+	bool IsDie = false;			
 	float4 MoveDir = float4::Zero;	// 수평으로 가해지는 힘
 	float HorizontalForce = 0;
 	float JumpTimeCounter = 0;

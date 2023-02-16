@@ -2,6 +2,8 @@
 #include <GameEnginePlatform/GameEngineInput.h>
 #include "ContentsEnums.h"
 #include "MarioGameCore.h"
+
+#include "LevelLoader.h"
 WorldMario::WorldMario() {
 
 }
@@ -12,6 +14,10 @@ WorldMario::~WorldMario() {
 		delete Map;
 		Map = nullptr;
 	}
+}
+
+void WorldMario::Reset()
+{
 }
 
 void WorldMario::Start()
@@ -28,8 +34,8 @@ void WorldMario::Start()
 	AnimationRender->ChangeAnimation("Down");
 
 	WorldMap::Point* Center = new WorldMap::Point({ 475, 650 });
-	WorldMap::Point* Stage1 = new WorldMap::Point({ 289, 706 }, "Stage1");
-	WorldMap::Point* Stage2 = new WorldMap::Point({ 676, 706 }, "Stage2");
+	WorldMap::Point* Stage1 = new WorldMap::Point({ 289, 690 }, "Stage1");
+	WorldMap::Point* Stage2 = new WorldMap::Point({ 676, 690 }, "Stage2");
 
 	Center->SetLeft(Stage1);
 	Center->SetRight(Stage2);
@@ -39,6 +45,8 @@ void WorldMario::Start()
 
 void WorldMario::Update(float _DeltaTime)
 {
+	if (true == IsStart) { return; }
+
 	if (GameEngineInput::IsDown("Left"))
 	{
 		AnimationRender->ChangeAnimation("LEFT");
@@ -66,10 +74,17 @@ void WorldMario::Update(float _DeltaTime)
 	}
 	if (GameEngineInput::IsDown("Start") || GameEngineInput::IsDown("Dash") || GameEngineInput::IsDown("Jump") || GameEngineInput::IsDown("Spin"))
 	{
-		AnimationRender->ChangeAnimation("START");
 		if (true == Map->IsStage())
 		{
-			MarioGameCore::GetInst().ChangeLevel(Map->GetStage());
+			AnimationRender->ChangeAnimation("START");
+			IsStart = true;
+			LevelLoader::ChangeLevel(Map->GetStage());
 		}
 	}
+}
+
+void WorldMario::LevelChangeStart(GameEngineLevel* _Prev)
+{
+	AnimationRender->ChangeAnimation("DOWN");
+	IsStart = false;
 }

@@ -13,7 +13,6 @@ public:
 
 protected:
 	void Loading() override;
-	void Update(float _DeltaTime) override;
 	void LevelChangeStart(GameEngineLevel* _PrevLevel) override;
 private:
 };

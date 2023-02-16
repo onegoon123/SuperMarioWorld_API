@@ -6,6 +6,7 @@
 #include "Mario.h"
 #include "Map.h"
 
+#include "Goal.h"
 StageLevel2::StageLevel2() {
 
 }
@@ -32,34 +33,19 @@ void StageLevel2::Loading()
 
 }
 
-void StageLevel2::Update(float _DeltaTime)
-{
-	if (GameEngineInput::IsDown("1"))
-	{
-		MarioGameCore::GetInst().ChangeLevel("Stage1");
-	}
-	if (GameEngineInput::IsDown("2"))
-	{
-		MarioGameCore::GetInst().ChangeLevel("Stage3");
-	}
-}
-
-void StageLevel2::LevelChangeEnd(GameEngineLevel* _NextLevel)
-{
-	if (nullptr != Mario::MainPlayer)
-	{
-		Mario::MainPlayer->Death();
-		Mario::MainPlayer = nullptr;
-	}
-	SetCameraPos(float4::Zero);
-}
-
 void StageLevel2::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
-	CreateActor<Mario>();
-	SetCameraMove({ 0, 790 });
+
+
+	BGMPlayer = GameEngineResources::GetInst().SoundPlayToControl("Overworld.mp3");
+
 	Map* Map1 = CreateActor<Map>();
 	Map1->SetImage(BackGroundName, StageName, StageColName);
-	Map1->AddStartPos({ 350 , 1534 });
+	CreateActor<Mario>();
+	UI = CreateActor<UIManager>();
+	Map1->AddStartPos(GridPos(5, 0));
 	Map1->MoveMap(0);
+	SetCameraMove({ 0, 790 });
+	CreateActor<Goal>()->SetGoal(GridPos(302, 0), "World");
+	StageLevel::LevelChangeStart(_PrevLevel);
 }

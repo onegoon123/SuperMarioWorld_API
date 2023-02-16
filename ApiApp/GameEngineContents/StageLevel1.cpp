@@ -22,6 +22,7 @@ StageLevel1::~StageLevel1() {
 
 void StageLevel1::Loading()
 {
+	StageLevel::Loading();
 
 	BackGroundName = "BACKGROUND1.BMP";
 	StageName = "STAGE1.BMP";
@@ -68,25 +69,12 @@ void StageLevel1::Loading()
 	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("breakblock.wav"));
 }
 
-void StageLevel1::Update(float _DeltaTime)
-{
-	StageLevel::Update(_DeltaTime);
-
-	if (GameEngineInput::IsDown("1"))
-	{
-		MarioGameCore::GetInst().ChangeLevel("Title");
-	}
-	if (GameEngineInput::IsDown("2"))
-	{
-		MarioGameCore::GetInst().ChangeLevel("Stage2");
-	}
-}
-
 void StageLevel1::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
 	
 
 	BGMPlayer = GameEngineResources::GetInst().SoundPlayToControl("Overworld.mp3");
+	BGMPlayer.LoopCount(0);
 
 	Map* Map1 = CreateActor<Map>();
 	Map1->SetImage(BackGroundName, StageName, StageColName);
@@ -103,7 +91,7 @@ void StageLevel1::LevelChangeStart(GameEngineLevel* _PrevLevel)
 	ItemBox->SetPos(GridPos(4, 4));
 	ItemBox->SetItem(ItemType::SuperMushroom);
 
-	CreateActor<Goal>()->SetGoal(GridPos(302, 0), "Stage2");
+	CreateActor<Goal>()->SetGoal(GridPos(302, 0), "World");
 
 	StageLevel::LevelChangeStart(_PrevLevel);
 }

@@ -8,11 +8,10 @@
 #include "StageLevel2.h"
 #include "StageLevel3.h"
 #include "StageLevel4.h"
+#include "GameOverLevel.h"
 
 // MarioGameCore MarioGameCore::Core = new MarioGameCore();
 
-// 중간에 절대로 지워지지 않을애를 포인터형으로 만들어서 동적할당해서 사용한다는건
-// 제가보기에는 왜??? 그래야하지?
 MarioGameCore MarioGameCore::Core;
 
 MarioGameCore::MarioGameCore()
@@ -21,6 +20,11 @@ MarioGameCore::MarioGameCore()
 
 MarioGameCore::~MarioGameCore()
 {
+}
+
+void MarioGameCore::ResetGame()
+{
+	Life = StartLife;
 }
 
 void MarioGameCore::Start()
@@ -53,6 +57,7 @@ void MarioGameCore::Start()
 	CreateLevel<StageLevel2>("Stage2");
 	CreateLevel<StageLevel3>("Stage3");
 	CreateLevel<StageLevel4>("Stage4");
+	CreateLevel<GameOverLevel>("GameOver");
 	ChangeLevel("Title");
 }
 

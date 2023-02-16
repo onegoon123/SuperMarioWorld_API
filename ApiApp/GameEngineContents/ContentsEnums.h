@@ -17,7 +17,8 @@ enum class RenderOrder
 	Monster,
 	Player,
 	ForeGround,
-	UI
+	UI,
+	Fade
 };
 enum class CollisionOrder
 {

@@ -35,8 +35,8 @@ protected:
 	std::string_view StageName = "";
 	std::string_view StageColName = "";
 
-	GameEngineSoundPlayer BGMPlayer;
-	UIManager* UI;
+	GameEngineSoundPlayer BGMPlayer = GameEngineSoundPlayer();
+	UIManager* UI = nullptr;
 private:
 	int Life = 3;
 	int Star = 0;

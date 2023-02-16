@@ -62,6 +62,11 @@ void Mario::NewItem(ItemType _Item)
 	}
 }
 
+void Mario::Die()
+{
+	ChangeState(MarioState::GameOver);
+}
+
 Mario::Mario() {
 	if (MainPlayer != nullptr)
 	{
@@ -321,12 +326,21 @@ void Mario::Update(float _DeltaTime)
 	}
 
 	// ġƮ
+	if (GameEngineInput::IsDown("1"))
+	{
+		Speed *= 2;
+		RunSpeed *= 2;
+		ColMap = GameEngineResources::GetInst().ImageFind("STAGE0COL.bmp");
+	}
+	if (GameEngineInput::IsDown("2"))
+	{
+
+	}
 	if (GameEngineInput::IsDown("3"))
 	{
-		//Speed *= 2;
-		//RunSpeed *= 2;
-		ColMap = GameEngineResources::GetInst().ImageFind("STAGE0COL.bmp");
-		MarioPower = PowerState::Fire;
+		Speed = 705;
+		RunSpeed = 850.0f;
+		ColMap = GameEngineResources::GetInst().ImageFind(Map::MainMap->GetStageColName());
 	}
 }
 
@@ -416,7 +430,7 @@ void Mario::MoveCalculation(float _DeltaTime)
 	}
 	else if (Map::MainMap->GetStageSize().iy() <= NextPos.iy())
 	{
-		Death();
+		Die();
 		MoveDir.y = 0;
 	}
 	

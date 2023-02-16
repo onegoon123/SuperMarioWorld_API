@@ -36,11 +36,19 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="GameOverLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Goal.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="ItemActor.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="LevelLoader.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -108,10 +116,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="TitleImage.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="TitleLevel.h">
       <SubType>
       </SubType>
@@ -138,11 +142,19 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="GameOverLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Goal.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="ItemActor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="LevelLoader.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -208,10 +220,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="WorldLevel.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="TitleImage.cpp">
       <SubType>
       </SubType>
     </ClCompile>

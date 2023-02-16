@@ -138,6 +138,9 @@ public:
 	WorldMario();
 	~WorldMario();
 
+	static WorldMario* WorldData;
+	static void Reset();
+
 	WorldMario(const WorldMario& _Other) = delete;
 	WorldMario(WorldMario&& _Other) noexcept = delete;
 	WorldMario& operator=(const WorldMario& _Other) = delete;
@@ -146,7 +149,9 @@ public:
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
+	void LevelChangeStart(GameEngineLevel* _Prev) override;
 private:
+	bool IsStart = false;
 	GameEngineRender* AnimationRender = nullptr;
 	WorldMap* Map = nullptr;
 };

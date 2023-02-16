@@ -15,11 +15,13 @@ public:
 	MarioGameCore& operator=(const MarioGameCore& _Other) = delete;
 	MarioGameCore& operator=(MarioGameCore&& _Other) noexcept = delete;
 
+
 	// 싱글톤
 	inline static MarioGameCore& GetInst()
 	{
 		return Core;
 	}
+	void ResetGame();
 
 #pragma region __________마리오 데이터 Setter Getter__________
 	inline PowerState GetMarioStateData() const {
@@ -83,7 +85,8 @@ private:
 	// 마리오 데이터
 	PowerState MarioStateData = PowerState::Normal;
 	PowerState StockStateData = PowerState::Normal;
-	int Life = 5;
+	const int StartLife = 3;
+	int Life = StartLife;
 	int	Star = 0;
 	int	Coin = 0;
 	int	Score = 0;

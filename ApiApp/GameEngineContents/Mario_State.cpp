@@ -1559,11 +1559,13 @@ void Mario::GameOverStart()
 
 void Mario::GameOverUpdate(float _DeltaTime)
 {
+	if (true == IsDie) { return; }
 	Timer += _DeltaTime;
 	
 	if (3.5f < Timer)
 	{
 		dynamic_cast<StageLevel*>(GetLevel())->MarioDie();
+		IsDie = true;
 	}
 	else if (0.8f < Timer)
 	{

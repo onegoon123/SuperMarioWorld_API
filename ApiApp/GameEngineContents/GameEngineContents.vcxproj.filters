@@ -3,9 +3,6 @@
   <ItemGroup>
     <ClInclude Include="MarioGameCore.h" />
     <ClInclude Include="ContentsEnums.h" />
-    <ClInclude Include="TitleImage.h">
-      <Filter>Title</Filter>
-    </ClInclude>
     <ClInclude Include="TitleLevel.h">
       <Filter>Title</Filter>
     </ClInclude>
@@ -75,12 +72,15 @@
     <ClInclude Include="WorldMario.h">
       <Filter>World</Filter>
     </ClInclude>
+    <ClInclude Include="LevelLoader.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverLevel.h">
+      <Filter>Title</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MarioGameCore.cpp" />
-    <ClCompile Include="TitleImage.cpp">
-      <Filter>Title</Filter>
-    </ClCompile>
     <ClCompile Include="TitleLevel.cpp">
       <Filter>Title</Filter>
     </ClCompile>
@@ -153,6 +153,12 @@
     <ClCompile Include="WorldMario.cpp">
       <Filter>World</Filter>
     </ClCompile>
+    <ClCompile Include="LevelLoader.cpp">
+      <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOverLevel.cpp">
+      <Filter>Title</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Title">
@@ -184,6 +190,9 @@
     </Filter>
     <Filter Include="Play\Stage">
       <UniqueIdentifier>{a525159b-9e75-47cf-9ddf-7ec7a483248a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System">
+      <UniqueIdentifier>{1d28a709-f0c1-4c5c-b39b-df418538e96a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
