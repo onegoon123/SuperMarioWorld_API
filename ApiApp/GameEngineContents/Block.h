@@ -40,8 +40,8 @@ protected:
 	const float4 RenderPos = { 0, -31 };
 private:
 	const float HitAnimSpeed = 800;
-	const float4 CollisionScale = { 66, 64 };
-	const float4 CollisionPos = { 0, -31 };
+	const float4 CollisionScale = { 70, 70 };
+	const float4 CollisionPos = { 0, -35 };
 	const float4 HitCollisionScale = { 32, 16 };
 	const float4 HitCollisionPos = { 0, -64 };
 	bool IsHit = false;

@@ -17,7 +17,7 @@ StageLevel::~StageLevel() {
 void StageLevel::AddCoin()
 {
 	GameEngineResources::GetInst().SoundPlay("Coin.WAV");
-	if (++CoinNum >= 100)
+	while (++CoinNum >= 100)
 	{
 		CoinNum -= 100;
 		AddLife();

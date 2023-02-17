@@ -55,7 +55,7 @@ public:
 		CoinNum = _Coin;
 	}
 	inline void SetScore(int _Score) {
-		CoinNum = _Score;
+		Score = _Score;
 	}
 	inline void SetMarioStateData(PowerState _StateData) {
 		MarioStateData = _StateData;
