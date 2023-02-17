@@ -11,6 +11,7 @@
 #include "UIManager.h"
 #include "QuestionBlock.h"
 #include "Goal.h"
+#include "Coin.h"
 
 StageLevel1::StageLevel1() {
 
@@ -37,7 +38,7 @@ void StageLevel1::Loading()
 	//GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName(BackGroundName));
 	//GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName(StageName));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName(StageColName));
-	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("BAMBA.BMP"))->Cut(7, 1);
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("BAMBA.BMP"))->Cut(8, 1);
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("SUPERMUSHROOM.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("FIRE.BMP"))->Cut(4, 1);
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("FIREFLOWER.BMP"))->Cut(2, 1);
@@ -53,6 +54,7 @@ void StageLevel1::Loading()
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("NUMBERBIG.BMP"))->Cut(10, 1);
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("NUMBERYELLOW.BMP"))->Cut(10, 1);
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("QuestionBlock.BMP"))->Cut(5,1);
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Coin.BMP"))->Cut(4,1);
 
 	Dir.MoveParentToDirectory("ContentsResources");
 	Dir.Move("ContentsResources");
@@ -66,6 +68,8 @@ void StageLevel1::Loading()
 	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("damage.wav"));
 	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("fireball.wav"));
 	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("bump.wav"));
+	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("1UP.wav"));
+	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("Coin.wav"));
 	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("breakblock.wav"));
 }
 
@@ -86,6 +90,10 @@ void StageLevel1::LevelChangeStart(GameEngineLevel* _PrevLevel)
 
 
 	CreateActor<Bamba>()->SetPos(GridPos(10, 1));
+	CreateActor<Coin>()->SetPos(GridPos(8, 4));
+	CreateActor<Coin>()->SetPos(GridPos(9, 4));
+	CreateActor<Coin>()->SetPos(GridPos(10, 4));
+	CreateActor<Coin>()->SetPos(GridPos(11, 4));
 
 	QuestionBlock* ItemBox = CreateActor<QuestionBlock>();
 	ItemBox->SetPos(GridPos(4, 4));

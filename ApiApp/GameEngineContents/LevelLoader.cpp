@@ -65,7 +65,7 @@ void LevelLoader::FadeInUpdate(float _DeltaTime)
 		State = FadeState::STOP;
 		return;
 	}
-	FadeRender->SetAlpha(Timer);
+	FadeRender->SetAlpha(static_cast<int>(Timer));
 }
 
 void LevelLoader::FadeOutUpdate(float _DeltaTime)
@@ -76,5 +76,5 @@ void LevelLoader::FadeOutUpdate(float _DeltaTime)
 		MarioGameCore::GetInst().ChangeLevel(LevelName);
 		return;
 	}
-	FadeRender->SetAlpha(Timer);
+	FadeRender->SetAlpha(static_cast<int>(Timer));
 }

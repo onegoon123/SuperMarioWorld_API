@@ -78,6 +78,9 @@
     <ClInclude Include="GameOverLevel.h">
       <Filter>Title</Filter>
     </ClInclude>
+    <ClInclude Include="Coin.h">
+      <Filter>Play\Object\Item</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MarioGameCore.cpp" />
@@ -158,6 +161,9 @@
     </ClCompile>
     <ClCompile Include="GameOverLevel.cpp">
       <Filter>Title</Filter>
+    </ClCompile>
+    <ClCompile Include="Coin.cpp">
+      <Filter>Play\Object\Item</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

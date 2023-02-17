@@ -32,6 +32,7 @@ enum class Dir
 // 파워업 상태에 따라 불꽃쏘기, 비행 등이 가능하다
 // 요시 탑승 상태에 따라 삼키기, 뱉기, 비행, 내리기 등이 가능하다
 // 요시 탑승시 조작도 해당 클래스에서 구현된다
+class StageLevel;
 class GameEngineImage;
 class Mario : public GameEngineActor
 {
@@ -124,6 +125,7 @@ private:
 	GameEngineImage* ColMap = nullptr;
 	GameEngineCollision* Collision = nullptr;
 	GameEngineCollision* FootCollision = nullptr;
+	StageLevel* CurrentLevel = nullptr;
 
 #pragma region __________ State 관련 함수 _________
 	void ChangeState(MarioState _State);

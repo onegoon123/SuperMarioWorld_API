@@ -40,7 +40,7 @@ public:
 		return Star;
 	}
 	inline int GetCoin() {
-		return Coin;
+		return CoinNum;
 	}
 	inline int GetScore() {
 		return Score;
@@ -52,10 +52,10 @@ public:
 		Star = _Star;
 	}
 	inline void SetCoin(int _Coin) {
-		Coin = _Coin;
+		CoinNum = _Coin;
 	}
 	inline void SetScore(int _Score) {
-		Coin = _Score;
+		CoinNum = _Score;
 	}
 	inline void SetMarioStateData(PowerState _StateData) {
 		MarioStateData = _StateData;
@@ -88,7 +88,7 @@ private:
 	const int StartLife = 3;
 	int Life = StartLife;
 	int	Star = 0;
-	int	Coin = 0;
+	int	CoinNum = 0;
 	int	Score = 0;
 	bool RidedYoshiData = false;
 };

@@ -12,7 +12,9 @@ public:
 	{
 		return BGMPlayer;
 	}
-
+	void AddCoin();
+	void AddLife();
+	void AddScore(int _Score);
 	void MarioDie();
 
 	StageLevel(const StageLevel& _Other) = delete;
@@ -41,7 +43,7 @@ private:
 	int Life = 3;
 	int Star = 0;
 	int Score = 0;
-	int Coin = 0;
+	int CoinNum = 0;
 	float Timer = 0;
 	const float Time = 300;
 };

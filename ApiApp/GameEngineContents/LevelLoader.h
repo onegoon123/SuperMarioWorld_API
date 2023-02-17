@@ -36,7 +36,7 @@ private:
 	FadeState State = FadeState::STOP;
 	bool IsFadeIn;
 	bool IsFadeOut;
-	float Speed = 255 * 2;
+	float Speed = 255.0f * 1.5f;
 	float Timer = 0;
 
 	void FadeInUpdate(float _DeltaTime);

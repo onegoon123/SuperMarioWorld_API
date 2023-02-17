@@ -34,11 +34,11 @@ void UIManager::SetScore(int Value)
 	ScoreNumber.SetValue(Value);
 }
 
-void UIManager::SetValue(int Life, int Star, int Coin, int Score)
+void UIManager::SetValue(int Life, int Star, int CoinNum, int Score)
 {
 	LifeNumber.SetValue(Life);
 	StarNumber.SetValue(Star);
-	CoinNumber.SetValue(Coin);
+	CoinNumber.SetValue(CoinNum);
 	ScoreNumber.SetValue(Score);
 }
 

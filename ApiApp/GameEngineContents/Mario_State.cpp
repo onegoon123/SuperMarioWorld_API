@@ -1553,7 +1553,7 @@ void Mario::GameOverStart()
 	AnimationRender->ChangeAnimation("GameOver1");
 	Timer = 0;
 	MoveDir = float4::Zero;
-	dynamic_cast<StageLevel*>(GetLevel())->GetBGMPlayer().Stop();
+	CurrentLevel->GetBGMPlayer().Stop();
 	GameEngineResources::GetInst().SoundPlay("PlayerDown.mp3");
 }
 
@@ -1564,7 +1564,7 @@ void Mario::GameOverUpdate(float _DeltaTime)
 	
 	if (3.5f < Timer)
 	{
-		dynamic_cast<StageLevel*>(GetLevel())->MarioDie();
+		CurrentLevel->MarioDie();
 		IsDie = true;
 	}
 	else if (0.8f < Timer)

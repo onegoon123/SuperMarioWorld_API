@@ -14,6 +14,27 @@ Bamba::~Bamba() {
 
 }
 
+void Bamba::SpinHit()
+{
+}
+
+void Bamba::JumpHit()
+{
+	if (0 < MoveDir.x)
+	{
+		AnimationRender->ChangeAnimation("RIGHT_OVERTURN");
+	}
+	else
+	{
+		AnimationRender->ChangeAnimation("LEFT_OVERTURN");
+	}
+	StateValue = State::Overturn;
+}
+
+void Bamba::FireHit()
+{
+}
+
 void Bamba::BlockHit()
 {
 	Death();
@@ -31,6 +52,8 @@ void Bamba::Start()
 		AnimationRender->SetScale({ 64, 64 });
 		AnimationRender->CreateAnimation({ .AnimationName = "LEFT_WALK", .ImageName = "BAMBA.BMP", .Start = 0, .End = 1, .InterTime = 0.25f });
 		AnimationRender->CreateAnimation({ .AnimationName = "RIGHT_WALK", .ImageName = "BAMBA.BMP", .Start = 2, .End = 3, .InterTime = 0.25f });
+		AnimationRender->CreateAnimation({ .AnimationName = "LEFT_OVERTURN", .ImageName = "BAMBA.BMP", .Start = 4, .End = 5, .InterTime = 0.25f });
+		AnimationRender->CreateAnimation({ .AnimationName = "RIGHT_OVERTURN", .ImageName = "BAMBA.BMP", .Start = 6, .End = 7, .InterTime = 0.25f });
 	}
 	AnimationRender->ChangeAnimation("LEFT_WALK");
 	AnimationRender->SetPosition({ 0, -28 });
@@ -46,7 +69,20 @@ void Bamba::Start()
 
 void Bamba::Update(float _DeltaTime)
 {
-	EnemyActor::Update(_DeltaTime);
+	switch (StateValue)
+	{
+	case State::Normal:
+		MoveUpdate(_DeltaTime);
+		break;
+	case State::Overturn:
+		break;
+	case State::Hold:
+		break;
+	case State::Die:
+		break;
+	default:
+		break;
+	}
 }
 
 void Bamba::Render(float _DeltaTime)
@@ -77,4 +113,8 @@ void Bamba::TurnRight()
 {
 	EnemyActor::TurnRight();
 	AnimationRender->ChangeAnimation("RIGHT_WALK");
+}
+
+void Bamba::OverturnUpdate(float _DeltaTime)
+{
 }

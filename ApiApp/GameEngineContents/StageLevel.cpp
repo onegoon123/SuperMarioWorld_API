@@ -14,10 +14,38 @@ StageLevel::~StageLevel() {
 
 }
 
+void StageLevel::AddCoin()
+{
+	GameEngineResources::GetInst().SoundPlay("Coin.WAV");
+	if (++CoinNum >= 100)
+	{
+		CoinNum -= 100;
+		AddLife();
+	}
+	UI->SetCoin(CoinNum);
+	AddScore(100);
+}
+
+void StageLevel::AddLife()
+{
+	GameEngineResources::GetInst().SoundPlay("1UP.WAV");
+	if (++Life >= 10)
+	{
+		Life = 9;
+	}
+	UI->SetLife(Life);
+}
+
+void StageLevel::AddScore(int _Score)
+{
+	Score += _Score;
+	UI->SetScore(Score);
+}
+
 void StageLevel::MarioDie()
 {
 	Life--;
-	MarioGameCore::GetInst().SetCoin(Coin);
+	MarioGameCore::GetInst().SetCoin(CoinNum);
 	MarioGameCore::GetInst().SetLife(Life);
 	MarioGameCore::GetInst().SetScore(Score);
 	MarioGameCore::GetInst().SetStar(Star);
@@ -55,9 +83,9 @@ void StageLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
 	Timer = Time;
 	Life = MarioGameCore::GetInst().GetLife();
 	Star = MarioGameCore::GetInst().GetStar();
-	Coin = MarioGameCore::GetInst().GetCoin();
+	CoinNum = MarioGameCore::GetInst().GetCoin();
 	Score = MarioGameCore::GetInst().GetScore();
-	UI->SetValue(Life, Star, Coin, Score);
+	UI->SetValue(Life, Star, CoinNum, Score);
 
 	CreateActor<LevelLoader>();
 }

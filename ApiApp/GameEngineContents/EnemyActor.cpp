@@ -19,7 +19,12 @@ void EnemyActor::Start()
 	Collision->SetScale(CollisionScale);
 }
 
-void EnemyActor::Update(float _DeltaTime)
+void EnemyActor::LevelChangeStart(GameEngineLevel* _PrevLevel)
+{
+	ColMap = GameEngineResources::GetInst().ImageFind(Map::MainMap->GetStageColName());
+}
+
+void EnemyActor::CameraInCheck()
 {
 	// 화면 밖으로 나갔는지 체크
 	float4 InCameraPos = GetPos() - GetLevel()->GetCameraPos();
@@ -35,12 +40,10 @@ void EnemyActor::Update(float _DeltaTime)
 	{
 		OnCamera();
 	}
+}
 
-	if (false == IsOnCamera)
-	{
-		return;
-	}
-
+void EnemyActor::MoveUpdate(float _DeltaTime)
+{
 	// 중력
 	MoveDir.y += GravityAcceleration * _DeltaTime;
 	if (GravityMax < MoveDir.y)
@@ -124,9 +127,9 @@ void EnemyActor::Update(float _DeltaTime)
 				break;
 			}
 		}
-		
+
 	}
-	
+
 	// 블록 체크
 	std::vector<GameEngineCollision*> Collisions;
 	CollisionCheckParameter Check = { .TargetGroup = static_cast<int>(CollisionOrder::Block), .TargetColType = CT_Rect, .ThisColType = CT_Rect };
@@ -165,11 +168,6 @@ void EnemyActor::Update(float _DeltaTime)
 
 	SetMove(MoveDir * _DeltaTime);
 
-}
-
-void EnemyActor::LevelChangeStart(GameEngineLevel* _PrevLevel)
-{
-	ColMap = GameEngineResources::GetInst().ImageFind(Map::MainMap->GetStageColName());
 }
 
 void EnemyActor::OffCamera()

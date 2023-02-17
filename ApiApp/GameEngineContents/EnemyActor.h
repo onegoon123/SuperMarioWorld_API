@@ -11,6 +11,9 @@ public:
 	EnemyActor();
 	~EnemyActor();
 
+	virtual void SpinHit() = 0;
+	virtual void JumpHit() = 0;
+	virtual void FireHit() = 0;
 	virtual void BlockHit() = 0;
 
 	EnemyActor(const EnemyActor& _Other) = delete;
@@ -20,8 +23,14 @@ public:
 
 protected:
 	void Start() override;
-	void Update(float _DeltaTime) override;
 	void LevelChangeStart(GameEngineLevel* _PrevLevel) override;
+
+	// 카메라 안에 있는지 체크
+	void CameraInCheck();
+	// 이동 처리 업데이트
+	void MoveUpdate(float _DeltaTime);
+
+
 
 	virtual void OffCamera();
 	virtual void OnCamera();
@@ -35,6 +44,7 @@ protected:
 	float SlopeSpeed = Speed * 0.6f;
 
 	float4 DirValue = float4::Zero;
+	float4 MoveDir = float4::Zero;
 private:
 
 	const float GravityMax = 1750;
@@ -45,6 +55,5 @@ private:
 	bool IsSlope = false;
 	GameEngineCollision* Collision = nullptr;
 	GameEngineImage* ColMap = nullptr;
-	float4 MoveDir = float4::Zero;
 };
 

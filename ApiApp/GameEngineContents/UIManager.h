@@ -12,7 +12,7 @@ public:
 	void SetTime(int Value);
 	void SetCoin(int Value);
 	void SetScore(int Value);
-	void SetValue(int Life, int Star, int Coin, int Score);
+	void SetValue(int Life, int Star, int CoinNum, int Score);
 
 	UIManager(const UIManager& _Other) = delete;
 	UIManager(UIManager&& _Other) noexcept = delete;

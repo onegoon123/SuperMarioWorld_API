@@ -11,6 +11,8 @@
 #include "Fire.h"
 #include "Particle.h"
 #include "Block.h"
+#include "StageLevel.h"
+#include "EnemyActor.h"
 
 Mario* Mario::MainPlayer = nullptr;
 
@@ -25,6 +27,7 @@ void Mario::NewItem(ItemType _Item)
 	switch (_Item)
 	{
 	case ItemType::Coin:
+		CurrentLevel->AddCoin();
 		break;
 	case ItemType::UpMushroom:
 		break;
@@ -283,6 +286,7 @@ void Mario::Start()
 void Mario::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
 	ColMap = GameEngineResources::GetInst().ImageFind(Map::MainMap->GetStageColName());
+	CurrentLevel = dynamic_cast<StageLevel*>(GetLevel());
 }
 
 void Mario::Update(float _DeltaTime)
@@ -743,7 +747,7 @@ void Mario::CheckCollision()
 	CollisionCheckParameter Check = { .TargetGroup = static_cast<int>(CollisionOrder::Monster), .TargetColType = CT_Rect, .ThisColType = CT_Rect };
 	if (true == Collision->Collision(Check, Collisions))
 	{
-		GameEngineActor* ColActor = Collisions[0]->GetActor();
+		EnemyActor* ColActor = Collisions[0]->GetOwner<EnemyActor>();
 		//ColActor->GetOwner<Mario>(); 전환 방식
 		
 		// 슬라이딩을 하고있는 경우
@@ -758,7 +762,22 @@ void Mario::CheckCollision()
 		// 플레이어가 몬스터보다 위에 있으면서 떨어지고 있는 경우
 		if (GetPos().y < ColActor->GetPos().y - 28 && 0 < MoveDir.y)
 		{
-			ColActor->Death();
+			switch (StateValue)
+			{
+			case MarioState::FALL:
+			case MarioState::RUNJUMP:
+				ColActor->JumpHit();
+				break;
+			case MarioState::SPIN:
+
+				break;
+			case MarioState::SLIDE:
+
+				break;
+			default:
+				ColActor->Death();
+				break;
+			}
 			Particle::CreateParticle(GetLevel(), GetPos(), "KICK");
 			GameEngineResources::GetInst().SoundPlay("kick.wav");
 
