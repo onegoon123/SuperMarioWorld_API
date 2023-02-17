@@ -2,6 +2,16 @@
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineResources.h>
 #include "UIManager.h"
+
+static float4 GridPos(int x, int y)
+{
+	return float4(static_cast<float>(x * 64 + 32), static_cast<float>((-y + 24) * 64));
+}
+static float4 ToGridPos(const float4& _Pos)
+{
+	return float4(static_cast<float>((_Pos.x-32) / 64), static_cast<float>(-(_Pos.y / 64 - 24)));
+}
+
 class StageLevel : public GameEngineLevel
 {
 public:
@@ -27,11 +37,6 @@ protected:
 	void Update(float _DeltaTime) override;
 	void LevelChangeStart(GameEngineLevel* _PrevLevel) override;
 	void LevelChangeEnd(GameEngineLevel* _NextLevel) override;
-
-	float4 GridPos(int x, int y)
-	{
-		return float4(static_cast<float>(x * 64 + 32), static_cast<float>((-y + 24) * 64));
-	}
 
 	std::string_view BackGroundName = "";
 	std::string_view StageName = "";

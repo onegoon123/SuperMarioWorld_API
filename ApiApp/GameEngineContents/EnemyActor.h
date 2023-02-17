@@ -11,6 +11,7 @@ public:
 	EnemyActor();
 	~EnemyActor();
 
+	virtual bool IsCollisionAttack() = 0;
 	virtual void SpinHit() = 0;
 	virtual void JumpHit() = 0;
 	virtual void FireHit() = 0;

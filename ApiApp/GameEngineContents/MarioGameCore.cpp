@@ -50,7 +50,7 @@ void MarioGameCore::Start()
 
 
 	new int();
-	CoinNum = 97;
+
 	CreateLevel<TitleLevel>("Title");
 	CreateLevel<WorldLevel>("World");
 	CreateLevel<StageLevel1>("Stage1");

@@ -13,17 +13,17 @@
 #include "Block.h"
 #include "StageLevel.h"
 #include "EnemyActor.h"
-
+#include "LevelLoader.h"
 Mario* Mario::MainPlayer = nullptr;
 
 void Mario::NewItem(ItemType _Item)
 {
-	/*
-	if (MarioState::CHANGEPOWER == StateValue)
+	
+	if (MarioState::GameOver == StateValue)
 	{
 		return;
 	}
-	*/
+	
 	switch (_Item)
 	{
 	case ItemType::Coin:
@@ -295,6 +295,7 @@ void Mario::Update(float _DeltaTime)
 	FireAnimTimer += _DeltaTime;
 	UpdateState(_DeltaTime);
 	GetLevel()->DebugTextPush(GetPos().ToString());
+	GetLevel()->DebugTextPush(ToGridPos(GetPos()).ToString());
 
 	// 시간 멈춘 상태 체크
 	if (MarioState::CHANGEPOWER == StateValue || MarioState::GameOver == StateValue)
@@ -338,13 +339,13 @@ void Mario::Update(float _DeltaTime)
 	}
 	if (GameEngineInput::IsDown("2"))
 	{
-
-	}
-	if (GameEngineInput::IsDown("3"))
-	{
 		Speed = 705;
 		RunSpeed = 850.0f;
 		ColMap = GameEngineResources::GetInst().ImageFind(Map::MainMap->GetStageColName());
+	}
+	if (GameEngineInput::IsDown("3"))
+	{
+		LevelLoader::ChangeLevel("World");
 	}
 }
 
@@ -769,7 +770,7 @@ void Mario::CheckCollision()
 				ColActor->JumpHit();
 				break;
 			case MarioState::SPIN:
-
+				ColActor->SpinHit();
 				break;
 			case MarioState::SLIDE:
 
@@ -778,9 +779,9 @@ void Mario::CheckCollision()
 				ColActor->Death();
 				break;
 			}
+
 			Particle::CreateParticle(GetLevel(), GetPos(), "KICK");
 			GameEngineResources::GetInst().SoundPlay("kick.wav");
-
 			MoveDir.y = 0;
 			IsGrounded = false;
 			JumpTimeCounter = JumpTime;
@@ -794,7 +795,7 @@ void Mario::CheckCollision()
 			return;
 		}
 		// 그 외 무적 시간이 아닌 경우 대미지
-		else if(false == IsInvincibility)
+		else if(false == IsInvincibility && true == ColActor->IsCollisionAttack())
 		{
 			// 대미지
 			GetDamaged();

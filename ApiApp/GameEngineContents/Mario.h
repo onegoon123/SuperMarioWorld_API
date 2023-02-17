@@ -70,7 +70,7 @@ private:
 	const float SpinPressForce = 2750;		// 스핀 점프 유지력
 	const float SlopeForce = 1000;			// 비탈길에서 가해지는 힘
 	const float JumpTime = 0.325f;			// 점프 유지 지속시간
-	const float GravityMax = 1750;			// 최대 중력
+	const float GravityMax = 1275;			// 최대 중력
 	const float GravityAcceleration = 4600;	// 중력 가속도
 	const float BrakingForce = 5;			// 브레이크 상태시 제동력
 	const float StoppingForce = 1;			// 정지시 제동력

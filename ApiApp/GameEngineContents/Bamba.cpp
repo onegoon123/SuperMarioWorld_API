@@ -6,6 +6,7 @@
 #include "ContentsEnums.h"
 #include "Map.h"
 #include "Block.h"
+#include "Particle.h"
 
 Bamba::Bamba() {
 }
@@ -14,8 +15,15 @@ Bamba::~Bamba() {
 
 }
 
+bool Bamba::IsCollisionAttack()
+{
+	return StateValue == State::Normal;
+}
+
 void Bamba::SpinHit()
 {
+	GameEngineResources::GetInst().SoundPlay("superstomp.wav");
+	Death();
 }
 
 void Bamba::JumpHit()
@@ -29,6 +37,9 @@ void Bamba::JumpHit()
 		AnimationRender->ChangeAnimation("LEFT_OVERTURN");
 	}
 	StateValue = State::Overturn;
+
+	Death();
+
 }
 
 void Bamba::FireHit()
@@ -49,26 +60,26 @@ void Bamba::Start()
 	// 兄希 持失
 	{
 		AnimationRender = CreateRender(RenderOrder::Monster);
-		AnimationRender->SetScale({ 64, 64 });
+		AnimationRender->SetScale(RenderScale);
 		AnimationRender->CreateAnimation({ .AnimationName = "LEFT_WALK", .ImageName = "BAMBA.BMP", .Start = 0, .End = 1, .InterTime = 0.25f });
 		AnimationRender->CreateAnimation({ .AnimationName = "RIGHT_WALK", .ImageName = "BAMBA.BMP", .Start = 2, .End = 3, .InterTime = 0.25f });
 		AnimationRender->CreateAnimation({ .AnimationName = "LEFT_OVERTURN", .ImageName = "BAMBA.BMP", .Start = 4, .End = 5, .InterTime = 0.25f });
 		AnimationRender->CreateAnimation({ .AnimationName = "RIGHT_OVERTURN", .ImageName = "BAMBA.BMP", .Start = 6, .End = 7, .InterTime = 0.25f });
+		AnimationRender->ChangeAnimation("LEFT_WALK");
+		AnimationRender->SetPosition(RenderPos);
 	}
-	AnimationRender->ChangeAnimation("LEFT_WALK");
-	AnimationRender->SetPosition({ 0, -28 });
 	// Collision 持失
 	{
 		Collision = CreateCollision(CollisionOrder::Monster);
-		Collision->SetScale({ 48, 32 });
-		Collision->SetPosition({ 0, 12 });
+		Collision->SetScale(CollisionScale);
+		Collision->SetPosition(CollisionPos);
 		Collision->SetDebugRenderType(CollisionType::CT_Rect);
 	}
-	Collision->SetPosition({ 0, -20 });
 }
 
 void Bamba::Update(float _DeltaTime)
 {
+	CameraInCheck();
 	switch (StateValue)
 	{
 	case State::Normal:
@@ -87,7 +98,17 @@ void Bamba::Update(float _DeltaTime)
 
 void Bamba::Render(float _DeltaTime)
 {
-	//BodyCollision->DebugRender();
+	//Collision->DebugRender();
+}
+
+void Bamba::OffCamera()
+{
+	StateValue = State::Die;
+}
+
+void Bamba::OnCamera()
+{
+	StateValue = State::Normal;
 }
 
 void Bamba::Turn()

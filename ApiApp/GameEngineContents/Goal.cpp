@@ -28,5 +28,5 @@ void Goal::Update(float _DeltaTime)
 
 void Goal::Render(float _DeltaTime)
 {
-	Collision->DebugRender();
+	//Collision->DebugRender();
 }

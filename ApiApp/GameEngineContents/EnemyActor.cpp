@@ -58,7 +58,7 @@ void EnemyActor::MoveUpdate(float _DeltaTime)
 	// 이동될 위치
 	float4 NextPos = GetPos() + MoveDir * _DeltaTime;
 	float4 ForwardPos = NextPos;
-	ForwardPos.y = GetPos().y;
+	ForwardPos.y = GetPos().y - 1;
 
 	// 맵 충돌 체크용 컬러 변수
 	DWORD PixelColor = ColMap->GetPixelColor(ForwardPos, White);
