@@ -139,6 +139,9 @@ void StageLevel1::LevelChangeStart(GameEngineLevel* _PrevLevel)
 		CreateActor<Bamba>()->SetPos(GridPos(106, 0));
 		CreateActor<Bamba>()->SetPos(GridPos(107, 0));
 
+		CreateActor<TurnBlock>()->SetPos({7700, 1341});
+		CreateActor<TurnBlock>()->SetPos({ 7764, 1341 });
+
 		CreateActor<Bamba>()->SetPos(GridPos(131, 4));
 		CreateActor<Bamba>()->SetPos(GridPos(139, 4));
 
