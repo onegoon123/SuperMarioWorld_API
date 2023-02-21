@@ -15,7 +15,8 @@ Block::~Block() {
 bool Block::Damage()
 {
 	GameEngineResources::GetInst().SoundPlay("breakblock.wav");
-	Particle::CreateParticle(GetLevel(), GetPos(), {32, 32}, "Blockdebrits");
+	//Particle::CreateParticle(GetLevel(), GetPos(), {32, 32}, "Blockdebrits");
+	Particle::CreateMovingParticle(GetLevel(), GetPos(), {250, -750}, "Blockdebrits", true, false, 2);
 	Death();
 	return true;
 }

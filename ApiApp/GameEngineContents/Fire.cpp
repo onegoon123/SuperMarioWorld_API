@@ -9,7 +9,7 @@
 #include "Particle.h"
 #include "Map.h"
 #include "Block.h"
-
+#include "EnemyActor.h"
 int Fire::Num = 0;
 
 Fire::Fire() {
@@ -63,9 +63,13 @@ void Fire::Update(float _DeltaTime)
 	CollisionCheckParameter Check = { .TargetGroup = static_cast<int>(CollisionOrder::Monster), .TargetColType = CT_Rect, .ThisColType = CT_Rect };
 	if (true == Collision->Collision(Check, Collisions))
 	{
-		Collisions[0]->GetActor()->Death();
-		Particle::CreateParticle(GetLevel(), GetPos(), "SMOKE1");
-		Death();
+		EnemyActor* ColActor = Collisions[0]->GetOwner<EnemyActor>();
+		if (false == ColActor->IsHold())
+		{
+			Collisions[0]->GetActor()->Death();
+			Particle::CreateParticle(GetLevel(), GetPos(), "SMOKE1");
+			Death();
+		}
 	}
 
 	MoveCalculation(_DeltaTime);

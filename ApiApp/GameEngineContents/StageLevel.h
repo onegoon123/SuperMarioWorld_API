@@ -2,6 +2,7 @@
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineResources.h>
 #include "UIManager.h"
+#include "ContentsEnums.h"
 
 static float4 GridPos(int x, int y)
 {
@@ -22,6 +23,9 @@ public:
 	{
 		return BGMPlayer;
 	}
+
+	void NewStockItem(ItemType _Item);
+	void DropStockItem();
 	void AddCoin();
 	void AddLife();
 	void AddScore(int _Score);
@@ -45,6 +49,7 @@ protected:
 	GameEngineSoundPlayer BGMPlayer = GameEngineSoundPlayer();
 	UIManager* UI = nullptr;
 private:
+	ItemType Item = ItemType::Coin;
 	int Life = 3;
 	int Star = 0;
 	int Score = 0;

@@ -1,5 +1,5 @@
 #include "QuestionBlock.h"
-
+#include <GameEngineCore/GameEngineResources.h>
 QuestionBlock::QuestionBlock() {
 
 }
@@ -42,5 +42,6 @@ void QuestionBlock::HitAnimEnd()
 	if (nullptr != ItemActor)
 	{
 		ItemActor->BlockOut();
+		GameEngineResources::GetInst().SoundPlay("OutItem.wav");
 	}
 }

@@ -1,6 +1,7 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
 #include <GameEngineCore/NumberRenderObject.h>
+#include "ContentsEnums.h"
 class UIManager : public GameEngineActor
 {
 public:
@@ -13,6 +14,7 @@ public:
 	void SetCoin(int Value);
 	void SetScore(int Value);
 	void SetValue(int Life, int Star, int CoinNum, int Score);
+	void SetStockItem(ItemType _Item);
 
 	UIManager(const UIManager& _Other) = delete;
 	UIManager(UIManager&& _Other) noexcept = delete;
@@ -27,6 +29,7 @@ protected:
 private:
 
 	GameEngineRender* UIImage = nullptr;
+	GameEngineRender* StockImageRender = nullptr;
 	NumberRenderObject LifeNumber;		// 최대 99
 	NumberRenderObject StarNumber;		// 최대 99
 	NumberRenderObject TimeNumber;		// 최대 999

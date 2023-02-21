@@ -12,10 +12,14 @@ public:
 	~EnemyActor();
 
 	virtual bool IsCollisionAttack() = 0;
+	virtual bool IsHold() = 0;
 	virtual void SpinHit() = 0;
 	virtual void JumpHit() = 0;
 	virtual void FireHit() = 0;
 	virtual void BlockHit() = 0;
+	virtual void MonsterHit() = 0;
+	virtual void Hold() = 0;
+	virtual void Kick(const float4& _Force) = 0;
 
 	EnemyActor(const EnemyActor& _Other) = delete;
 	EnemyActor(EnemyActor&& _Other) noexcept = delete;
@@ -46,15 +50,15 @@ protected:
 
 	float4 DirValue = float4::Zero;
 	float4 MoveDir = float4::Zero;
+	const float GravityMax = 1200;
+	const float GravityAcceleration = 3000;
+	GameEngineImage* ColMap = nullptr;
+	GameEngineCollision* Collision = nullptr;
 private:
 
-	const float GravityMax = 1750;
-	const float GravityAcceleration = 4600;
 	const float4 CollisionScale = { 16, 16 };
 
 	bool IsOnCamera = true;
 	bool IsSlope = false;
-	GameEngineCollision* Collision = nullptr;
-	GameEngineImage* ColMap = nullptr;
 };
 

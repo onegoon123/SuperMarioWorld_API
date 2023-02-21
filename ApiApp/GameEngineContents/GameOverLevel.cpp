@@ -19,7 +19,6 @@ void GameOverLevel::Loading()
 	ImageRender->SetPosition(ImageRender->GetScale().half());
 	CreateActor<LevelLoader>();
 
-	MarioGameCore::GetInst().ResetGame();
 }
 void GameOverLevel::Update(float _DeltaTime)
 {
@@ -34,4 +33,6 @@ void GameOverLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
 	BGMPlayer = GameEngineResources::GetInst().SoundPlayToControl("GameOver.mp3");
 	BGMPlayer.LoopCount(1);
+
+	MarioGameCore::GetInst().ResetGame();
 }

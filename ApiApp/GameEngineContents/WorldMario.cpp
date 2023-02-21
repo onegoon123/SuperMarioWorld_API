@@ -45,32 +45,73 @@ void WorldMario::Start()
 
 void WorldMario::Update(float _DeltaTime)
 {
+	if (true == IsMove)
+	{
+		Timer += _DeltaTime;
+		SetPos(float4::LerpClamp(StartPos, EndPos, Timer));
+		if (1 < Timer)
+		{
+			IsMove = false;
+			Timer = 0;
+		}
+		return;
+	}
+
+
 	if (true == IsStart) { return; }
 
 	if (GameEngineInput::IsDown("Left"))
 	{
 		AnimationRender->ChangeAnimation("LEFT");
-		Map->MoveLeft();
-		SetPos(Map->GetPos());
 		
+		if (true == Map->MoveLeft())
+		{
+			StartPos = GetPos();
+			EndPos = Map->GetPos();
+			Timer = 0;
+			IsMove = true;
+		}
+		return;
 	}
 	if (GameEngineInput::IsDown("Right"))
 	{
 		AnimationRender->ChangeAnimation("RIGHT");
-		Map->MoveRight();
-		SetPos(Map->GetPos());
+
+		if (true == Map->MoveRight())
+		{
+			StartPos = GetPos();
+			EndPos = Map->GetPos();
+			Timer = 0;
+			IsMove = true;
+		}
+		return;
 	}
 	if (GameEngineInput::IsDown("UP"))
 	{
 		AnimationRender->ChangeAnimation("UP");
-		Map->MoveUp();
-		SetPos(Map->GetPos());
+
+		if (true == Map->MoveUp())
+		{
+			StartPos = GetPos();
+			EndPos = Map->GetPos();
+			Timer = 0;
+			IsMove = true;
+		}
+		return;
 	}
 	if (GameEngineInput::IsDown("DOWN"))
 	{
 		AnimationRender->ChangeAnimation("DOWN");
-		Map->MoveDown();
-		SetPos(Map->GetPos());
+
+		if (true == Map->MoveDown())
+		{
+			StartPos = GetPos();
+			EndPos = Map->GetPos();
+			Timer = 0;
+			IsMove = true;
+		}
+
+		return;
 	}
 	if (GameEngineInput::IsDown("Start") || GameEngineInput::IsDown("Dash") || GameEngineInput::IsDown("Jump") || GameEngineInput::IsDown("Spin"))
 	{

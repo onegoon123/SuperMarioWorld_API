@@ -81,9 +81,6 @@
     <ClInclude Include="Coin.h">
       <Filter>Play\Object\Item</Filter>
     </ClInclude>
-    <ClInclude Include="MultiParticle.h">
-      <Filter>Play\Object\Player</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MarioGameCore.cpp" />
@@ -167,9 +164,6 @@
     </ClCompile>
     <ClCompile Include="Coin.cpp">
       <Filter>Play\Object\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="MultiParticle.cpp">
-      <Filter>Play\Object\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

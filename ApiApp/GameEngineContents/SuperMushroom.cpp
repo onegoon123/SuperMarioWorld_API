@@ -32,6 +32,8 @@ void SuperMushroom::Start()
 	ItemRender->SetPosition({ 0, -30});
 
 	ThisItemType = ItemType::SuperMushroom;
+
+	ColMap = GameEngineResources::GetInst().ImageFind(Map::MainMap->GetStageColName());
 }
 
 void SuperMushroom::Update(float _DeltaTime)

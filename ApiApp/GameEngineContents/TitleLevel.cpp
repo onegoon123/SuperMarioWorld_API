@@ -37,11 +37,14 @@ void TitleLevel::Loading()
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("PLAY\\STAGE1.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("PLAY\\BACKGROUND1.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("PLAY\\ALLBLACK.BMP"));
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("PLAY\\NUMBER.BMP"))->Cut(10, 1);
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("PLAY\\NUMBERBIG.BMP"))->Cut(10, 1);
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("PLAY\\NUMBERYELLOW.BMP"))->Cut(10, 1);
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TITLE\\GAMEOVER.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TITLE\\TITLE.BMP"));
 
-	// 사운드를 로딩한다
-	Dir.MoveParentToDirectory("ContentsResources");
+	// 사운드를 로딩한다										  
+	Dir.MoveParentToDirectory("ContentsResources");				
 	Dir.Move("ContentsResources");
 	Dir.Move("Sound");
 	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("Title.mp3"));

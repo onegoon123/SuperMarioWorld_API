@@ -27,7 +27,7 @@ public:
 	inline PowerState GetMarioStateData() const {
 		return MarioStateData;
 	}
-	inline PowerState GetStockStateData() const {
+	inline ItemType GetStockStateData() const {
 		return StockStateData;
 	}
 	inline bool GetRidedYoshiData() const {
@@ -60,7 +60,7 @@ public:
 	inline void SetMarioStateData(PowerState _StateData) {
 		MarioStateData = _StateData;
 	}
-	inline void SetStockStateData(PowerState _StateData) {
+	inline void SetStockStateData(ItemType _StateData) {
 		StockStateData = _StateData;
 	}
 	inline void SetRidedYoshiData(bool _Data) {
@@ -84,7 +84,7 @@ private:
 		
 	// 마리오 데이터
 	PowerState MarioStateData = PowerState::Normal;
-	PowerState StockStateData = PowerState::Normal;
+	ItemType StockStateData = ItemType::Coin;
 	const int StartLife = 3;
 	int Life = StartLife;
 	int	Star = 0;

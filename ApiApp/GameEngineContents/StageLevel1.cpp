@@ -42,6 +42,7 @@ void StageLevel1::Loading()
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("SUPERMUSHROOM.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("FIRE.BMP"))->Cut(4, 1);
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("FIREFLOWER.BMP"))->Cut(2, 1);
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("FIREFLOWERUI.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("SMOKE.BMP"))->Cut(5, 1);
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("SKIDDUST1.BMP"))->Cut(5, 1);
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("SKIDDUST.BMP"))->Cut(4, 1);
@@ -50,9 +51,7 @@ void StageLevel1::Loading()
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Blockdebrits.BMP"))->Cut(6, 1);
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("PLAYUI.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("NONE.BMP"));
-	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("NUMBER.BMP"))->Cut(10, 1);
-	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("NUMBERBIG.BMP"))->Cut(10, 1);
-	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("NUMBERYELLOW.BMP"))->Cut(10, 1);
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("StarParticle.BMP"))->Cut(1,1);
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("QuestionBlock.BMP"))->Cut(5,1);
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Coin.BMP"))->Cut(4,1);
 
@@ -72,6 +71,7 @@ void StageLevel1::Loading()
 	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("Coin.wav"));
 	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("breakblock.wav"));
 	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("superstomp.wav"));
+	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("OutItem.wav"));
 }
 
 void StageLevel1::LevelChangeStart(GameEngineLevel* _PrevLevel)
@@ -89,7 +89,7 @@ void StageLevel1::LevelChangeStart(GameEngineLevel* _PrevLevel)
 	Map1->MoveMap(0);
 	SetCameraMove({ 0, 790 });
 
-	/*
+	
 	{
 		CreateActor<Bamba>()->SetPos(GridPos(10, 1));
 		CreateActor<Coin>()->SetPos(GridPos(8, 4));
@@ -100,8 +100,8 @@ void StageLevel1::LevelChangeStart(GameEngineLevel* _PrevLevel)
 		ItemBox->SetPos(GridPos(4, 4));
 		ItemBox->SetItem(ItemType::SuperMushroom);
 	}
-	*/
-
+	
+	
 	{
 		CreateActor<Coin>()->SetPos(GridPos(11, 3));
 		CreateActor<Coin>()->SetPos(GridPos(12, 3));
@@ -113,6 +113,9 @@ void StageLevel1::LevelChangeStart(GameEngineLevel* _PrevLevel)
 		CreateActor<TurnBlock>()->SetPos(GridPos(23, 3));
 		QuestionBlock* ItemBox = CreateActor<QuestionBlock>();
 		ItemBox->SetPos(GridPos(25, 3));
+		ItemBox->SetItem(ItemType::SuperMushroom);
+		ItemBox = CreateActor<QuestionBlock>();
+		ItemBox->SetPos(GridPos(26, 3));
 		ItemBox->SetItem(ItemType::SuperMushroom);
 		CreateActor<TurnBlock>()->SetPos(GridPos(27, 3));
 
@@ -177,11 +180,11 @@ void StageLevel1::LevelChangeStart(GameEngineLevel* _PrevLevel)
 		CreateActor<Bamba>()->SetPos(GridPos(252, 0));
 		CreateActor<Bamba>()->SetPos(GridPos(253, 0));
 
-		CreateActor<Bamba>()->SetPos(GridPos(270, 3));
-		CreateActor<Bamba>()->SetPos(GridPos(272, 3));
-		CreateActor<Bamba>()->SetPos(GridPos(274, 3));
+		CreateActor<Bamba>()->SetPos(GridPos(270, 4));
+		CreateActor<Bamba>()->SetPos(GridPos(272, 4));
+		CreateActor<Bamba>()->SetPos(GridPos(274, 4));
 	}
-
+	
 
 	CreateActor<Goal>()->SetGoal(GridPos(302, 0), "World");
 	StageLevel::LevelChangeStart(_PrevLevel);

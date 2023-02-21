@@ -4,14 +4,66 @@
 #include <GameEngineCore/GameEngineResources.h>
 #include <GameEngineCore/GameEngineActor.h>
 #include "Mario.h"
-#include "ContentsEnums.h"
 #include "LevelLoader.h"
+#include "SuperMushroom.h"
+#include "FireFlower.h"
+
 StageLevel::StageLevel()
 {
 }
 
 StageLevel::~StageLevel() {
 
+}
+
+void StageLevel::NewStockItem(ItemType _Item)
+{
+	switch (_Item)
+	{
+	case ItemType::UpMushroom:
+		break;
+	case ItemType::SuperMushroom:
+		break;
+	case ItemType::FireFlower:
+		break;
+	case ItemType::Feather:
+		break;
+	default:
+		break;
+	}
+
+	Item = _Item;
+	UI->SetStockItem(_Item);
+}
+
+void StageLevel::DropStockItem()
+{
+	GameEngineActor* NewActor = nullptr;
+	switch (Item)
+	{
+	case ItemType::Coin:
+		return;
+	case ItemType::UpMushroom:
+		return;
+	case ItemType::SuperMushroom:
+		NewActor = CreateActor<SuperMushroom>(RenderOrder::Item);
+		break;
+	case ItemType::FireFlower:
+		NewActor = CreateActor<FireFlower>(RenderOrder::Item);
+		break;
+	case ItemType::Feather:
+		break;
+	default:
+		return;
+	}
+
+	float4 SpawnPos = Mario::MainPlayer->GetPos();
+	SpawnPos.y = GetCameraPos().y;
+
+	NewActor->SetPos(SpawnPos);
+	Item = ItemType::Coin;
+
+	UI->SetStockItem(ItemType::Coin);
 }
 
 void StageLevel::AddCoin()
@@ -45,11 +97,6 @@ void StageLevel::AddScore(int _Score)
 void StageLevel::MarioDie()
 {
 	Life--;
-	MarioGameCore::GetInst().SetCoin(CoinNum);
-	MarioGameCore::GetInst().SetLife(Life);
-	MarioGameCore::GetInst().SetScore(Score);
-	MarioGameCore::GetInst().SetStar(Star);
-
 	if (0 >= Life)
 	{
 		LevelLoader::ChangeLevel("GameOver");
@@ -85,8 +132,10 @@ void StageLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
 	Star = MarioGameCore::GetInst().GetStar();
 	CoinNum = MarioGameCore::GetInst().GetCoin();
 	Score = MarioGameCore::GetInst().GetScore();
-	UI->SetValue(Life, Star, CoinNum, Score);
+	Item = MarioGameCore::GetInst().GetStockStateData();
 
+	UI->SetValue(Life, Star, CoinNum, Score);
+	UI->SetStockItem(Item);
 	CreateActor<LevelLoader>();
 }
 
@@ -108,6 +157,13 @@ void StageLevel::LevelChangeEnd(GameEngineLevel* _NextLevel)
 		Mario::MainPlayer = nullptr;
 	}
 	SetCameraPos(float4::Zero);
+
+	MarioGameCore::GetInst().SetCoin(CoinNum);
+	MarioGameCore::GetInst().SetLife(Life);
+	MarioGameCore::GetInst().SetScore(Score);
+	MarioGameCore::GetInst().SetStar(Star);
+	MarioGameCore::GetInst().SetStockStateData(Item);
+
 	BGMPlayer.Stop();
 }
 

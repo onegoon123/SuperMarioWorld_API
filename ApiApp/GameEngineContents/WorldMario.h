@@ -88,33 +88,41 @@ public:
 		}
 	}
 
-	void MoveUp()
+	bool MoveUp()
 	{
 		if (nullptr != StagePointer->Up)
 		{
 			StagePointer = StagePointer->Up;
+			return true;
 		}
+		return false;
 	}
-	void MoveDown()
+	bool MoveDown()
 	{
 		if (nullptr != StagePointer->Down)
 		{
 			StagePointer = StagePointer->Down;
+			return true;
 		}
+		return false;
 	}
-	void MoveLeft()
+	bool MoveLeft()
 	{
 		if (nullptr != StagePointer->Left)
 		{
 			StagePointer = StagePointer->Left;
+			return true;
 		}
+		return false;
 	}
-	void MoveRight()
+	bool MoveRight()
 	{
 		if (nullptr != StagePointer->Right)
 		{
 			StagePointer = StagePointer->Right;
+			return true;
 		}
+		return false;
 	}
 	bool IsStage()
 	{
@@ -152,6 +160,10 @@ protected:
 	void LevelChangeStart(GameEngineLevel* _Prev) override;
 private:
 	bool IsStart = false;
+	bool IsMove = false;
+	float4 StartPos = float4::Zero;
+	float4 EndPos = float4::Zero;
+	float Timer = 0;
 	GameEngineRender* AnimationRender = nullptr;
 	WorldMap* Map = nullptr;
 };

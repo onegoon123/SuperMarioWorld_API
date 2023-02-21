@@ -4,6 +4,7 @@
 #include <GameEngineCore/GameEngineResources.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineRender.h>
+#include <GameEngineCore/NumberRenderObject.h>
 #include "MarioGameCore.h"
 #include "ContentsEnums.h"
 WorldImage::WorldImage() {
@@ -131,9 +132,45 @@ void WorldImage::Start()
 			Render->ChangeAnimation("STAGE");
 			Render->SetPosition({ 676, 706 });
 		}
+
+		{
+			AnimationRender = CreateRender(RenderOrder::Player);
+			AnimationRender->CreateAnimation({.AnimationName = "Normal", .ImageName = "LEFT_MARIO.BMP", .Start = 3, .End = 5, .InterTime = 0.12f });
+			AnimationRender->CreateAnimation({ .AnimationName = "Super", .ImageName = "LEFT_MARIO.BMP", .Start = 3 + 53, .End = 5 + 53, .InterTime = 0.12f });
+			AnimationRender->CreateAnimation({ .AnimationName = "Fire", .ImageName = "LEFT_MARIO.BMP", .Start = 3 + 103, .End = 5 + 103, .InterTime = 0.12f });
+			AnimationRender->SetScale({ 192,192 });
+			AnimationRender->SetPosition({ 148,95 });
+			AnimationRender->ChangeAnimation("Normal");
+		}
+		{
+			LifeNum.SetOwner(this);
+			LifeNum.SetImage("NUMBER.BMP", { 32 ,28 }, static_cast<int>(RenderOrder::UI), RGB(255, 0, 255), "NONE.bmp");
+			LifeNum.SetRenderPos({ 300, 138 });
+			LifeNum.SetAlign(Align::Right);
+			LifeNum.SetValue(3);
+		}
 	}
 }
 
 void WorldImage::Update(float _DeltaTime)
 {
+}
+
+void WorldImage::LevelChangeStart(GameEngineLevel* _Prev)
+{
+	LifeNum.SetValue(MarioGameCore::GetInst().GetLife());
+	switch (MarioGameCore::GetInst().GetMarioStateData())
+	{
+	case PowerState::Normal:
+		AnimationRender->ChangeAnimation("Normal");
+		break;
+	case PowerState::Super:
+		AnimationRender->ChangeAnimation("Super");
+		break;
+	case PowerState::Fire:
+		AnimationRender->ChangeAnimation("Fire");
+		break;
+	default:
+		break;
+	}
 }

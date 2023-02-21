@@ -72,10 +72,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="MultiParticle.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="Particle.h">
       <SubType>
       </SubType>
@@ -184,10 +180,6 @@
     </ClCompile>
     <ClCompile Include="Mario_State.cpp" />
     <ClCompile Include="EnemyActor.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="MultiParticle.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -363,6 +355,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

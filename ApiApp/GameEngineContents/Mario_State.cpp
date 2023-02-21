@@ -195,7 +195,7 @@ void Mario::IdleUpdate(float _DeltaTime)
 		return;
 	}
 	// 스핀 키를 입력한 경우
-	else if (GameEngineInput::IsDown("Spin"))
+	else if (GameEngineInput::IsDown("Spin") && false == IsHold)
 	{
 		// 점프 상태로 전환
 		ChangeState(MarioState::SPIN);
@@ -270,7 +270,7 @@ void Mario::WalkUpdate(float _DeltaTime)
 		return;
 	}
 	// 스핀 키를 입력한 경우
-	if (GameEngineInput::IsDown("Spin"))
+	if (GameEngineInput::IsDown("Spin") && false == IsHold)
 	{
 		// 스핀 상태로 전환
 		ChangeState(MarioState::SPIN);
@@ -497,7 +497,7 @@ void Mario::RunUpdate(float _DeltaTime)
 		return;
 	}
 	// 스핀 키를 입력한 경우
-	if (GameEngineInput::IsDown("Spin"))
+	if (GameEngineInput::IsDown("Spin") && false == IsHold)
 	{
 		// 스핀 상태로 전환
 		ChangeState(MarioState::SPIN);
@@ -623,7 +623,7 @@ void Mario::BrakeUpdate(float _DeltaTime)
 		return;
 	}
 	// 스핀 키를 입력한 경우
-	if (GameEngineInput::IsDown("Spin"))
+	if (GameEngineInput::IsDown("Spin") && false == IsHold)
 	{
 		// 스핀 상태로 전환
 		ChangeState(MarioState::SPIN);
@@ -991,7 +991,7 @@ void Mario::CrouchUpdate(float _DeltaTime)
 		return;
 	}
 	// 스핀 키를 입력한 경우
-	if (GameEngineInput::IsDown("Spin"))
+	if (GameEngineInput::IsDown("Spin") && false == IsHold)
 	{
 		// 스핀 상태로 전환
 		ChangeState(MarioState::SPIN);
@@ -1011,7 +1011,7 @@ void Mario::CrouchUpdate(float _DeltaTime)
 		}
 	}
 	// 경사로인 경우
-	if (true == IsSlope)
+	if (true == IsSlope && false == IsHold)
 	{
 		ChangeState(MarioState::SLIDE);
 		return;
@@ -1057,7 +1057,7 @@ void Mario::LookUpUpdate(float _DeltaTime)
 		return;
 	}
 	// 스핀 키를 입력한 경우
-	if (GameEngineInput::IsDown("Spin"))
+	if (GameEngineInput::IsDown("Spin") && false == IsHold)
 	{
 		// 스핀 상태로 전환
 		ChangeState(MarioState::SPIN);
@@ -1389,7 +1389,7 @@ void Mario::SlideUpdate(float _DeltaTime)
 		return;
 	}
 	// 스핀 키를 입력한 경우
-	if (GameEngineInput::IsDown("Spin"))
+	if (GameEngineInput::IsDown("Spin") && false == IsHold)
 	{
 		// 스핀 상태로 전환
 		ChangeState(MarioState::SPIN);
@@ -1495,6 +1495,7 @@ void Mario::ChangePowerUpdate(float _DeltaTime)
 	if (0 >= Timer) {
 		if (PowerState::Normal == MarioPower)
 		{
+			CurrentLevel->DropStockItem();
 			Timer = InvincibilityTime;
 		}
 		switch (BeforeState)
@@ -1540,6 +1541,7 @@ void Mario::ChangePowerUpdate(float _DeltaTime)
 			return;
 		}
 		StateValue = BeforeState;
+		ChangePowerEnd();
 	}
 }
 

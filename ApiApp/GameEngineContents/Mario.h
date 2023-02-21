@@ -34,6 +34,7 @@ enum class Dir
 // 요시 탑승시 조작도 해당 클래스에서 구현된다
 class StageLevel;
 class GameEngineImage;
+class EnemyActor;
 class Mario : public GameEngineActor
 {
 public:
@@ -45,7 +46,9 @@ public:
 	bool GetIsGameOver() {
 		return StateValue == MarioState::GameOver;
 	}
-
+	PowerState GetPowerState() {
+		return MarioPower;
+	}
 	Mario();
 	~Mario();
 
@@ -59,6 +62,7 @@ protected:
 	void Update(float _DeltaTime) override;
 	void Render(float _DeltaTime) override;
 	void LevelChangeStart(GameEngineLevel* _PrevLevel) override;
+	void LevelChangeEnd(GameEngineLevel* _NextLevel) override;
 private:
 
 	float Speed = 705;				// 이동 속도
@@ -76,10 +80,11 @@ private:
 	const float StoppingForce = 1;			// 정지시 제동력
 	const float Acceleration = 1.5;			// 걷고 있을때 가속력
 	const float DashAcceleration = 2;		// 대시 시 가속력
-	const float InvincibilityTime = 1.5f;	// 피격시 무적 시간
+	const float InvincibilityTime = 3;		// 피격시 무적 시간
 	const float ChangePowerTime = 0.9f;		// 파워 변경 애니메이션 지속시간
 	const float GameOverTime = 2.0f;		// 게임오버시 애니메이션 지속시간
 	const float FireAnimTime = 0.2f;		// 불 쏠때 애니메이션 지속시간
+	const float KickAnimTime = 0.25f;		// 발 차기 할때 애니메이션 지속시간
 	const float ParticleDelay = 0.1f;		// 파티클 재생성 딜레이
 	const float HeadingReaction = 150.0f;	// 헤딩시 반작용 힘
 
@@ -90,16 +95,16 @@ private:
 	const float4 CollisionPos = { 0, -32 };	// 충돌체 위치 
 	const float4 FootCollisionScale ={ 24, 60 };// 충돌체 크기
 	const float4 FootCollisionPos = { 0, -30 };	// 충돌체 위치 
+	const float4 HoldPos = { 40, -8 };	// 충돌체 위치 
 
 	
 
-	//			 MarioPower	   StockState
-	// Normal : 기본마리오		비어있음
-	// Super  : 슈퍼마리오		버섯
-	// Fire   : 파이어마리오	꽃
-	// Cape   : 망토마리오		깃털
+	//			 MarioPower	
+	// Normal : 기본마리오	
+	// Super  : 슈퍼마리오	
+	// Fire   : 파이어마리오	
+	// Cape   : 망토마리오	
 	PowerState MarioPower = PowerState::Normal;
-	PowerState StockState = PowerState::Normal;
 
 	bool IsRidedYoshi = false;		// 요시 탑승 여부
 	bool IsGrounded = true;			// 마리오가 땅 위에 있는지 여부
@@ -107,12 +112,14 @@ private:
 	bool IsInvincibility = false;	// 무적 시간 여부
 	bool IsOnBlock = false;			// 마리오가 블록 위에 있는지 여부
 	bool IsDie = false;			
+	bool IsHold = false;
 	float4 MoveDir = float4::Zero;	// 수평으로 가해지는 힘
 	float HorizontalForce = 0;
 	float JumpTimeCounter = 0;
 	float RunChargeTime = 0;	// 대시를 한 시간을 기록해서 달리기 전환을 판단하는 변수
 	float Timer = 0;
 	float FireAnimTimer = 0;	// 불 쏠때 애니메이션 지속시간
+	float KickAnimTimer = KickAnimTime;	// 발차기 할 때 애니메이션 지속시간
 	float ParticleDelayTimer = 0;	// 파티클 재생성 딜레이
 
 	MarioState StateValue = MarioState::IDLE;
@@ -126,6 +133,8 @@ private:
 	GameEngineCollision* Collision = nullptr;
 	GameEngineCollision* FootCollision = nullptr;
 	StageLevel* CurrentLevel = nullptr;
+	EnemyActor* HoldActor = nullptr;
+
 
 #pragma region __________ State 관련 함수 _________
 	void ChangeState(MarioState _State);
@@ -210,14 +219,10 @@ private:
 
 #pragma region __________ 파워 관련 함수 __________
 	void FireAttack();
-	void TakeOutStock() {
-		if (PowerState::Normal == StockState) {
-			return;
-		}
-		// ( 미구현 스톡에 해당하는 파워아이템을 생성)
-		StockState = PowerState::Normal;
-	}
+	void NewPower(PowerState _Power);
 #pragma endregion
+
+	void KickAttack();
 
 };
 

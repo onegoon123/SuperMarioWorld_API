@@ -1,6 +1,6 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
-#include "MarioGameCore.h"
+#include <GameEngineCore/NumberRenderObject.h>
 
 class WorldImage : public GameEngineActor
 {
@@ -16,7 +16,11 @@ public:
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
-private:
 
+	void LevelChangeStart(GameEngineLevel* _Prev);
+
+private:
+	GameEngineRender* AnimationRender;
+	NumberRenderObject LifeNum;
 };
 

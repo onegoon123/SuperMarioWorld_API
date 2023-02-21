@@ -42,6 +42,24 @@ void UIManager::SetValue(int Life, int Star, int CoinNum, int Score)
 	ScoreNumber.SetValue(Score);
 }
 
+void UIManager::SetStockItem(ItemType _Item)
+{
+	switch (_Item)
+	{
+	case ItemType::SuperMushroom:
+		StockImageRender->SetImage("SUPERMUSHROOM.BMP");
+		break;
+	case ItemType::FireFlower:
+		StockImageRender->SetImage("FIREFLOWERUI.BMP");
+		break;
+	case ItemType::Feather:
+		break;
+	default:
+		StockImageRender->SetImage("NONE.BMP");
+		break;
+	}
+}
+
 
 void UIManager::Start()
 {
@@ -79,6 +97,12 @@ void UIManager::Start()
 	ScoreNumber.SetRenderPos({ 948, 110 });
 	ScoreNumber.SetAlign(Align::Right);
 	ScoreNumber.SetValue(0);
+
+
+	StockImageRender = CreateRender("NONE.BMP", RenderOrder::UI);
+	StockImageRender->EffectCameraOff();
+	StockImageRender->SetScale({ 64, 64 });
+	StockImageRender->SetPosition({ 512, 92 });
 }
 
 void UIManager::Update(float _DeltaTime)
