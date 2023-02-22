@@ -49,6 +49,8 @@ public:
 	PowerState GetPowerState() {
 		return MarioPower;
 	}
+	void DropHold();
+
 	Mario();
 	~Mario();
 
@@ -97,7 +99,9 @@ private:
 	const float4 FootCollisionPos = { 0, -30 };	// 충돌체 위치 
 	const float4 HoldPos = { 40, -8 };	// 충돌체 위치 
 
-	
+	float4 ScreenSize = float4::Zero;
+	float4 MapSize = float4::Zero;
+
 
 	//			 MarioPower	
 	// Normal : 기본마리오	
@@ -207,6 +211,7 @@ private:
 
 #pragma region __________ 이동 관련 함수 __________
 	void MoveCalculation(float _DeltaTime);
+	void CameraMove(float _DeltaTime);
 #pragma endregion
 
 #pragma region __________ 피격 관련 함수 __________

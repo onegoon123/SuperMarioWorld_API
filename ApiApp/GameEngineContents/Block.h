@@ -44,9 +44,12 @@ private:
 	const float4 CollisionPos = { 0, -35 };
 	const float4 HitCollisionScale = { 32, 16 };
 	const float4 HitCollisionPos = { 0, -64 };
+	const float4 BlockdebritsForce = { 250, -750 };
+	const float BlockdebritsLiveTime = 2;
 	bool IsHit = false;
 	float HitTimer = 0;
 	const float HitTime = 0.05f;
+	const float HitTime2 = 0.1f;
 	GameEngineCollision* Collision = nullptr;
 	GameEngineCollision* HitCollision = nullptr;
 };

@@ -5,6 +5,8 @@
 #include <GameEngineCore/GameEngineCollision.h>
 #include <GameEngineCore/GameEngineLevel.h>
 
+static const float4 SlopeRightUp = { 5,-5 };
+
 class EnemyActor : public GameEngineActor
 {
 public:
@@ -17,7 +19,7 @@ public:
 	virtual void JumpHit() = 0;
 	virtual void FireHit() = 0;
 	virtual void BlockHit() = 0;
-	virtual void MonsterHit() = 0;
+	virtual void MonsterHit(bool IsLeft) = 0;
 	virtual void Hold() = 0;
 	virtual void Kick(const float4& _Force) = 0;
 

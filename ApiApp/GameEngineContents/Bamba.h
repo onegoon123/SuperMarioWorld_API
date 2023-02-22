@@ -23,7 +23,7 @@ public:
 	void JumpHit() override;
 	void FireHit() override;
 	void BlockHit() override;
-	void MonsterHit() override;
+	void MonsterHit(bool IsLeft) override;
 	void Hold() override;
 	void Kick(const float4& _Force) override;
 
@@ -51,6 +51,11 @@ private:
 	const float4 RenderPos = {0, -28};
 	const float4 CollisionScale = {48, 48};
 	const float4 CollisionPos = {0, -24};
+	const float4 MonsterHitForce = { 250, -750};
+	const float HeadingReaction = 100;
+	const float BambaSpeed = 100;
+	const float BambaSlopeSpeed = BambaSpeed * 0.6f;
+
 	State StateValue = State::Normal;
 	float4 MoveDir = { 0,0 };
 	const float BrakeForce = 1000;
@@ -58,5 +63,8 @@ private:
 
 	void OverturnUpdate(float _DeltaTime);
 	void KickUpdate(float _DeltaTime);
+	void DieUpdate(float _DeltaTime);
+	
+	void MonsterCheck();
 };
 

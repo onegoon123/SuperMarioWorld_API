@@ -66,8 +66,9 @@ void Fire::Update(float _DeltaTime)
 		EnemyActor* ColActor = Collisions[0]->GetOwner<EnemyActor>();
 		if (false == ColActor->IsHold())
 		{
-			Collisions[0]->GetActor()->Death();
+			Collisions[0]->GetOwner<EnemyActor>()->FireHit();
 			Particle::CreateParticle(GetLevel(), GetPos(), "SMOKE1");
+			GameEngineResources::GetInst().SoundPlay("kick.wav");
 			Death();
 		}
 	}

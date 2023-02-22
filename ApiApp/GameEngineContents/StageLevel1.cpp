@@ -98,7 +98,7 @@ void StageLevel1::LevelChangeStart(GameEngineLevel* _PrevLevel)
 		CreateActor<Coin>()->SetPos(GridPos(11, 4));
 		QuestionBlock* ItemBox = CreateActor<QuestionBlock>();
 		ItemBox->SetPos(GridPos(4, 4));
-		ItemBox->SetItem(ItemType::SuperMushroom);
+		ItemBox->SetItem(ItemType::FireFlower);
 	}
 	
 	

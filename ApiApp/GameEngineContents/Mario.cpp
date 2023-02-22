@@ -50,6 +50,12 @@ void Mario::Die()
 	ChangeState(MarioState::GameOver);
 }
 
+void Mario::DropHold()
+{
+	IsHold = false;
+	HoldActor = nullptr;
+}
+
 Mario::Mario() {
 	if (MainPlayer != nullptr)
 	{
@@ -284,6 +290,8 @@ void Mario::Start()
 		FootCollision->SetPosition(FootCollisionPos);
 		FootCollision->SetDebugRenderType(CollisionType::CT_Rect);
 	}
+
+	ScreenSize = GameEngineWindow::GetScreenSize();
 }
 
 void Mario::LevelChangeStart(GameEngineLevel* _PrevLevel)
@@ -291,6 +299,7 @@ void Mario::LevelChangeStart(GameEngineLevel* _PrevLevel)
 	ColMap = GameEngineResources::GetInst().ImageFind(Map::MainMap->GetStageColName());
 	CurrentLevel = dynamic_cast<StageLevel*>(GetLevel());
 	MarioPower = MarioGameCore::GetInst().GetMarioStateData();
+	MapSize = Map::MainMap->GetStageSize();
 }
 
 void Mario::LevelChangeEnd(GameEngineLevel* _NextLevel)
@@ -318,12 +327,9 @@ void Mario::Update(float _DeltaTime)
 	MoveCalculation(_DeltaTime);
 	KickAttack();
 	FireAttack();
-	
+	CameraMove(_DeltaTime);
 
-	float4 CameraPos = GetPos();
-	CameraPos.x -= 350;
-	CameraPos.y = 825;
-	GetLevel()->SetCameraPos(CameraPos);
+	
 
 	// 무적시간 체크
 	if (true == IsInvincibility && MarioState::CHANGEPOWER != StateValue)
@@ -349,6 +355,8 @@ void Mario::Update(float _DeltaTime)
 	{
 		Speed *= 2;
 		RunSpeed *= 2;
+		IsInvincibility = true;
+		Timer = 9999;
 		ColMap = GameEngineResources::GetInst().ImageFind("STAGE0COL.bmp");
 	}
 	if (GameEngineInput::IsDown("2"))
@@ -668,11 +676,47 @@ void Mario::MoveCalculation(float _DeltaTime)
 		}
 	}
 
-	// 마리오 이동 및 카메라 이동
+	// 마리오 이동
 	SetMove(MoveDir * _DeltaTime);
-	//GetLevel()->SetCameraMove(MoveDir * _DeltaTime);
-	
-	//GetLevel()->SetCameraMove(float4::Right * MoveDir.x * _DeltaTime);
+}
+
+void Mario::CameraMove(float _DeltaTime)
+{
+	float4 CameraPos = GetPos();
+	CameraPos.x -= 350;
+
+	if (750 > GetPos().y)
+	{
+		CameraPos.y -= 550;
+		CameraPos.y = std::lerp(GetLevel()->GetCameraPos().y, CameraPos.y, _DeltaTime);
+		
+	}
+	else
+	{
+		CameraPos.y = 850;
+		CameraPos.y = std::lerp(GetLevel()->GetCameraPos().y, CameraPos.y, _DeltaTime);
+	}
+
+
+	if (CameraPos.x < 0)
+	{
+		CameraPos.x = 0;
+	}
+	else if (MapSize.x - ScreenSize.x < CameraPos.x)
+	{
+		CameraPos.x = MapSize.x - ScreenSize.x;
+	}
+
+	if (CameraPos.y < 0)
+	{
+		CameraPos.y = 0;
+	}
+	else if (MapSize.y - ScreenSize.y < CameraPos.y)
+	{
+		CameraPos.y = MapSize.y - ScreenSize.y;
+	}
+
+	GetLevel()->SetCameraPos(CameraPos);
 }
 
 void Mario::GetDamaged()
@@ -806,7 +850,7 @@ void Mario::KickAttack()
 			
 			if (GameEngineInput::IsPress("Down"))
 			{
-				KickForce.x = DirValue == Dir::Left ? -250 : 250;
+				KickForce.x = DirValue == Dir::Left ? -250.0f : 250.0f;
 				KickForce.y = 100;
 			}
 			else
@@ -816,7 +860,7 @@ void Mario::KickAttack()
 				}
 				else
 				{
-					KickForce.x = DirValue == Dir::Left ? -1000 : 1000;
+					KickForce.x = DirValue == Dir::Left ? -1000.0f : 1000.0f;
 					KickForce.y = -250;
 				}
 				float4 Pos = GetPos();
@@ -872,6 +916,10 @@ void Mario::CheckCollision()
 			// 잡기
 			if (true == GameEngineInput::IsPress("Dash") && false == ColActor->IsCollisionAttack() && MarioState::SPIN != StateValue && false == IsHold && KickAnimTime < KickAnimTimer)
 			{
+				if (true == ColActor->IsHold())
+				{
+					continue;
+				}
 				// 잡는다
 				IsHold = true;
 				ColActor->Hold();

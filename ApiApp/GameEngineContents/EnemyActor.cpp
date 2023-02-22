@@ -58,7 +58,7 @@ void EnemyActor::MoveUpdate(float _DeltaTime)
 	// 이동될 위치
 	float4 NextPos = GetPos() + MoveDir * _DeltaTime;
 	float4 ForwardPos = NextPos;
-	ForwardPos.y = GetPos().y - 1;
+	ForwardPos.y = GetPos().y + float4::Up.y;
 
 	// 맵 충돌 체크용 컬러 변수
 	DWORD PixelColor = ColMap->GetPixelColor(ForwardPos, White);
@@ -77,7 +77,7 @@ void EnemyActor::MoveUpdate(float _DeltaTime)
 		// 바닥에서 제일 위로 올라간다
 		while (true)
 		{
-			NextPos.y -= 1;
+			NextPos += float4::Up;
 			PixelColor = ColMap->GetPixelColor(NextPos, Black);
 			if (Black != PixelColor)
 			{
@@ -95,7 +95,7 @@ void EnemyActor::MoveUpdate(float _DeltaTime)
 		// 바닥에서 제일 위로 올라간다
 		while (true)
 		{
-			NextPos.y -= 1;
+			NextPos += float4::Up;
 			PixelColor = ColMap->GetPixelColor(NextPos, Black);
 			if (White == PixelColor)
 			{
@@ -111,14 +111,13 @@ void EnemyActor::MoveUpdate(float _DeltaTime)
 		IsSlope = true;
 		MoveDir.x = DirValue.x * SlopeSpeed;
 		float4 SlopePos = NextPos;
-		SlopePos.x += 5;
-		SlopePos.y -= 5;
+		SlopePos += SlopeRightUp;
 		PixelColor = ColMap->GetPixelColor(SlopePos, Black);
 		NextPos.y = std::round(NextPos.y);
 		// 바닥에서 제일 위로 올라간다
 		while (true)
 		{
-			NextPos.y -= 1;
+			NextPos += float4::Up;
 			PixelColor = ColMap->GetPixelColor(NextPos, Black);
 			if (White == PixelColor)
 			{

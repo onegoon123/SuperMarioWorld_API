@@ -15,8 +15,7 @@ Block::~Block() {
 bool Block::Damage()
 {
 	GameEngineResources::GetInst().SoundPlay("breakblock.wav");
-	//Particle::CreateParticle(GetLevel(), GetPos(), {32, 32}, "Blockdebrits");
-	Particle::CreateMovingParticle(GetLevel(), GetPos(), {250, -750}, "Blockdebrits", true, false, 2);
+	Particle::CreateMovingParticle(GetLevel(), GetPos(), BlockdebritsForce, "Blockdebrits", true, false, BlockdebritsLiveTime);
 	Death();
 	return true;
 }
@@ -24,7 +23,7 @@ bool Block::Damage()
 void Block::Hit()
 {
 	IsHit = true;
-	HitTimer = HitTime * 2;
+	HitTimer = HitTime2;
 
 	std::vector<GameEngineCollision*> Collisions;
 	CollisionCheckParameter Check = { .TargetGroup = static_cast<int>(CollisionOrder::Monster), .TargetColType = CT_Rect,  .ThisColType = CT_Rect };
