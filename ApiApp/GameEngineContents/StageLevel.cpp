@@ -131,6 +131,16 @@ void StageLevel::SetTimer(float _Time)
 	Timer = _Time;
 }
 
+void StageLevel::SetCheckPoint(int _CheckPoint)
+{
+	CheckPoint = _CheckPoint;
+}
+
+int StageLevel::GetCheckPoint()
+{
+	return CheckPoint;
+}
+
 float StageLevel::GetTimer()
 {
 	return Timer;

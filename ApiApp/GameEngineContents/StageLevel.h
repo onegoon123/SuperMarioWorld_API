@@ -42,6 +42,8 @@ public:
 	void LevelPlay();
 	void GoalEvent(int _Score);
 	void SetTimer(float _Time);
+	void SetCheckPoint(int _CheckPoint);
+	int GetCheckPoint();
 	float GetTimer();
 
 	StageLevel(const StageLevel& _Other) = delete;
@@ -69,6 +71,7 @@ private:
 	const float Time = 300;
 	const int TimeBonus = 50;
 	int StarBonus = 0;
+	int CheckPoint = 0;
 	bool IsClear = false;
 	void CountTime(float _DeltaTime);
 
