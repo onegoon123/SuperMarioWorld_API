@@ -18,6 +18,7 @@ enum class MarioState
 	SLIDE,
 	KICK,
 	CHANGEPOWER,
+	Pipe,
 	VICTORY,
 	GameOver,
 };
@@ -51,6 +52,7 @@ public:
 		return MarioPower;
 	}
 	void DropHold();
+	void PipeIn(const float4& _PipePos, const float4& _Dir);
 
 	Mario();
 	~Mario();
@@ -199,6 +201,9 @@ private:
 	void GameOverEnd();
 
 	void VictoryUpdate(float _DeltaTime);
+
+	void PipeStart();
+	void PipeUpdate(float _DeltaTime);
 
 #pragma endregion
 

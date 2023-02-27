@@ -3,6 +3,7 @@
 #include <math.h>
 #include <cmath>
 #include <string>
+#include <Windows.h>
 #include <vector>
 
 
@@ -16,6 +17,8 @@ public:
 	static unsigned int GetLenth(int _Value);
 	static const float PIE;
 	static const float PIE2;
+	static const float DegToRad;
+	static const float RadToDeg;
 
 private:
 	virtual ~GameEngineMath() = 0;
@@ -32,6 +35,16 @@ public:
 	static const float4 Back;
 	static const float4 Zero;
 	static const float4 Null;
+
+	static float4 AngleToDirection2DToDeg(float _Deg)
+	{
+		return AngleToDirection2DToRad(_Deg * GameEngineMath::DegToRad);
+	}
+
+	static float4 AngleToDirection2DToRad(float _Rad)
+	{
+		return float4(cosf(_Rad), sinf(_Rad), 0.0f, 1.0f);
+	}
 
 public:
 	float x = 0.0f;
@@ -101,6 +114,55 @@ public:
 		return w * 0.5f;
 	}
 
+	float GetAnagleDeg()
+	{
+		return GetAnagleRad() * GameEngineMath::RadToDeg;
+	}
+
+	void RotaitonZDeg(float _Deg)
+	{
+		RotaitonZRad(_Deg * GameEngineMath::DegToRad);
+	}
+
+	void RotaitonZRad(float _Rad)
+	{
+		float4 Copy = *this;
+		x = Copy.x * cosf(_Rad) - Copy.y * sinf(_Rad);
+		y = Copy.x * sinf(_Rad) + Copy.y * cosf(_Rad);
+	}
+
+	float4 RotaitonZDegReturn(float _Deg)
+	{
+		float4 Copy = *this;
+		Copy.RotaitonZDeg(_Deg);
+		return Copy;
+	}
+
+
+	float GetAnagleRad()
+	{
+		float4 AngleCheck = (*this);
+		AngleCheck.Normalize();
+		// functon(1) == 50; 1을 50으로 바꾸는 함수
+		// afuncton(50) == 1; 50이 1로 바꿔주는 함수라고도 할수 있지만 functon에 들어갔던 인자값을 알아내는 함수라고도 할수 있죠? <= 역함수
+
+		// cosf(각도);
+
+		float Result = acosf(AngleCheck.x);
+
+		if (AngleCheck.y > 0)
+		{
+			Result = GameEngineMath::PIE2 - Result;
+		}
+		return Result;
+
+	}
+
+	POINT ToWindowPOINT()
+	{
+		return POINT(ix(), iy());
+	}
+
 	float4 half() const
 	{
 		return { x * 0.5f,y * 0.5f,z * 0.5f,w };
@@ -124,7 +186,14 @@ public:
 		x /= SizeValue;
 		y /= SizeValue;
 		z /= SizeValue;
+	}
 
+	// 자기가 길이 1로 줄어든 애를 리턴해주는것.
+	float4 NormalizeReturn()
+	{
+		float4 Result = *this;
+		Result.Normalize();
+		return Result;
 	}
 
 	static float4 Lerp(const float4& Start, const float4& End, float Ratio)
@@ -250,4 +319,45 @@ public:
 		return std::string(ArrReturn);
 	}
 
+};
+
+class CollisionData
+{
+public:
+	float4 Position;
+	float4 Scale; // x만 원의 반지름으로 보겠습니다.
+
+	float Left() const
+	{
+		return Position.x - Scale.hx();
+	}
+	float Right() const
+	{
+		return Position.x + Scale.hx();
+	}
+	float Top() const
+	{
+		return Position.y - Scale.hy();
+	}
+	float Bot() const
+	{
+		return Position.y + Scale.hy();
+	}
+
+	float4 LeftTop() const
+	{
+		return float4{ Left(), Top() };
+	}
+	float4 RightTop() const
+	{
+		return float4{ Right(), Top() };
+	}
+	float4 LeftBot() const
+	{
+		return float4{ Left(), Bot() };
+	}
+	float4 RightBot() const
+	{
+		return float4{ Right(), Bot() };
+	}
 };

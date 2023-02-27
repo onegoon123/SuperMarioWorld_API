@@ -32,11 +32,20 @@ void StageLevel1::LevelChangeStart(GameEngineLevel* _PrevLevel)
 	Map* MainMap = CreateActor<Map>();
 	MainMap->SetImage(BackGroundName, StageName, StageColName);
 	MainMap->AddStartPos(GridPos(5,0));
+	MainMap->AddStartPos({ 8945, 1279 });
 
 	CreateActor<Mario>();
 	UI = CreateActor<UIManager>();
 
-	MainMap->MoveMap(0);
+	if ("Underground1" == _PrevLevel->GetName())
+	{
+		MainMap->MoveMap(1);
+		SetTimer(dynamic_cast<StageLevel*>(_PrevLevel)->GetTimer());
+	}
+	else
+	{
+		MainMap->MoveMap(0);
+	}
 	SetCameraMove({ 0, 790 });
 
 	
@@ -94,10 +103,12 @@ void StageLevel1::LevelChangeStart(GameEngineLevel* _PrevLevel)
 
 		CreateActor<TurnBlock>(RenderOrder::Map)->SetPos({7700, 1341});
 		CreateActor<TurnBlock>(RenderOrder::Map)->SetPos({ 7764, 1341 });
-		CreateActor<Pipe>(RenderOrder::Map)->SetPos({7732, 1405});
+		Pipe* NewPipe = CreateActor<Pipe>(RenderOrder::Map);
+		NewPipe->SetPos({ 7732, 1405 });
+		NewPipe->SetPipe("Underground1", Down);
 
 		CreateActor<Bamba>(RenderOrder::Monster)->SetPos(GridPos(131, 4));
-		CreateActor<Bamba>(RenderOrder::Monster)->SetPos(GridPos(139, 4));
+		//CreateActor<Bamba>(RenderOrder::Monster)->SetPos(GridPos(139, 4));
 
 		CreateActor<TurnBlock>(RenderOrder::Map)->SetPos(GridPos(158, 4));
 		ItemBox = CreateActor<QuestionBlock>(RenderOrder::Map);
@@ -139,4 +150,5 @@ void StageLevel1::LevelChangeStart(GameEngineLevel* _PrevLevel)
 
 	CreateActor<Goal>()->SetGoal(GridPos(302, 0));
 	StageLevel::LevelChangeStart(_PrevLevel);
+
 }

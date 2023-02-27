@@ -84,7 +84,7 @@
     <ClInclude Include="Pipe.h">
       <Filter>Play\Stage</Filter>
     </ClInclude>
-    <ClInclude Include="StageBasement1.h">
+    <ClInclude Include="StageUnderground1.h">
       <Filter>Play\Stage</Filter>
     </ClInclude>
   </ItemGroup>
@@ -174,7 +174,7 @@
     <ClCompile Include="Pipe.cpp">
       <Filter>Play\Stage</Filter>
     </ClCompile>
-    <ClCompile Include="StageBasement1.cpp">
+    <ClCompile Include="StageUnderground1.cpp">
       <Filter>Play\Stage</Filter>
     </ClCompile>
   </ItemGroup>

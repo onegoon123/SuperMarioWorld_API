@@ -80,6 +80,23 @@ void Mario::DropHold()
 	HoldActor = nullptr;
 }
 
+void Mario::PipeIn(const float4& _PipePos, const float4& _Dir)
+{
+	AnimationRender->On();
+	AnimationRender->SetOrder(static_cast<int>(RenderOrder::BackGround));
+	SetPos(_PipePos);
+	MoveDir = _Dir;
+	StateValue = MarioState::Pipe;
+	if (0 < _Dir.x || 0 > _Dir.x)
+	{
+		ChangeAnimation("Walk");
+	}
+	else
+	{
+		ChangeAnimation("Pipe");
+	}
+}
+
 Mario::Mario() {
 	if (MainPlayer != nullptr)
 	{
@@ -353,7 +370,7 @@ void Mario::Update(float _DeltaTime)
 	UpdateState(_DeltaTime);
 
 	// 시간 멈춘 상태 체크
-	if (MarioState::CHANGEPOWER == StateValue || MarioState::GameOver == StateValue)
+	if (MarioState::CHANGEPOWER == StateValue || MarioState::GameOver == StateValue || MarioState::Pipe == StateValue)
 	{
 		return;
 	}
@@ -409,6 +426,9 @@ void Mario::Update(float _DeltaTime)
 	{
 		LevelLoader::ChangeLevel("World");
 	}
+
+	GameEngineLevel::DebugTextPush(GetPos().ToString());
+	GameEngineLevel::DebugTextPush(ToGridPos(GetPos()).ToString());
 }
 
 void Mario::ChangeAnimation(const std::string_view& _AnimationName)
@@ -443,6 +463,8 @@ void Mario::MoveCalculation(float _DeltaTime)
 	// 앞의 위치
 	float4 ForwardPos = GetPos();
 	ForwardPos.x += HorizontalForce * Speed * _DeltaTime;
+	// 위의 위치
+	float4 UpPos = GetPos() + float4::Up * 64;
 	// MoveDir 중력 증가
 	MoveDir += float4::Down * GravityAcceleration * _DeltaTime;
 
@@ -602,7 +624,6 @@ void Mario::MoveCalculation(float _DeltaTime)
 		{
 			MoveDir.y = 0.0f;
 		}
-
 	}
 	// 점프중이 아닌경우
 	else if (MarioState::JUMP != StateValue && (MarioState::SPIN != StateValue || 0 < MoveDir.y) && (MarioState::RUNJUMP != StateValue || 0 < MoveDir.y))
@@ -675,6 +696,15 @@ void Mario::MoveCalculation(float _DeltaTime)
 		}
 	}
 	
+	// 천장 체크
+	if (Black == ColMap->GetPixelColor(UpPos, White))
+	{
+		if (0 > MoveDir.y)
+		{
+			GameEngineResources::GetInst().SoundPlay("bump.wav");
+			MoveDir.y = HeadingReaction;
+		}
+	}
 	// 벽 체크
 	if (Black == ColMap->GetPixelColor(ForwardPos, White))
 	{

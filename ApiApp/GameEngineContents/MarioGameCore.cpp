@@ -10,7 +10,7 @@
 #include "StageLevel3.h"
 #include "StageLevel4.h"
 #include "GameOverLevel.h"
-#include "StageBasement1.h"
+#include "StageUnderground1.h"
 // MarioGameCore MarioGameCore::Core = new MarioGameCore();
 
 MarioGameCore MarioGameCore::Core;
@@ -59,7 +59,7 @@ void MarioGameCore::Start()
 	CreateLevel<StageLevel2>("Stage2");
 	CreateLevel<StageLevel3>("Stage3");
 	CreateLevel<StageLevel4>("Stage4");
-	CreateLevel<StageBasement1>("Basement1");
+	CreateLevel<StageUnderground1>("Underground1");
 	CreateLevel<GameOverLevel>("GameOver");
 	ChangeLevel("Title");
 }
@@ -85,10 +85,10 @@ void MarioGameCore::ResourcesLoad()
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("BACKGROUND1.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("STAGE1.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("STAGE2.BMP"));
-	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Basement1.BMP"));
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Underground1.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("STAGE0COL.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("STAGE1COL.BMP"));
-	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Basement1COL.BMP"));
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Underground1COL.BMP"));
 	//GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("STAGE2COL.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ALLBLACK.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("NUMBER.BMP"))->Cut(10, 1);
@@ -122,6 +122,7 @@ void MarioGameCore::ResourcesLoad()
 	Dir.Move("Sound");
 	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("Overworld.mp3"));
 	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("PlayerDown.mp3"));
+	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("Underground.mp3"));
 	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("jump.wav"));
 	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("spin.wav"));
 	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("powerup.wav"));
@@ -132,6 +133,7 @@ void MarioGameCore::ResourcesLoad()
 	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("ItemGet.wav"));
 	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("1UP.wav"));
 	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("Coin.wav"));
+	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("Pipe.wav"));
 	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("breakblock.wav"));
 	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("superstomp.wav"));
 	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("CourseClear.mp3"));

@@ -171,6 +171,9 @@ void Mario::UpdateState(float _DeltaTime)
 	case MarioState::GameOver:
 		GameOverUpdate(_DeltaTime);
 		break;
+	case MarioState::Pipe:
+		PipeUpdate(_DeltaTime);
+		break;
 	default:
 		break;
 	}
@@ -1646,4 +1649,13 @@ void Mario::VictoryUpdate(float _DeltaTime)
 		SetMove(float4::Down * MoveDir.y * _DeltaTime);
 	}
 
+}
+
+void Mario::PipeStart()
+{
+}
+
+void Mario::PipeUpdate(float _DeltaTime)
+{
+	SetMove(MoveDir * _DeltaTime * 100);
 }

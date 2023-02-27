@@ -41,6 +41,8 @@ public:
 	void LevelPause();
 	void LevelPlay();
 	void GoalEvent(int _Score);
+	void SetTimer(float _Time);
+	float GetTimer();
 
 	StageLevel(const StageLevel& _Other) = delete;
 	StageLevel(StageLevel&& _Other) noexcept = delete;

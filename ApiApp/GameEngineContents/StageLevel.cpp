@@ -126,6 +126,16 @@ void StageLevel::GoalEvent(int _Score)
 	IsClear = true;
 }
 
+void StageLevel::SetTimer(float _Time)
+{
+	Timer = _Time;
+}
+
+float StageLevel::GetTimer()
+{
+	return Timer;
+}
+
 void StageLevel::LevelPause()
 {
 	SetTimeScale(RenderOrder::Monster, 0);
@@ -172,7 +182,10 @@ void StageLevel::Update(float _DeltaTime)
 
 void StageLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
-	Timer = Time;
+	if ("World" == _PrevLevel->GetName())
+	{
+		Timer = Time;
+	}
 	Life = MarioGameCore::GetInst().GetLife();
 	Star = MarioGameCore::GetInst().GetStar();
 	CoinNum = MarioGameCore::GetInst().GetCoin();

@@ -84,7 +84,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="StageBasement1.h">
+    <ClInclude Include="StageUnderground1.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -203,7 +203,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="StageBasement1.cpp">
+    <ClCompile Include="StageUnderground1.cpp">
       <SubType>
       </SubType>
     </ClCompile>
