@@ -38,16 +38,27 @@ void WorldImage::Start()
 			Render->ChangeAnimation("TIDE");
 			Render->SetPosition({ 512, 168 + (i * 16.0f) });
 		}
+
 		{
 			GameEngineRender* Render = CreateRender("WORLD1.BMP", RenderOrder::Map);
 			Render->SetScaleToImage();
 			Render->SetPosition(Render->GetScale().half());
-			Render = CreateRender("WORLD1FRONT.BMP", RenderOrder::Monster);
+			Render = CreateRender("WORLD1FRONT.BMP", RenderOrder::ForeGround);
 			Render->SetScaleToImage();
 			Render->SetPosition(Render->GetScale().half());
+
+			BlockRender1 = CreateRender("STAGEBLOCK1.bmp", RenderOrder::Block);
+			BlockRender1->SetScaleToImage();
+			BlockRender1->SetPosition(Render->GetScale().half());
+			BlockRender2 = CreateRender("STAGEBLOCK2.bmp", RenderOrder::Block);
+			BlockRender2->SetScaleToImage();
+			BlockRender2->SetPosition(Render->GetScale().half());
+			BlockRender3 = CreateRender("STAGEBLOCK3.bmp", RenderOrder::Block);
+			BlockRender3->SetScaleToImage();
+			BlockRender3->SetPosition(Render->GetScale().half());
 		}
 		{
-			GameEngineRender* Render = CreateRender(RenderOrder::Block);
+			GameEngineRender* Render = CreateRender(RenderOrder::PlayerAttack);
 			Render->SetScale({ 82 ,30 });
 			Render->CreateAnimation({ .AnimationName = "CLOUD", .ImageName = "CLOUD.BMP",  .InterTime = 0.3f, .FrameIndex = {0, 1, 2, 3, 2, 1, 0} });
 			Render->ChangeAnimation("CLOUD");
@@ -55,28 +66,28 @@ void WorldImage::Start()
 
 		}
 		{
-			GameEngineRender* Render = CreateRender(RenderOrder::Block);
+			GameEngineRender* Render = CreateRender(RenderOrder::PlayerAttack);
 			Render->SetScale({ 82 ,30 });
 			Render->CreateAnimation({ .AnimationName = "CLOUD", .ImageName = "CLOUD.BMP",  .InterTime = 0.3f, .FrameIndex = {0, 1, 2, 3, 2, 1, 0} });
 			Render->ChangeAnimation("CLOUD");
 			Render->SetPosition({ 575, 240 });
 		}
 		{
-			GameEngineRender* Render = CreateRender(RenderOrder::Block);
+			GameEngineRender* Render = CreateRender(RenderOrder::PlayerAttack);
 			Render->SetScale({ 82 ,30 });
 			Render->CreateAnimation({ .AnimationName = "CLOUD", .ImageName = "CLOUD.BMP",  .InterTime = 0.3f, .FrameIndex = {0, 1, 2, 3, 2, 1, 0} });
 			Render->ChangeAnimation("CLOUD");
 			Render->SetPosition({ 775, 280 });
 		}
 		{
-			GameEngineRender* Render = CreateRender(RenderOrder::Block);
+			GameEngineRender* Render = CreateRender(RenderOrder::PlayerAttack);
 			Render->SetScale({ 82 ,30 });
 			Render->CreateAnimation({ .AnimationName = "CLOUD", .ImageName = "CLOUD.BMP",  .InterTime = 0.3f, .FrameIndex = {0, 1, 2, 3, 2, 1, 0} });
 			Render->ChangeAnimation("CLOUD");
 			Render->SetPosition({ 635, 600 });
 		}
 		{
-			GameEngineRender* Render = CreateRender(RenderOrder::Block);
+			GameEngineRender* Render = CreateRender(RenderOrder::PlayerAttack);
 			Render->SetScale({ 82 ,30 });
 			Render->CreateAnimation({ .AnimationName = "CLOUD", .ImageName = "CLOUD.BMP",  .InterTime = 0.3f, .FrameIndex = {3, 2, 1, 0, 1, 2, 3} });
 			Render->ChangeAnimation("CLOUD");
@@ -88,51 +99,54 @@ void WorldImage::Start()
 			Render->SetPosition({ 150, 320 });
 		}
 		{
-			GameEngineRender* Render = CreateRender(RenderOrder::Block);
+			GameEngineRender* Render = CreateRender(RenderOrder::PlayerAttack);
 			Render->SetScale({ 82 ,30 });
 			Render->CreateAnimation({ .AnimationName = "CLOUD", .ImageName = "CLOUD.BMP",  .InterTime = 0.3f, .FrameIndex = {3, 2, 1, 0, 1, 2, 3} });
 			Render->ChangeAnimation("CLOUD");
 			Render->SetPosition({ 615, 215 });
 		}
 		{
-			GameEngineRender* Render = CreateRender(RenderOrder::Block);
+			GameEngineRender* Render = CreateRender(RenderOrder::PlayerAttack);
 			Render->SetScale({ 82 ,30 });
 			Render->CreateAnimation({ .AnimationName = "CLOUD", .ImageName = "CLOUD.BMP",  .InterTime = 0.3f, .FrameIndex = {3, 2, 1, 0, 1, 2, 3} });
 			Render->ChangeAnimation("CLOUD");
 			Render->SetPosition({ 500, 460 });
 		}
 		{
-			GameEngineRender* Render = CreateRender(RenderOrder::Block);
+			GameEngineRender* Render = CreateRender(RenderOrder::PlayerAttack);
 			Render->SetScale({ 82 ,30 });
 			Render->CreateAnimation({ .AnimationName = "CLOUD", .ImageName = "CLOUD.BMP",  .InterTime = 0.3f, .FrameIndex = {3, 2, 1, 0, 1, 2, 3} });
 			Render->ChangeAnimation("CLOUD");
 			Render->SetPosition({ 820, 480 });
-			Render = CreateRender(RenderOrder::Block);
+			Render = CreateRender(RenderOrder::PlayerAttack);
 			Render->SetScale({ 82 ,30 });
 			Render->CreateAnimation({ .AnimationName = "CLOUD", .ImageName = "CLOUD.BMP",  .InterTime = 0.3f, .FrameIndex = {3, 2, 1, 0, 1, 2, 3} });
 			Render->ChangeAnimation("CLOUD");
 			Render->SetPosition({ 861, 480 });
-			Render = CreateRender(RenderOrder::Block);
+			Render = CreateRender(RenderOrder::PlayerAttack);
 			Render->SetScale({ 82 ,30 });
 			Render->CreateAnimation({ .AnimationName = "CLOUD", .ImageName = "CLOUD.BMP",  .InterTime = 0.3f, .FrameIndex = {3, 2, 1, 0, 1, 2, 3} });
 			Render->ChangeAnimation("CLOUD");
 			Render->SetPosition({ 630, 450 });
 		}
+
+
+		// 스테이지
 		{
 			GameEngineRender* Render = CreateRender(RenderOrder::Item);
 			Render->SetScale({ 68 ,68 });
 			Render->CreateAnimation({ .AnimationName = "STAGE", .ImageName = "STAGEBUTTON.BMP", .Start = 0, .End = 6, .InterTime = 0.1f });
 			Render->ChangeAnimation("STAGE");
 			Render->SetPosition({ 289, 706 });
-		}
-		{
-			GameEngineRender* Render = CreateRender(RenderOrder::Item);
+
+			Render = CreateRender(RenderOrder::Item);
 			Render->SetScale({ 68 ,68 });
 			Render->CreateAnimation({ .AnimationName = "STAGE", .ImageName = "STAGEBUTTON.BMP", .Start = 0, .End = 6, .InterTime = 0.1f });
 			Render->ChangeAnimation("STAGE");
 			Render->SetPosition({ 676, 706 });
 		}
 
+		// 플레이어
 		{
 			AnimationRender = CreateRender(RenderOrder::Player);
 			AnimationRender->CreateAnimation({.AnimationName = "Normal", .ImageName = "LEFT_MARIO.BMP", .Start = 3, .End = 5, .InterTime = 0.12f });

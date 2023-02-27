@@ -124,6 +124,7 @@ void StageLevel::GoalEvent(int _Score)
 	StarBonus = _Score;
 	ClearEventTimer = 0;
 	IsClear = true;
+	SetCheckPoint(0);
 }
 
 void StageLevel::SetTimer(float _Time)

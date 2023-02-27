@@ -51,11 +51,13 @@ void Fire::Update(float _DeltaTime)
 	{
 		// 화면 밖으로 나가면 제거
 		Death();
+		return;
 	}
 	if (GameEngineWindow::GetScreenSize().x < InCameraPos.x - 10)
 	{ 
 		// 화면 밖으로 나가면 제거
 		Death();
+		return;
 	}
 
 	// 적이 공격을 받았는지 체크
@@ -70,6 +72,7 @@ void Fire::Update(float _DeltaTime)
 			Particle::CreateParticle(GetLevel(), GetPos(), "SMOKE1");
 			GameEngineResources::GetInst().SoundPlay("kick.wav");
 			Death();
+			return;
 		}
 	}
 
@@ -117,6 +120,7 @@ void Fire::MoveCalculation(float _DeltaTime)
 	{
 		Particle::CreateParticle(GetLevel(), GetPos(), "SMOKE1");
 		Death();
+		return;
 	}
 
 	// 바닥 체크

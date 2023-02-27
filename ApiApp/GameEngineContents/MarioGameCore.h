@@ -23,6 +23,7 @@ public:
 	}
 	void ResetGame();
 
+
 #pragma region __________마리오 데이터 Setter Getter__________
 	inline PowerState GetMarioStateData() const {
 		return MarioStateData;
@@ -66,6 +67,8 @@ public:
 	inline void SetRidedYoshiData(bool _Data) {
 		RidedYoshiData = _Data;
 	}
+	void StageClear(const std::string_view& _StageName);
+
 #pragma endregion
 
 protected:

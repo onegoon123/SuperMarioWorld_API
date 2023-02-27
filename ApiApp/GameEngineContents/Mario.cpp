@@ -82,11 +82,14 @@ void Mario::DropHold()
 
 void Mario::PipeIn(const float4& _PipePos, const float4& _Dir)
 {
+	GameEngineResources::GetInst().SoundPlay("Pipe.wav");
 	AnimationRender->On();
 	AnimationRender->SetOrder(static_cast<int>(RenderOrder::BackGround));
 	SetPos(_PipePos);
-	MoveDir = _Dir;
 	StateValue = MarioState::Pipe;
+	Timer = 100;
+	MoveDir = _Dir;
+
 	if (0 < _Dir.x || 0 > _Dir.x)
 	{
 		ChangeAnimation("Walk");
@@ -96,6 +99,25 @@ void Mario::PipeIn(const float4& _PipePos, const float4& _Dir)
 		ChangeAnimation("Pipe");
 	}
 }
+
+void Mario::PipeOut(const float4& _Dir)
+{
+	GameEngineResources::GetInst().SoundPlay("Pipe.wav");
+	AnimationRender->SetOrder(static_cast<int>(RenderOrder::BackGround));
+	StateValue = MarioState::Pipe;
+	Timer = PipeOutTime;
+	MoveDir = _Dir;
+
+	if (0 < _Dir.x || 0 > _Dir.x)
+	{
+		ChangeAnimation("Walk");
+	}
+	else
+	{
+		ChangeAnimation("Pipe");
+	}
+}
+
 
 Mario::Mario() {
 	if (MainPlayer != nullptr)

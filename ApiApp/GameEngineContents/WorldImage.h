@@ -20,7 +20,10 @@ protected:
 	void LevelChangeStart(GameEngineLevel* _Prev);
 
 private:
-	GameEngineRender* AnimationRender;
+	GameEngineRender* AnimationRender = nullptr;
+	GameEngineRender* BlockRender1 = nullptr;
+	GameEngineRender* BlockRender2 = nullptr;
+	GameEngineRender* BlockRender3 = nullptr;
 	NumberRenderObject LifeNum;
 };
 

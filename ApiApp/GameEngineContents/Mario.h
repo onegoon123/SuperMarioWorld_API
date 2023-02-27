@@ -53,6 +53,7 @@ public:
 	}
 	void DropHold();
 	void PipeIn(const float4& _PipePos, const float4& _Dir);
+	void PipeOut(const float4& _Dir);
 
 	Mario();
 	~Mario();
@@ -91,6 +92,7 @@ private:
 	const float GameOverTime = 2.0f;		// 게임오버시 애니메이션 지속시간
 	const float FireAnimTime = 0.2f;		// 불 쏠때 애니메이션 지속시간
 	const float KickAnimTime = 0.25f;		// 발 차기 할때 애니메이션 지속시간
+	const float PipeOutTime = 1.0f;		
 	const float ParticleDelay = 0.1f;		// 파티클 재생성 딜레이
 	const float HeadingReaction = 150.0f;	// 헤딩시 반작용 힘
 

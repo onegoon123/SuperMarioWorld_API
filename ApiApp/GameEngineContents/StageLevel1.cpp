@@ -13,6 +13,7 @@
 #include "Goal.h"
 #include "Coin.h"
 #include "Pipe.h"
+#include "CheckPointActor.h"
 
 StageLevel1::StageLevel1() {
 
@@ -25,43 +26,37 @@ StageLevel1::~StageLevel1() {
 void StageLevel1::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
 	
-
+	// BGM 설정
 	BGMPlayer = GameEngineResources::GetInst().SoundPlayToControl("Overworld.mp3");
 	BGMPlayer.LoopCount(0);
 
+	// 맵 이미지 생성
 	Map* MainMap = CreateActor<Map>();
 	MainMap->SetImage(BackGroundName, StageName, StageColName);
+	// 맵 시작 위치 지정
 	MainMap->AddStartPos(GridPos(5,0));
-	MainMap->AddStartPos({ 8945, 1279 });
+	MainMap->AddStartPos(GridPos(146,0));
+	MainMap->AddStartPos({ 8945, 1471 });
 
 	CreateActor<Mario>();
 	UI = CreateActor<UIManager>();
 
+	// 지하에서 파이프를 통해 이동한 경우
 	if ("Underground1" == _PrevLevel->GetName())
 	{
-		MainMap->MoveMap(1);
+		MainMap->MoveMap(2);
+		Mario::MainPlayer->PipeOut(float4::Up);
 		SetTimer(dynamic_cast<StageLevel*>(_PrevLevel)->GetTimer());
 	}
 	else
 	{
-		MainMap->MoveMap(0);
-	}
-	SetCameraMove({ 0, 790 });
-
-	
-	{
-		CreateActor<Bamba>(RenderOrder::Monster)->SetPos(GridPos(10, 1));
-		CreateActor<Coin>(RenderOrder::Item)->SetPos(GridPos(8, 4));
-		CreateActor<Coin>(RenderOrder::Item)->SetPos(GridPos(9, 4));
-		CreateActor<Coin>(RenderOrder::Item)->SetPos(GridPos(10, 4));
-		CreateActor<Coin>(RenderOrder::Item)->SetPos(GridPos(11, 4));
-		QuestionBlock* ItemBox = CreateActor<QuestionBlock>(RenderOrder::Map);
-		ItemBox->SetPos(GridPos(4, 4));
-		ItemBox->SetItem(ItemType::FireFlower);
+		// 체크포인트 지점으로 이동
+		MainMap->MoveMap(GetCheckPoint());
 	}
 	
-	
+	// 스테이지 구성
 	{
+		CreateActor<CheckPointActor>(RenderOrder::Item)->SetCheckPoint(1, GridPos(149, 0));
 		CreateActor<Coin>(RenderOrder::Item)->SetPos(GridPos(11, 3));
 		CreateActor<Coin>(RenderOrder::Item)->SetPos(GridPos(12, 3));
 		CreateActor<Coin>(RenderOrder::Item)->SetPos(GridPos(13, 3));
@@ -145,10 +140,11 @@ void StageLevel1::LevelChangeStart(GameEngineLevel* _PrevLevel)
 		CreateActor<Bamba>(RenderOrder::Monster)->SetPos(GridPos(270, 4));
 		CreateActor<Bamba>(RenderOrder::Monster)->SetPos(GridPos(272, 4));
 		CreateActor<Bamba>(RenderOrder::Monster)->SetPos(GridPos(274, 4));
+
+		CreateActor<Goal>()->SetGoal(GridPos(302, 0));
 	}
 	
 
-	CreateActor<Goal>()->SetGoal(GridPos(302, 0));
 	StageLevel::LevelChangeStart(_PrevLevel);
 
 }

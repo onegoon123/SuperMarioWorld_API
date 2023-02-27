@@ -1657,5 +1657,11 @@ void Mario::PipeStart()
 
 void Mario::PipeUpdate(float _DeltaTime)
 {
-	SetMove(MoveDir * _DeltaTime * 100);
+	Timer -= _DeltaTime;
+	if (0 > Timer)
+	{
+		ChangeState(MarioState::IDLE);
+		AnimationRender->SetOrder(static_cast<int>(RenderOrder::Player));
+	}
+	SetMove(MoveDir * _DeltaTime * 192);
 }

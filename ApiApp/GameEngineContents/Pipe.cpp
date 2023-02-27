@@ -54,7 +54,6 @@ void Pipe::Update(float _DeltaTime)
 			break;
 		}
 		Mario::MainPlayer->PipeIn(GetPos(), MoveDir);
-		GameEngineResources::GetInst().SoundPlay("Pipe.wav");
 		IsEnter = true;
 		Timer = EnterTime;
 	}

@@ -18,18 +18,13 @@ void StageUnderground1::Loading()
 
 void StageUnderground1::LevelChangeStart(GameEngineLevel* _Prev)
 {
-	if ("Stage1" == _Prev->GetName())
-	{
-		SetTimer(dynamic_cast<StageLevel*>(_Prev)->GetTimer());
-	}
-
 	BGMPlayer = GameEngineResources::GetInst().SoundPlayToControl("Underground.mp3");
 	BGMPlayer.LoopCount(0);
 
 	Map* MainMap = CreateActor<Map>();
 	MainMap->SetImage(BackGroundName, StageName, StageColName);
 
-	MainMap->AddStartPos({128, 1408});
+	MainMap->AddStartPos({128, 1216});
 
 	MainMap->GetBackGroundRender()->CreateAnimation({ .AnimationName = "BackGroundAnim", .ImageName = BackGroundName, .Start = 0, .End = 3 });
 	MainMap->GetBackGroundRender()->SetScale({ 2048, 1728 });
@@ -38,6 +33,13 @@ void StageUnderground1::LevelChangeStart(GameEngineLevel* _Prev)
 
 	CreateActor<Mario>();
 	UI = CreateActor<UIManager>();
+
+	if ("Stage1" == _Prev->GetName())
+	{
+		SetTimer(dynamic_cast<StageLevel*>(_Prev)->GetTimer());
+		Mario::MainPlayer->PipeOut(float4::Down);
+	}
+
 
 	Pipe* NewPipe = CreateActor<Pipe>(RenderOrder::Map);
 	NewPipe->SetPos({1772, 1532});

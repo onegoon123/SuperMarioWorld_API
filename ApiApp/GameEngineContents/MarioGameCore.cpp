@@ -1,7 +1,8 @@
 #include "MarioGameCore.h"
+#include <GameEngineBase/GameEngineFile.h>
+#include <GameEngineBase/GameEngineDirectory.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineInput.h>
-#include <GameEngineBase/GameEngineDirectory.h>
 #include "PlayLevel.h"
 #include "TitleLevel.h"
 #include "WorldLevel.h"
@@ -28,6 +29,11 @@ void MarioGameCore::ResetGame()
 	Life = StartLife;
 }
 
+void MarioGameCore::StageClear(const std::string_view& _StageName)
+{
+
+}
+
 void MarioGameCore::Start()
 {
 	// 해상도 설정
@@ -52,7 +58,12 @@ void MarioGameCore::Start()
 
 	new int();
 
+	
 	ResourcesLoad();
+	
+
+
+
 	CreateLevel<TitleLevel>("Title");
 	CreateLevel<WorldLevel>("World");
 	CreateLevel<StageLevel1>("Stage1");
@@ -75,6 +86,7 @@ void MarioGameCore::End()
 
 void MarioGameCore::ResourcesLoad()
 {
+	
 	GameEngineDirectory Dir;
 	Dir.MoveParentToDirectory("ContentsResources");
 	Dir.Move("ContentsResources");
@@ -85,17 +97,22 @@ void MarioGameCore::ResourcesLoad()
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("BACKGROUND1.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("STAGE1.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("STAGE2.BMP"));
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("STAGE3.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Underground1.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("STAGE0COL.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("STAGE1COL.BMP"));
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("STAGE2COL.BMP"));
+	//GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("STAGE3COL.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Underground1COL.BMP"));
-	//GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("STAGE2COL.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ALLBLACK.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("NUMBER.BMP"))->Cut(10, 1);
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("NUMBERBIG.BMP"))->Cut(10, 1);
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("NUMBERYELLOW.BMP"))->Cut(10, 1);
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("BACKGROUND2.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("BACKGROUND3.BMP"))->Cut(4,1);
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("CheckPoint.BMP"));
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("CheckPointPass.BMP"));
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("CheckPointFront.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("BAMBA.BMP"))->Cut(8, 1);
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("SUPERMUSHROOM.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("FIRE.BMP"))->Cut(4, 1);
@@ -119,35 +136,13 @@ void MarioGameCore::ResourcesLoad()
 
 	Dir.MoveParentToDirectory("ContentsResources");
 	Dir.Move("ContentsResources");
-	Dir.Move("Sound");
-	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("Overworld.mp3"));
-	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("PlayerDown.mp3"));
-	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("Underground.mp3"));
-	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("jump.wav"));
-	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("spin.wav"));
-	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("powerup.wav"));
-	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("kick.wav"));
-	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("damage.wav"));
-	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("fireball.wav"));
-	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("bump.wav"));
-	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("ItemGet.wav"));
-	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("1UP.wav"));
-	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("Coin.wav"));
-	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("Pipe.wav"));
-	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("breakblock.wav"));
-	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("superstomp.wav"));
-	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("CourseClear.mp3"));
-	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("OutItem.wav"));
-	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("Title.mp3"));
-	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("YoshiIsland.mp3"));
-	GameEngineResources::GetInst().SoundLoad(Dir.GetPlusFileName("GameOver.mp3"));
-
-	Dir.MoveParentToDirectory("ContentsResources");
-	Dir.Move("ContentsResources");
 	Dir.Move("Image");
 	Dir.Move("World");
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("WORLD1.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("WORLD1FRONT.BMP"));
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("STAGEBLOCK1.BMP"));
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("STAGEBLOCK2.BMP"));
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("STAGEBLOCK3.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("SEA.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("MARIO.BMP"))->Cut(4, 5);
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("CLOUD.BMP"))->Cut(1, 4);
@@ -160,4 +155,15 @@ void MarioGameCore::ResourcesLoad()
 	Dir.Move("TITLE");
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("GAMEOVER.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TITLE.BMP"));
+
+	Dir.MoveParentToDirectory("ContentsResources");
+	Dir.Move("ContentsResources");
+	Dir.Move("Sound");
+	std::vector<GameEngineFile> Files = Dir.GetAllFile();
+
+	for (size_t i = 0; i < Files.size(); i++)
+	{
+		GameEngineResources::GetInst().SoundLoad(Files[i].GetFullPath());
+	}
+	
 }

@@ -18,10 +18,12 @@ protected:
 	void Update(float _DeltaTime) override;
 	void Render(float _DeltaTime) override;
 private:
-	const float4 CollisionScale = { 32, 8 };
-	const float4 CollisionPos = { 0, 0 };
+	const float4 CollisionScale = { 64, 8 };
+	const float4 CollisionPos = { 0, -178 };
+	const float4 RenderPos = { 0, -128 };
 	GameEngineCollision* Collision = nullptr;
-
+	GameEngineRender* CheckPointRender = nullptr;
 	int CheckPoint = 0;
+	bool IsPass = false;
 };
 

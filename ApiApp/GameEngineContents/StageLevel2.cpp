@@ -35,7 +35,7 @@ void StageLevel2::LevelChangeStart(GameEngineLevel* _PrevLevel)
 	Map1->SetImage(BackGroundName, StageName, StageColName);
 	CreateActor<Mario>();
 	UI = CreateActor<UIManager>();
-	Map1->AddStartPos(GridPos(300, 0));
+	Map1->AddStartPos(GridPos(3, 0));
 	Map1->MoveMap(0);
 	SetCameraMove({ 0, 790 });
 	CreateActor<Goal>()->SetGoal(GridPos(302, 0));

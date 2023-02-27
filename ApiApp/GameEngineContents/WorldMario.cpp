@@ -36,7 +36,8 @@ void WorldMario::Start()
 	WorldMap::Point* Center = new WorldMap::Point({ 475, 650 });
 	WorldMap::Point* Stage1 = new WorldMap::Point({ 289, 690 }, "Stage1");
 	WorldMap::Point* Stage2 = new WorldMap::Point({ 676, 690 }, "Stage2");
-
+	WorldMap::Point* Stage3 = new WorldMap::Point({ 672, 568 }, "Stage3");
+	Stage3->SetDown(Stage2);
 	Center->SetLeft(Stage1);
 	Center->SetRight(Stage2);
 
