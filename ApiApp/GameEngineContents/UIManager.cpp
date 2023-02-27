@@ -60,6 +60,48 @@ void UIManager::SetStockItem(ItemType _Item)
 	}
 }
 
+void UIManager::ClearUIOn(bool _IsStarBonus)
+{
+	if (true == _IsStarBonus)
+	{
+		ClearRender->SetImage("ClearBonus.bmp");
+		StarBonus.On();
+	}
+	else
+	{
+		ClearRender->SetImage("Clear.bmp");
+		StarBonus.Off();
+	}
+	ClearRender->On();
+	ClearTimeNumber.On();
+	TimeBonus.On();
+}
+
+void UIManager::ClearUIOff()
+{
+	ClearRender->Off();
+	ClearTimeNumber.Off();
+	TimeBonus.Off();
+	StarBonus.Off();
+}
+
+void UIManager::SetClearBonus(int _ClearTime, int _TimeBonus, int _StarBonus)
+{
+	ClearTimeNumber.SetValue(_ClearTime);
+	TimeBonus.SetValue(_TimeBonus);
+	StarBonus.SetValue(_StarBonus);
+}
+
+void UIManager::SetTimeBonus(int _TimeBonus)
+{
+	TimeBonus.SetValue(_TimeBonus);
+}
+
+void UIManager::SetStarBonus(int _StarBonus)
+{
+	StarBonus.SetValue(_StarBonus);
+}
+
 
 void UIManager::Start()
 {
@@ -103,6 +145,42 @@ void UIManager::Start()
 	StockImageRender->EffectCameraOff();
 	StockImageRender->SetScale({ 64, 64 });
 	StockImageRender->SetPosition({ 512, 92 });
+	
+
+
+	BlackRender = CreateRender("ALLBLACK.BMP", RenderOrder::Monster);
+	BlackRender->SetScaleToImage();
+	BlackRender->EffectCameraOff();
+	BlackRender->SetPosition(BlackRender->GetScale().half());
+	BlackRender->SetAlpha(0);
+
+	ClearRender = CreateRender("ClearBonus.bmp", RenderOrder::UI);
+	ClearRender->SetScaleToImage();
+	ClearRender->EffectCameraOff();
+	ClearRender->SetPosition(BlackRender->GetScale().half());
+	ClearRender->Off();
+
+	ClearTimeNumber.SetOwner(this);
+	ClearTimeNumber.SetImage("NUMBER.BMP", NumberScale, static_cast<int>(RenderOrder::UI), RGB(255, 0, 255), "NONE.bmp");
+	ClearTimeNumber.SetRenderPos({ 400, 430 });
+	ClearTimeNumber.SetAlign(Align::Right);
+	ClearTimeNumber.SetValue(300);
+	ClearTimeNumber.Off();
+
+	TimeBonus.SetOwner(this);
+	TimeBonus.SetImage("NUMBER.BMP", NumberScale, static_cast<int>(RenderOrder::UI), RGB(255, 0, 255), "NONE.bmp");
+	TimeBonus.SetRenderPos({ 688, 430 });
+	TimeBonus.SetAlign(Align::Right);
+	TimeBonus.SetValue(15000);
+	TimeBonus.Off();
+
+	StarBonus.SetOwner(this);
+	StarBonus.SetImage("NUMBERBIG.BMP", NumberBigScale, static_cast<int>(RenderOrder::UI), RGB(255, 0, 255), "NONE.bmp");
+	StarBonus.SetRenderPos({ 672, 512 });
+	StarBonus.SetAlign(Align::Right);
+	StarBonus.SetValue(50);
+	StarBonus.Off();
+	
 }
 
 void UIManager::Update(float _DeltaTime)

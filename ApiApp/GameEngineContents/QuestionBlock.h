@@ -23,10 +23,10 @@ public:
 		case ItemType::UpMushroom:
 			break;
 		case ItemType::SuperMushroom:
-			ItemActor = GetLevel()->CreateActor<SuperMushroom>();
+			ItemActor = GetLevel()->CreateActor<SuperMushroom>(RenderOrder::Item);
 			break;
 		case ItemType::FireFlower:
-			ItemActor = GetLevel()->CreateActor<FireFlower>();
+			ItemActor = GetLevel()->CreateActor<FireFlower>(RenderOrder::Item);
 			break;
 		case ItemType::Feather:
 			break;

@@ -4,6 +4,14 @@
 #include "UIManager.h"
 #include "ContentsEnums.h"
 
+enum class ClearState {
+	None,
+	FadeOut,
+	ClearBonus,
+	FadeIn,
+	WorldLoad
+};
+
 static float4 GridPos(int x, int y)
 {
 	return float4(static_cast<float>(x * 64 + 32), static_cast<float>((-y + 24) * 64));
@@ -30,6 +38,9 @@ public:
 	void AddLife();
 	void AddScore(int _Score);
 	void MarioDie();
+	void LevelPause();
+	void LevelPlay();
+	void GoalEvent(int _Score);
 
 	StageLevel(const StageLevel& _Other) = delete;
 	StageLevel(StageLevel&& _Other) noexcept = delete;
@@ -42,18 +53,26 @@ protected:
 	void LevelChangeStart(GameEngineLevel* _PrevLevel) override;
 	void LevelChangeEnd(GameEngineLevel* _NextLevel) override;
 
-	std::string_view BackGroundName = "";
-	std::string_view StageName = "";
-	std::string_view StageColName = "";
-
 	GameEngineSoundPlayer BGMPlayer = GameEngineSoundPlayer();
 	UIManager* UI = nullptr;
 private:
 	ItemType Item = ItemType::Coin;
+	ClearState State = ClearState::None;
 	int Life = 3;
 	int Star = 0;
 	int Score = 0;
 	int CoinNum = 0;
 	float Timer = 0;
+	float ClearEventTimer = 0;
 	const float Time = 300;
+	const int TimeBonus = 50;
+	int StarBonus = 0;
+	bool IsClear = false;
+	void CountTime(float _DeltaTime);
+
+	void NoneUpdate();
+	void FadeOutUpdate();
+	void ClearBonusUpdate();
+	void FadeInUpdate();
+	void WorldLoadUpdate();
 };

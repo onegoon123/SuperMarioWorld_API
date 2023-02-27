@@ -91,5 +91,7 @@ private:
 	int	CoinNum = 0;
 	int	Score = 0;
 	bool RidedYoshiData = false;
+
+	void ResourcesLoad();
 };
 

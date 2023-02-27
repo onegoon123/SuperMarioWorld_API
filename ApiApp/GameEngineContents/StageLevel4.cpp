@@ -18,21 +18,6 @@ StageLevel4::~StageLevel4() {
 
 void StageLevel4::Loading()
 {
-	BackGroundName = "BACKGROUND4.BMP";
-	StageName = "STAGE4.BMP";
-	StageColName = "STAGE4COL.BMP";
-
-	GameEngineDirectory Dir;
-	Dir.MoveParentToDirectory("ContentsResources");
-	Dir.Move("ContentsResources");
-	Dir.Move("Image");
-	Dir.Move("Play");
-	//GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName(SkyName));
-	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName(BackGroundName));
-	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName(StageName));
-	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName(StageColName));
-	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ENDING.BMP"));
-
 }
 
 void StageLevel4::Update(float _DeltaTime)

@@ -31,7 +31,7 @@ void StageLevel::NewStockItem(ItemType _Item)
 	default:
 		break;
 	}
-
+	GameEngineResources::GetInst().SoundPlay("ItemGet.wav");
 	Item = _Item;
 	UI->SetStockItem(_Item);
 }
@@ -106,23 +106,68 @@ void StageLevel::MarioDie()
 	LevelLoader::ChangeLevel("World");
 }
 
+void StageLevel::LevelPlay()
+{
+	SetTimeScale(RenderOrder::Monster, 1);
+	SetTimeScale(RenderOrder::Item, 1);
+	SetTimeScale(RenderOrder::PlayerAttack, 1);
+	SetTimeScale(RenderOrder::Map, 1);
+}
+
+void StageLevel::GoalEvent(int _Score)
+{
+	// »ç¿îµå
+	BGMPlayer.Stop();
+	GameEngineResources::GetInst().SoundPlay("CourseClear.mp3");
+	Mario::MainPlayer->StageClear();
+	LevelLoader::SetOrder(RenderOrder::Monster);
+	StarBonus = _Score;
+	ClearEventTimer = 0;
+	IsClear = true;
+}
+
+void StageLevel::LevelPause()
+{
+	SetTimeScale(RenderOrder::Monster, 0);
+	SetTimeScale(RenderOrder::Item, 0);
+	SetTimeScale(RenderOrder::PlayerAttack, 0);
+	SetTimeScale(RenderOrder::Map, 0);
+}
+
 void StageLevel::Loading()
 {
+	
 }
 
 void StageLevel::Update(float _DeltaTime)
 {
-	if (true == Mario::MainPlayer->GetIsGameOver())
+	if (true == IsClear)
 	{
+		ClearEventTimer += _DeltaTime;
+		switch (State)
+		{
+		case ClearState::None:
+			NoneUpdate();
+			break;
+		case ClearState::FadeOut:
+			FadeOutUpdate();
+			break;
+		case ClearState::ClearBonus:
+			ClearBonusUpdate();
+			break;
+		case ClearState::FadeIn:
+			FadeInUpdate();
+			break;
+		case ClearState::WorldLoad:
+			WorldLoadUpdate();
+			break;
+		default:
+			break;
+		}
 		return;
 	}
-	Timer -= _DeltaTime;
-	if (0 > Timer) {
-		Mario::MainPlayer->Die();
-		UI->SetTime(0);
-		return;
-	}
-	UI->SetTime(static_cast<int>(Timer));
+	
+	CountTime(_DeltaTime);
 }
 
 void StageLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
@@ -133,10 +178,16 @@ void StageLevel::LevelChangeStart(GameEngineLevel* _PrevLevel)
 	CoinNum = MarioGameCore::GetInst().GetCoin();
 	Score = MarioGameCore::GetInst().GetScore();
 	Item = MarioGameCore::GetInst().GetStockStateData();
+	IsClear = false;
 
 	UI->SetValue(Life, Star, CoinNum, Score);
 	UI->SetStockItem(Item);
+	
+	State = ClearState::None;
+
 	CreateActor<LevelLoader>();
+
+	LevelPlay();
 }
 
 void StageLevel::LevelChangeEnd(GameEngineLevel* _NextLevel)
@@ -165,5 +216,82 @@ void StageLevel::LevelChangeEnd(GameEngineLevel* _NextLevel)
 	MarioGameCore::GetInst().SetStockStateData(Item);
 
 	BGMPlayer.Stop();
+}
+
+void StageLevel::CountTime(float _DeltaTime)
+{
+	Timer -= _DeltaTime;
+	if (0 > Timer) {
+		Mario::MainPlayer->Die();
+		UI->SetTime(0);
+		return;
+	}
+	UI->SetTime(static_cast<int>(Timer));
+}
+
+void StageLevel::NoneUpdate()
+{
+	if (1 < ClearEventTimer)
+	{
+		LevelLoader::FadeOut();
+		State = ClearState::FadeOut;
+		ClearEventTimer = 0;
+	}
+}
+
+void StageLevel::FadeOutUpdate()
+{
+	if (1 < ClearEventTimer)
+	{
+		UI->ClearUIOn(0 < StarBonus);
+		UI->SetClearBonus(static_cast<int>(Timer), static_cast<int>(Timer) * TimeBonus, StarBonus);
+		State = ClearState::ClearBonus;
+		ClearEventTimer = 0;
+	}
+}
+
+void StageLevel::ClearBonusUpdate()
+{
+	if (1 > ClearEventTimer) { return; }
+
+	bool Wait = false;
+	if (1 <= Timer)
+	{
+		Timer -= 1;
+		Score += TimeBonus;
+		UI->SetTimeBonus(static_cast<int>(Timer) * TimeBonus);
+		UI->SetScore(static_cast<int>(Score));
+		Wait = true;
+	}
+	if (0 < StarBonus)
+	{
+		StarBonus--;
+		Star++;
+		UI->SetStar(Star);
+		UI->SetStarBonus(StarBonus);
+		Wait = true;
+	}
+	if (4 < ClearEventTimer && false == Wait)
+	{
+		UI->ClearUIOff();
+		LevelLoader::FadeIn();
+		State = ClearState::FadeIn;
+		ClearEventTimer = 0;
+	}
+}
+
+void StageLevel::FadeInUpdate()
+{
+	if (2 < ClearEventTimer)
+	{
+		LevelLoader::SetOrder(RenderOrder::Fade);
+		LevelLoader::ChangeLevel("World");
+		State = ClearState::WorldLoad;
+		ClearEventTimer = 0;
+	}
+}
+
+void StageLevel::WorldLoadUpdate()
+{
 }
 

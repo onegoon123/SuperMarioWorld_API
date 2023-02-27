@@ -68,14 +68,6 @@ void Map::SetStartPos(const std::vector<float4>& _StartPos)
 {
 }
 
-void Map::NewActor(const GameEngineActor* _Actor)
-{
-}
-
-void Map::NewActor(const std::vector<GameEngineActor*> _Actors)
-{
-}
-
 void Map::MoveMap(int _StartPosIndex)
 {
 	if (StartPos.size() < _StartPosIndex)
@@ -90,16 +82,24 @@ void Map::MoveMap(int _StartPosIndex)
 		{
 			MsgAssert("현재 사용중인 맵을 다시 사용하려 했습니다");
 		}
-		MainMap->ObjectOff();
+		//MainMap->ObjectOff();
 	}
 	MainMap = this;
-	ObjectOn();
+	if (nullptr != BackGroundRender)
+	{
+		BackGroundRender->On();
+	}
+	if (nullptr != StageRender)
+	{
+		StageRender->On();
+	}
+	//ObjectOn();
 }
 
 void Map::Update(float _DeltaTime)
 {
 }
-
+/*
 void Map::ObjectOn()
 {
 	if (nullptr != BackGroundRender)
@@ -109,13 +109,6 @@ void Map::ObjectOn()
 	if (nullptr != StageRender)
 	{
 		StageRender->On();
-	}
-
-	std::vector<GameEngineActor*>::iterator StartIter = Actors.begin();
-	std::vector<GameEngineActor*>::iterator EndIter = Actors.end();
-	for (; StartIter != EndIter; ++StartIter)
-	{
-		(*StartIter)->On();
 	}
 }
 
@@ -129,11 +122,5 @@ void Map::ObjectOff()
 	{
 		StageRender->Off();
 	}
-
-	std::vector<GameEngineActor*>::iterator StartIter = Actors.begin();
-	std::vector<GameEngineActor*>::iterator EndIter = Actors.end();
-	for (; StartIter != EndIter; ++StartIter)
-	{
-		(*StartIter)->Off();
-	}
 }
+*/

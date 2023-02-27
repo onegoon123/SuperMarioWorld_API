@@ -3,7 +3,7 @@
 #include <GameEngineCore/GameEngineActor.h>
 #include <string.h>
 #include <vector>
-
+#include "ContentsEnums.h"
 const int Black = RGB(0, 0, 0);			// 바닥, 벽 표현 색상
 const int White = RGB(255, 255, 255);	// 빈 공간 표현 색상
 const int Green = RGB(0, 255, 0);		// 아래에서 통과되는 바닥 표현 색상
@@ -26,8 +26,6 @@ public:
 
 	void SetImage(const std::string_view& _BackGroundName, const std::string_view& _StageName, const std::string_view& _StageColName);
 	void SetStartPos(const std::vector <float4>& _StartPos);
-	void NewActor(const GameEngineActor* _Actor);
-	void NewActor(const std::vector<GameEngineActor*> _Actors);
 	void MoveMap(int _StartPosIndex);
 
 	inline GameEngineRender* GetBackGroundRender()
@@ -76,9 +74,8 @@ private:
 	bool IsBackAnim = false;
 
 	std::vector <float4> StartPos = std::vector <float4>();
-	std::vector<GameEngineActor*> Actors = std::vector<GameEngineActor*>();
 
-	void ObjectOn();
-	void ObjectOff();
+	//void ObjectOn();
+	//void ObjectOff();
 };
 

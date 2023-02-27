@@ -47,7 +47,7 @@ void WorldMario::Update(float _DeltaTime)
 {
 	if (true == IsMove)
 	{
-		Timer += _DeltaTime;
+		Timer += _DeltaTime * speed;
 		SetPos(float4::LerpClamp(StartPos, EndPos, Timer));
 		if (1 < Timer)
 		{

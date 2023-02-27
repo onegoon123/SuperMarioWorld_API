@@ -9,6 +9,7 @@
 #include "Particle.h"
 #include "StageLevel.h"
 #include "Map.h"
+#include "LevelLoader.h"
 
 void Mario::ChangeState(MarioState _State)
 {
@@ -1468,6 +1469,7 @@ void Mario::SlideEnd()
 
 void Mario::ChangePowerStart(MarioState _BeforeState)
 {
+	CurrentLevel->LevelPause();
 	BeforeState = _BeforeState;
 
 	std::string AnimStr = DirValue == Dir::Left ? "Left_" : "Right_";
@@ -1547,11 +1549,12 @@ void Mario::ChangePowerUpdate(float _DeltaTime)
 
 void Mario::ChangePowerEnd()
 {
-	
+	CurrentLevel->LevelPlay();
 }
 
 void Mario::GameOverStart()
 {
+	CurrentLevel->LevelPause();
 	AnimationRender->ChangeAnimation("GameOver1");
 	Timer = 0;
 	MoveDir = float4::Zero;
@@ -1588,4 +1591,59 @@ void Mario::GameOverUpdate(float _DeltaTime)
 
 void Mario::GameOverEnd()
 {
+}
+
+void Mario::VictoryUpdate(float _DeltaTime)
+{
+	if (Timer < 3)
+	{
+		SetMove(float4::Right * ClearWalkSpeed * _DeltaTime);
+	}
+	else if (7.2 < Timer)
+	{
+		AnimationRender->ChangeAnimation(BeforeAnim.data() + std::string("Goal"));
+	}
+	else if (4 < Timer)
+	{
+		ChangeAnimation("Idle");
+	}
+	Timer += _DeltaTime;
+
+
+	// ______맵 충돌 체크______
+
+	if (nullptr == ColMap)
+	{
+		MsgAssert("충돌용 맵 이미지가 없습니다.");
+	}
+
+	float4 DownPos = GetPos() + float4::Down * 10;
+	// 맵 충돌 체크용 컬러 변수
+	DWORD PixelColor = ColMap->GetPixelColor(DownPos, White);
+	if (Black == PixelColor)
+	{
+		DownPos.y = std::round(DownPos.y);
+		// 바닥에서 제일 위로 올라간다
+		while (true)
+		{
+			DownPos.y -= 1;
+			PixelColor = ColMap->GetPixelColor(DownPos, Black);
+			if (Black != PixelColor)
+			{
+				SetPos(DownPos);
+				MoveDir.y = 0.0f;
+				break;
+			}
+		}
+	}
+	else
+	{
+		MoveDir.y += GravityAcceleration * _DeltaTime;
+		if (GravityMax < MoveDir.y)
+		{
+			MoveDir.y = GravityMax;
+		}
+		SetMove(float4::Down * MoveDir.y * _DeltaTime);
+	}
+
 }

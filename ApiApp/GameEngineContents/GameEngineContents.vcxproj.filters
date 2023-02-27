@@ -81,6 +81,12 @@
     <ClInclude Include="Coin.h">
       <Filter>Play\Object\Item</Filter>
     </ClInclude>
+    <ClInclude Include="Pipe.h">
+      <Filter>Play\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="StageBasement1.h">
+      <Filter>Play\Stage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MarioGameCore.cpp" />
@@ -164,6 +170,12 @@
     </ClCompile>
     <ClCompile Include="Coin.cpp">
       <Filter>Play\Object\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipe.cpp">
+      <Filter>Play\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="StageBasement1.cpp">
+      <Filter>Play\Stage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

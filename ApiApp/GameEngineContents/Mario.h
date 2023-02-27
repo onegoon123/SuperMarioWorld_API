@@ -43,8 +43,9 @@ public:
 
 	void NewItem(ItemType _Item);
 	void Die();
+	void StageClear();
 	bool GetIsGameOver() {
-		return StateValue == MarioState::GameOver;
+		return StateValue == MarioState::GameOver || StateValue == MarioState::VICTORY;
 	}
 	PowerState GetPowerState() {
 		return MarioPower;
@@ -69,6 +70,7 @@ private:
 
 	float Speed = 705;				// 이동 속도
 	float RunSpeed = 850.0f;			// 달릴때 이동 속도
+	const float ClearWalkSpeed = 45;			// 달릴때 이동 속도
 	const float JumpForce = 950;			// 점프력
 	const float DashJumpForce = 1100;		// 대시 시 점프력
 	const float RunJumpForce = 1200;		// 달릴시 점프력
@@ -195,6 +197,8 @@ private:
 	void GameOverStart();
 	void GameOverUpdate(float _DeltaTime);
 	void GameOverEnd();
+
+	void VictoryUpdate(float _DeltaTime);
 
 #pragma endregion
 

@@ -17,19 +17,11 @@ StageLevel2::~StageLevel2() {
 
 void StageLevel2::Loading()
 {
-	BackGroundName = "BACKGROUND2.BMP";
-	StageName = "STAGE2.BMP";
-	StageColName = "STAGE0COL.BMP";
-
 	GameEngineDirectory Dir;
 	Dir.MoveParentToDirectory("ContentsResources");
 	Dir.Move("ContentsResources");
 	Dir.Move("Image");
 	Dir.Move("Play");
-	//GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName(SkyName));
-	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName(BackGroundName));
-	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName(StageName));
-	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName(StageColName));
 
 }
 
@@ -43,9 +35,9 @@ void StageLevel2::LevelChangeStart(GameEngineLevel* _PrevLevel)
 	Map1->SetImage(BackGroundName, StageName, StageColName);
 	CreateActor<Mario>();
 	UI = CreateActor<UIManager>();
-	Map1->AddStartPos(GridPos(5, 0));
+	Map1->AddStartPos(GridPos(300, 0));
 	Map1->MoveMap(0);
 	SetCameraMove({ 0, 790 });
-	CreateActor<Goal>()->SetGoal(GridPos(302, 0), "World");
+	CreateActor<Goal>()->SetGoal(GridPos(302, 0));
 	StageLevel::LevelChangeStart(_PrevLevel);
 }

@@ -65,28 +65,12 @@ void GameEngineLevel::ActorsUpdate(float _DeltaTime)
 		for (; GroupStartIter != GroupEndIter; ++GroupStartIter)
 		{
 			std::list<GameEngineActor*>& ActorList = GroupStartIter->second;
-
-			for (GameEngineActor* Actor : ActorList)
+			int Order = GroupStartIter->first;
+			float CurTimeScale = 1.0f;
+			if (TimeScales.end() != TimeScales.find(Order))
 			{
-				// Actors.erase()
-				if (nullptr == Actor || false == Actor->IsUpdate())
-				{
-					continue;
-				}
-
-				Actor->LiveTime += _DeltaTime;
-				Actor->Update(_DeltaTime);
+				CurTimeScale = TimeScales[Order];
 			}
-		}
-	}
-
-	{
-		std::map<int, std::list<GameEngineActor*>>::iterator GroupStartIter = Actors.begin();
-		std::map<int, std::list<GameEngineActor*>>::iterator GroupEndIter = Actors.end();
-
-		for (; GroupStartIter != GroupEndIter; ++GroupStartIter)
-		{
-			std::list<GameEngineActor*>& ActorList = GroupStartIter->second;
 
 			for (GameEngineActor* Actor : ActorList)
 			{
@@ -96,7 +80,9 @@ void GameEngineLevel::ActorsUpdate(float _DeltaTime)
 					continue;
 				}
 
-				Actor->LateUpdate(_DeltaTime);
+				Actor->TimeScale = CurTimeScale;
+				Actor->LiveTime += _DeltaTime;
+				Actor->Update(_DeltaTime * CurTimeScale);
 			}
 		}
 	}
@@ -209,7 +195,7 @@ void GameEngineLevel::ActorsRender(float _DeltaTime)
 					continue;
 				}
 
-				Renderer->Render(_DeltaTime);
+				Renderer->Render(_DeltaTime * Renderer->GetActor()->TimeScale);
 			}
 		}
 	}
@@ -268,7 +254,18 @@ void GameEngineLevel::ActorsRender(float _DeltaTime)
 		for (size_t i = 0; i < DebugTexts.size(); i++)
 		{
 			HDC ImageDc = GameEngineWindow::GetDoubleBufferImage()->GetImageDC();
-			TextOutA(ImageDc, TextOutStart.ix(), TextOutStart.iy(), DebugTexts[i].c_str(), static_cast<int>(DebugTexts[i].size()));
+
+			// TextOutStart.ix(), TextOutStart.iy(),
+
+			RECT Rect;
+			Rect.left = TextOutStart.ix();
+			Rect.top = TextOutStart.iy();
+			Rect.right = TextOutStart.ix() + 100;
+			Rect.bottom = TextOutStart.iy() + 100;
+
+			DrawTextA(ImageDc, DebugTexts[i].c_str(), static_cast<int>(DebugTexts[i].size()), &Rect, DT_LEFT);
+
+			// TextOutA(ImageDc, TextOutStart.ix(), TextOutStart.iy(), DebugTexts[i].c_str(), static_cast<int>(DebugTexts[i].size()));
 			TextOutStart.y += 20.0f;
 		}
 
@@ -328,8 +325,12 @@ void GameEngineLevel::PushRender(GameEngineRender* _Render, int _ChangeOrder)
 	Renders[_Render->GetOrder()].push_back(_Render);
 }
 
-void GameEngineLevel::PushCollision(GameEngineCollision* _Collision)
+void GameEngineLevel::PushCollision(GameEngineCollision* _Collision, int _ChangeOrder)
 {
+	Collisions[_Collision->GetOrder()].remove(_Collision);
+
+	_Collision->GameEngineObject::SetOrder(_ChangeOrder);
+
 	if (nullptr == _Collision)
 	{
 		MsgAssert("nullptr인 충돌체를 충돌 그룹속에 넣으려고 했습니다.");

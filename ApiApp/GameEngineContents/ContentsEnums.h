@@ -16,6 +16,7 @@ enum class RenderOrder
 	Item,
 	Monster,
 	Player,
+	PlayerAttack,
 	ForeGround,
 	UI,
 	Fade

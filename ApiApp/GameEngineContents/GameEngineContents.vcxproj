@@ -76,7 +76,15 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Pipe.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="QuestionBlock.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="StageBasement1.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -187,7 +195,15 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Pipe.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="QuestionBlock.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="StageBasement1.cpp">
       <SubType>
       </SubType>
     </ClCompile>
