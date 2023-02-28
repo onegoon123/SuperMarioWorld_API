@@ -185,7 +185,7 @@ protected:
 	void Update(float _DeltaTime) override;
 	void LevelChangeStart(GameEngineLevel* _Prev) override;
 private:
-	const float speed = 5;
+	const float speed = 2;
 	bool IsStart = false;
 	bool IsMove = false;
 	float4 StartPos = float4::Zero;
@@ -198,5 +198,6 @@ private:
 	WorldMap::Point* Stage2 = nullptr;
 	WorldMap::Point* Stage3 = nullptr;
 	WorldMap::Point* Stage4 = nullptr;
+	WorldMap::Point* Stage5 = nullptr;
 };
 

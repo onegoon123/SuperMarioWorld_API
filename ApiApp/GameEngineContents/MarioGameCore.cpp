@@ -70,12 +70,14 @@ void MarioGameCore::Start()
 	CreateLevel<StageLevel2>("Stage2");
 	CreateLevel<StageLevel3>("Stage3");
 	CreateLevel<StageLevel4>("Stage4");
+	CreateLevel<StageLevel4>("Stage5");
 	CreateLevel<StageUnderground1>("Underground1");
 	CreateLevel<GameOverLevel>("GameOver");
 	ChangeLevel("Title");
 
-	WorldLevel::GetInstance()->StageClear("Stage2");
-	WorldLevel::GetInstance()->StageClear("Stage3");
+	//WorldLevel::GetInstance()->StageClear("Stage2");
+	//WorldLevel::GetInstance()->StageClear("Stage3");
+	//WorldLevel::GetInstance()->StageClear("Stage4");
 }
 
 void MarioGameCore::Update()

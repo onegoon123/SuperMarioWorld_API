@@ -156,7 +156,7 @@ void WorldImage::Start()
 			LockStage2->SetScale({ 68 ,68 });
 			LockStage2->CreateAnimation({ .AnimationName = "STAGE", .ImageName = "STAGEBUTTON.BMP", .Start = 0, .End = 6, .InterTime = 0.1f });
 			LockStage2->ChangeAnimation("STAGE");
-			LockStage2->SetPosition({ 725, 498 });
+			LockStage2->SetPosition({ 802, 450 });
 			LockStage2->Off();
 		}
 

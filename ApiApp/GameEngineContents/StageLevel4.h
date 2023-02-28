@@ -1,7 +1,7 @@
 #pragma once
-#include <GameEngineCore/GameEngineLevel.h>
+#include "StageLevel.h"
 
-class StageLevel4 : public GameEngineLevel
+class StageLevel4 : public StageLevel
 {
 public:
 	StageLevel4();
@@ -13,13 +13,9 @@ public:
 	StageLevel4& operator=(StageLevel4&& _Other) noexcept = delete;
 
 protected:
-	void Loading() override;
-	void Update(float _DeltaTime) override;
-	void LevelChangeEnd(GameEngineLevel* _NextLevel) override;
 	void LevelChangeStart(GameEngineLevel* _PrevLevel) override;
 private:
-	std::string_view BackGroundName;
-	std::string_view StageName;
-	std::string_view StageColName;
+	const std::string_view BackGroundName = "BACKGROUND3.BMP";
+	const std::string_view StageName = "STAGE3.BMP";
+	const std::string_view StageColName = "STAGE0COL.BMP";
 };
-

@@ -21,6 +21,12 @@ void WorldLevel::StageClear(const std::string_view& _StageName)
 		WorldData->Stage4->SetLeft(WorldData->Stage3);
 		return;
 	}
+	if ("Stage4" == _StageName)
+	{
+		ImageActor->BlockRender3->Off();
+		WorldData->Stage5->SetDown(WorldData->Stage4);
+		return;
+	}
 }
 
 WorldLevel::WorldLevel() {
