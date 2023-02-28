@@ -7,6 +7,7 @@
 #include "LevelLoader.h"
 #include "SuperMushroom.h"
 #include "FireFlower.h"
+#include "WorldLevel.h"
 
 StageLevel::StageLevel()
 {
@@ -125,6 +126,7 @@ void StageLevel::GoalEvent(int _Score)
 	ClearEventTimer = 0;
 	IsClear = true;
 	SetCheckPoint(0);
+	WorldLevel::GetInstance()->StageClear(GetName());
 }
 
 void StageLevel::SetTimer(float _Time)

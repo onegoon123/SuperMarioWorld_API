@@ -2,9 +2,32 @@
 #include "WorldImage.h"
 #include "WorldMario.h"
 #include "LevelLoader.h"
+WorldLevel* WorldLevel::Instance = nullptr;
+
+void WorldLevel::StageClear(const std::string_view& _StageName)
+{
+	if ("Stage2" == _StageName)
+	{
+		ImageActor->BlockRender1->Off();
+		ImageActor->LockStage1->On();
+		WorldData->Stage3->SetDown(WorldData->Stage2);
+		return;
+	}
+	if ("Stage3" == _StageName)
+	{
+		ImageActor->BlockRender2->Off();
+		ImageActor->LockStage2->On();
+		WorldData->Stage4->SetDown(WorldData->Stage3);
+		WorldData->Stage4->SetLeft(WorldData->Stage3);
+		return;
+	}
+}
 
 WorldLevel::WorldLevel() {
-
+	if (nullptr == Instance)
+	{
+		Instance = this;
+	}
 }
 
 WorldLevel::~WorldLevel() {
@@ -13,8 +36,9 @@ WorldLevel::~WorldLevel() {
 
 void WorldLevel::Loading()
 {
-	CreateActor<WorldImage>();
-	CreateActor<WorldMario>()->SetPos({ 475, 650 });
+	ImageActor = CreateActor<WorldImage>();
+	WorldData = CreateActor<WorldMario>();
+	WorldData->SetPos({ 475, 650 });
 	CreateActor<LevelLoader>();
 }
 

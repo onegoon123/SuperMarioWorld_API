@@ -73,6 +73,9 @@ void MarioGameCore::Start()
 	CreateLevel<StageUnderground1>("Underground1");
 	CreateLevel<GameOverLevel>("GameOver");
 	ChangeLevel("Title");
+
+	WorldLevel::GetInstance()->StageClear("Stage2");
+	WorldLevel::GetInstance()->StageClear("Stage3");
 }
 
 void MarioGameCore::Update()

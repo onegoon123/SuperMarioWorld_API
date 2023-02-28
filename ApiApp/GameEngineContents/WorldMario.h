@@ -1,9 +1,11 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
 #include <GameEngineCore/GameEngineRender.h>
+class WorldLevel;
 
 class WorldMap
 {
+	
 public:
 	class Point
 	{
@@ -18,27 +20,31 @@ public:
 		~Point() {
 			if (Up != nullptr)
 			{
-				Up->Down = nullptr;
-				delete Up;
-				Up = nullptr;
+				Point* DeletePoint = Up;
+				DeletePoint->ErasePoint(this);
+				this->ErasePoint(DeletePoint);
+				delete DeletePoint;
 			}
 			if (Left != nullptr)
 			{
-				Left->Right = nullptr;
-				delete Left;
-				Left = nullptr;
+				Point* DeletePoint = Left;
+				DeletePoint->ErasePoint(this);
+				this->ErasePoint(DeletePoint);
+				delete DeletePoint;
 			}
 			if (Down != nullptr)
 			{
-				Down->Up = nullptr;
-				delete Down;
-				Down = nullptr;
+				Point* DeletePoint = Down;
+				DeletePoint->ErasePoint(this);
+				this->ErasePoint(DeletePoint);
+				delete DeletePoint;
 			}
 			if (Right != nullptr)
 			{
-				Right->Left = nullptr;
-				delete Right;
-				Right = nullptr;
+				Point* DeletePoint = Right;
+				DeletePoint->ErasePoint(this);
+				this->ErasePoint(DeletePoint);
+				delete DeletePoint;
 			}
 		}
 		float4 Pos = float4::Zero;
@@ -48,6 +54,25 @@ public:
 		Point* Left = nullptr;
 		Point* Right = nullptr;
 
+		void ErasePoint(const Point* _Point)
+		{
+			if (Up == _Point)
+			{
+				Up = nullptr;
+			}
+			if (Down == _Point)
+			{
+				Down = nullptr;
+			}
+			if (Left == _Point)
+			{
+				Left = nullptr;
+			}
+			if (Right == _Point)
+			{
+				Right = nullptr;
+			}
+		}
 		bool IsStage()
 		{
 			return StageName != "";
@@ -142,12 +167,13 @@ private:
 
 class WorldMario : public GameEngineActor
 {
+	friend WorldLevel;
 public:
 	WorldMario();
 	~WorldMario();
 
-	static WorldMario* WorldData;
-	static void Reset();
+	//static WorldMario* WorldData;
+	//static void Reset();
 
 	WorldMario(const WorldMario& _Other) = delete;
 	WorldMario(WorldMario&& _Other) noexcept = delete;
@@ -167,5 +193,10 @@ private:
 	float Timer = 0;
 	GameEngineRender* AnimationRender = nullptr;
 	WorldMap* Map = nullptr;
+
+	WorldMap::Point* Stage1 = nullptr;
+	WorldMap::Point* Stage2 = nullptr;
+	WorldMap::Point* Stage3 = nullptr;
+	WorldMap::Point* Stage4 = nullptr;
 };
 
