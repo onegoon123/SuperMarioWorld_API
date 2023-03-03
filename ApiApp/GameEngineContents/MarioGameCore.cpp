@@ -10,6 +10,7 @@
 #include "StageLevel2.h"
 #include "StageLevel3.h"
 #include "StageLevel4.h"
+#include "StageLevel5.h"
 #include "GameOverLevel.h"
 #include "StageUnderground1.h"
 // MarioGameCore MarioGameCore::Core = new MarioGameCore();
@@ -62,10 +63,10 @@ void MarioGameCore::Start()
 	CreateLevel<TitleLevel>("Title");
 	CreateLevel<WorldLevel>("World");
 	CreateLevel<StageLevel1>("Stage1");
-	CreateLevel<StageLevel2>("Stage2");
+	CreateLevel<StageLevel1>("Stage2");
 	CreateLevel<StageLevel3>("Stage3");
 	CreateLevel<StageLevel4>("Stage4");
-	CreateLevel<StageLevel4>("Stage5");
+	CreateLevel<StageLevel5>("Stage5");
 	CreateLevel<StageUnderground1>("Underground1");
 	CreateLevel<GameOverLevel>("GameOver");
 	ChangeLevel("Title");
@@ -95,14 +96,19 @@ void MarioGameCore::ResourcesLoad()
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("RIGHT_MARIO.BMP"))->Cut(17, 9);
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("LEFT_MARIO.BMP"))->Cut(17, 9);
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("BACKGROUND1.BMP"));
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("BACKGROUND5.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("STAGE1.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("STAGE2.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("STAGE3.BMP"));
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("STAGE4.BMP"));
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("STAGE5.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Underground1.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("STAGE0COL.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("STAGE1COL.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("STAGE2COL.BMP"));
-	//GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("STAGE3COL.BMP"));
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("STAGE3COL.BMP"));
+	//GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("STAGE4COL.BMP"));
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("STAGE5COL.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Underground1COL.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ALLBLACK.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("NUMBER.BMP"))->Cut(10, 1);
@@ -139,6 +145,13 @@ void MarioGameCore::ResourcesLoad()
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("StarParticle.BMP"))->Cut(1, 1);
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("QuestionBlock.BMP"))->Cut(5, 1);
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Coin.BMP"))->Cut(4, 1);
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("LEFT_KOOPA.BMP"))->Cut(9, 1);
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("RIGHT_KOOPA.BMP"))->Cut(9, 1);
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("LEFT_Mechakoopa.BMP"))->Cut(7, 1);
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("RIGHT_Mechakoopa.BMP"))->Cut(7, 1);
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("LEFT_Pierrot.BMP"))->Cut(4, 1);
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("RIGHT_Pierrot.BMP"))->Cut(4, 1);
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Propeller.BMP"))->Cut(1, 4);
 
 	Dir.MoveParentToDirectory("ContentsResources");
 	Dir.Move("ContentsResources");

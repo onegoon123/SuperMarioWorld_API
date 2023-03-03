@@ -99,6 +99,12 @@
     <ClInclude Include="Killer.h">
       <Filter>Play\Object\Enemy</Filter>
     </ClInclude>
+    <ClInclude Include="StageLevel5.h">
+      <Filter>Play\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Koopa.h">
+      <Filter>Play\Object\Enemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MarioGameCore.cpp" />
@@ -199,6 +205,12 @@
       <Filter>Play\Object\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Killer.cpp">
+      <Filter>Play\Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="StageLevel5.cpp">
+      <Filter>Play\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Koopa.cpp">
       <Filter>Play\Object\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
