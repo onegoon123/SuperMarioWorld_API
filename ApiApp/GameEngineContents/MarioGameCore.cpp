@@ -63,7 +63,7 @@ void MarioGameCore::Start()
 	CreateLevel<TitleLevel>("Title");
 	CreateLevel<WorldLevel>("World");
 	CreateLevel<StageLevel1>("Stage1");
-	CreateLevel<StageLevel1>("Stage2");
+	CreateLevel<StageLevel2>("Stage2");
 	CreateLevel<StageLevel3>("Stage3");
 	CreateLevel<StageLevel4>("Stage4");
 	CreateLevel<StageLevel5>("Stage5");
