@@ -90,6 +90,15 @@
     <ClInclude Include="CheckPointActor.h">
       <Filter>Play\Stage</Filter>
     </ClInclude>
+    <ClInclude Include="Nokonoko.h">
+      <Filter>Play\Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Shell.h">
+      <Filter>Play\Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Killer.h">
+      <Filter>Play\Object\Enemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MarioGameCore.cpp" />
@@ -182,6 +191,15 @@
     </ClCompile>
     <ClCompile Include="CheckPointActor.cpp">
       <Filter>Play\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Nokonoko.cpp">
+      <Filter>Play\Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Shell.cpp">
+      <Filter>Play\Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Killer.cpp">
+      <Filter>Play\Object\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

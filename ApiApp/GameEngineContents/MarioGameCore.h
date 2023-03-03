@@ -67,7 +67,6 @@ public:
 	inline void SetRidedYoshiData(bool _Data) {
 		RidedYoshiData = _Data;
 	}
-	void StageClear(const std::string_view& _StageName);
 
 #pragma endregion
 

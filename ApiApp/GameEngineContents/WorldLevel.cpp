@@ -10,21 +10,20 @@ void WorldLevel::StageClear(const std::string_view& _StageName)
 	{
 		ImageActor->BlockRender1->Off();
 		ImageActor->LockStage1->On();
-		WorldData->Stage3->SetDown(WorldData->Stage2);
+		WorldData->Stage3->Unlock();
 		return;
 	}
 	if ("Stage3" == _StageName)
 	{
 		ImageActor->BlockRender2->Off();
 		ImageActor->LockStage2->On();
-		WorldData->Stage4->SetDown(WorldData->Stage3);
-		WorldData->Stage4->SetLeft(WorldData->Stage3);
+		WorldData->Stage4->Unlock();
 		return;
 	}
 	if ("Stage4" == _StageName)
 	{
 		ImageActor->BlockRender3->Off();
-		WorldData->Stage5->SetDown(WorldData->Stage4);
+		WorldData->Stage5->Unlock();
 		return;
 	}
 }

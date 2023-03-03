@@ -28,11 +28,11 @@ void EnemyActor::CameraInCheck()
 {
 	// 화면 밖으로 나갔는지 체크
 	float4 InCameraPos = GetPos() - GetLevel()->GetCameraPos();
-	if (0 > InCameraPos.x + 100)
+	if (0 > InCameraPos.x + 256)
 	{
 		OffCamera();
 	}
-	else if (GameEngineWindow::GetScreenSize().x < InCameraPos.x - 100)
+	else if (GameEngineWindow::GetScreenSize().x < InCameraPos.x - 256)
 	{
 		OffCamera();
 	}
@@ -58,7 +58,7 @@ void EnemyActor::MoveUpdate(float _DeltaTime)
 	// 이동될 위치
 	float4 NextPos = GetPos() + MoveDir * _DeltaTime;
 	float4 ForwardPos = NextPos;
-	ForwardPos.y = GetPos().y + float4::Up.y;
+	ForwardPos.y = GetPos().y + float4::Up.y * 4;
 
 	// 맵 충돌 체크용 컬러 변수
 	DWORD PixelColor = ColMap->GetPixelColor(ForwardPos, White);
@@ -153,8 +153,15 @@ void EnemyActor::MoveUpdate(float _DeltaTime)
 				MoveDir.y = 0.0f;
 				continue;
 			}
-			else if (GetPos().y > ColActor->GetPos().y + BlockYSize)
+			else if (GetPos().y > ColActor->GetPos().y)
 			{
+				ColActor->Hit();
+				// 블록 밑으로 이동한다
+				float4 Pos = GetPos();
+				Pos.y = ColActor->GetPos().y + BlockOnPos;
+				Pos.y = std::round(Pos.y);
+				SetPos(Pos);
+				MoveDir.y = 100;
 				continue;
 			}
 			// 그 외 경우
@@ -165,6 +172,18 @@ void EnemyActor::MoveUpdate(float _DeltaTime)
 		}
 	}
 
+	SetMove(MoveDir * _DeltaTime);
+
+}
+
+void EnemyActor::DieUpdate(float _DeltaTime)
+{
+	// 중력
+	MoveDir.y += GravityAcceleration * _DeltaTime;
+	if (GravityMax < MoveDir.y)
+	{
+		MoveDir.y = GravityMax;
+	}
 	SetMove(MoveDir * _DeltaTime);
 
 }

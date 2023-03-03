@@ -1,6 +1,8 @@
 #include "FireFlower.h"
 #include <GameEngineCore/GameEngineRender.h>
+#include <GameEngineCore/GameEngineResources.h>
 #include "Mario.h"
+#include "Map.h"
 FireFlower::FireFlower() {
 
 }
@@ -21,9 +23,14 @@ void FireFlower::Start()
 
 	Collision = CreateCollision(CollisionOrder::Check);
 	Collision->SetScale(CollisionScale);
+	ColMap = GameEngineResources::GetInst().ImageFind(Map::MainMap->GetStageColName());
 }
 
 void FireFlower::Update(float _DeltaTime)
 {
 	ItemActor::Update(_DeltaTime);
+	if (Fall == true)
+	{
+		FallUpdate(_DeltaTime);
+	}
 }

@@ -1,7 +1,7 @@
 #pragma once
 #include "EnemyActor.h"
 
-enum class State
+enum class BambaState
 {
 	Normal,
 	Overturn,
@@ -19,8 +19,9 @@ public:
 	
 	bool IsCollisionAttack() override;
 	bool IsHold() override;
+	bool IsHoldable() override;
 	void SpinHit() override;
-	void JumpHit() override;
+	void JumpHit(bool IsLeft) override;
 	void FireHit() override;
 	void BlockHit() override;
 	void MonsterHit(bool IsLeft) override;
@@ -37,9 +38,6 @@ protected:
 	void Update(float _DeltaTime) override;
 	void Render(float _DeltaTime) override;
 
-	void OffCamera() override;
-	void OnCamera() override;
-
 	void Turn() override;
 	void TurnLeft() override;
 	void TurnRight() override;
@@ -54,16 +52,14 @@ private:
 	const float4 MonsterHitForce = { 250, -750};
 	const float HeadingReaction = 100;
 	const float BambaSpeed = 100;
-	const float BambaSlopeSpeed = BambaSpeed * 0.6f;
+	const float BambaSlopeSpeed = BambaSpeed * 0.5f;
 
-	State StateValue = State::Normal;
-	float4 MoveDir = { 0,0 };
+	BambaState StateValue = BambaState::Normal;
+	//float4 MoveDir = { 0,0 };
 	const float BrakeForce = 1000;
-	bool IsOnCamera = false;
 
 	void OverturnUpdate(float _DeltaTime);
 	void KickUpdate(float _DeltaTime);
-	void DieUpdate(float _DeltaTime);
 	
 	void MonsterCheck();
 };

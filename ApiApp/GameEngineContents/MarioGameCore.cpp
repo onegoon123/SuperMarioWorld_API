@@ -29,11 +29,6 @@ void MarioGameCore::ResetGame()
 	Life = StartLife;
 }
 
-void MarioGameCore::StageClear(const std::string_view& _StageName)
-{
-
-}
-
 void MarioGameCore::Start()
 {
 	// 해상도 설정
@@ -119,7 +114,13 @@ void MarioGameCore::ResourcesLoad()
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("CheckPointPass.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("CheckPointFront.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("BAMBA.BMP"))->Cut(8, 1);
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("RIGHT_NOKONOKO.BMP"))->Cut(3, 1);
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("RIGHT_NOKONOKO_HADAKA.BMP"))->Cut(4, 1);
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("LEFT_NOKONOKO.BMP"))->Cut(3, 1);
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("LEFT_NOKONOKO_HADAKA.BMP"))->Cut(4, 1);
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("SHELL.BMP"))->Cut(4, 1);
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("SUPERMUSHROOM.BMP"));
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("KILLER.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("FIRE.BMP"))->Cut(4, 1);
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("FIREFLOWER.BMP"))->Cut(2, 1);
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("FIREFLOWERUI.BMP"));

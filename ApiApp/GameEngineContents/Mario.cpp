@@ -82,6 +82,7 @@ void Mario::DropHold()
 
 void Mario::PipeIn(const float4& _PipePos, const float4& _Dir)
 {
+	IsHold = false;
 	GameEngineResources::GetInst().SoundPlay("Pipe.wav");
 	AnimationRender->On();
 	AnimationRender->SetOrder(static_cast<int>(RenderOrder::BackGround));
@@ -1020,7 +1021,7 @@ void Mario::CheckCollision()
 				continue;
 			}
 			// 잡기
-			if (true == GameEngineInput::IsPress("Dash") && false == ColActor->IsCollisionAttack() && MarioState::SPIN != StateValue && false == IsHold && KickAnimTime < KickAnimTimer)
+			if (true == GameEngineInput::IsPress("Dash") && true == ColActor->IsHoldable() && MarioState::SPIN != StateValue && false == IsHold && KickAnimTime < KickAnimTimer)
 			{
 				// 잡는다
 				IsHold = true;
@@ -1029,7 +1030,7 @@ void Mario::CheckCollision()
 				continue;
 			}
 			// 플레이어가 몬스터보다 위에 있으면서 떨어지고 있는 경우
-			if (GetPos().y < ColActor->GetPos().y - 28 && 0 < MoveDir.y)
+			if (GetPos().y < ColActor->GetPos().y - 28 && -500 < MoveDir.y)
 			{
 				if (IsKill == true) {
 					continue;
@@ -1038,7 +1039,7 @@ void Mario::CheckCollision()
 				{
 				case MarioState::FALL:
 				case MarioState::RUNJUMP:
-					ColActor->JumpHit();
+					ColActor->JumpHit(GetPos().x > ColActor->GetPos().x);
 					break;
 				case MarioState::SPIN:
 					ColActor->SpinHit();

@@ -13,9 +13,10 @@ public:
 		Point(const float4& _Pos) {
 			Pos = _Pos;
 		}
-		Point(const float4& _Pos, const std::string_view& _StageName) {
+		Point(const float4& _Pos, const std::string_view& _StageName, bool IsLock = false) {
 			Pos = _Pos;
 			StageName = _StageName;
+			Lock = IsLock;
 		}
 		~Point() {
 			if (Up != nullptr)
@@ -53,6 +54,7 @@ public:
 		Point* Down = nullptr;
 		Point* Left = nullptr;
 		Point* Right = nullptr;
+		bool Lock = false;
 
 		void ErasePoint(const Point* _Point)
 		{
@@ -78,6 +80,10 @@ public:
 			return StageName != "";
 		}
 
+		void Unlock()
+		{
+			Lock = false;
+		}
 		void SetUp(Point* _Up)
 		{
 			Up = _Up;
@@ -117,6 +123,10 @@ public:
 	{
 		if (nullptr != StagePointer->Up)
 		{
+			if (true == StagePointer->Up->Lock)
+			{
+				return false;
+			}
 			StagePointer = StagePointer->Up;
 			return true;
 		}
@@ -126,6 +136,10 @@ public:
 	{
 		if (nullptr != StagePointer->Down)
 		{
+			if (true == StagePointer->Down->Lock)
+			{
+				return false;
+			}
 			StagePointer = StagePointer->Down;
 			return true;
 		}
@@ -135,6 +149,10 @@ public:
 	{
 		if (nullptr != StagePointer->Left)
 		{
+			if (true == StagePointer->Left->Lock)
+			{
+				return false;
+			}
 			StagePointer = StagePointer->Left;
 			return true;
 		}
@@ -144,6 +162,10 @@ public:
 	{
 		if (nullptr != StagePointer->Right)
 		{
+			if (true == StagePointer->Right->Lock)
+			{
+				return false;
+			}
 			StagePointer = StagePointer->Right;
 			return true;
 		}

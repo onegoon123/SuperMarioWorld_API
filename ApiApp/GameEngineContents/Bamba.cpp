@@ -18,12 +18,17 @@ Bamba::~Bamba() {
 
 bool Bamba::IsCollisionAttack()
 {
-	return StateValue == State::Normal;
+	return StateValue == BambaState::Normal;
 }
 
 bool Bamba::IsHold()
 {
-	return StateValue == State::Hold || StateValue == State::Die;
+	return StateValue == BambaState::Hold || StateValue == BambaState::Die;
+}
+
+bool Bamba::IsHoldable()
+{
+	return StateValue == BambaState::Overturn;
 }
 
 void Bamba::SpinHit()
@@ -34,11 +39,18 @@ void Bamba::SpinHit()
 	Death();
 }
 
-void Bamba::JumpHit()
+void Bamba::JumpHit(bool IsLeft)
 {
-	if (State::Overturn == StateValue)
+	if (BambaState::Overturn == StateValue)
 	{
-		//MoveDir.x += 100;
+		if (true == IsLeft)
+		{
+			MoveDir.x -= 250;
+		}
+		else
+		{
+			MoveDir.x += 250;
+		}
 		return;
 	}
 	if (0 < MoveDir.x)
@@ -49,7 +61,7 @@ void Bamba::JumpHit()
 	{
 		AnimationRender->ChangeAnimation("LEFT_OVERTURN");
 	}
-	StateValue = State::Overturn;
+	StateValue = BambaState::Kick;
 
 	//Death();
 
@@ -72,7 +84,7 @@ void Bamba::MonsterHit(bool IsLeft)
 	// 애니메이션 변경
 	if (0 < DirValue.x)
 	{
-		if (State::Normal == StateValue)
+		if (BambaState::Normal == StateValue)
 		{
 			AnimationRender->ChangeAnimation("RIGHT_IDLE");
 		}
@@ -84,7 +96,7 @@ void Bamba::MonsterHit(bool IsLeft)
 	}
 	else
 	{
-		if (State::Normal == StateValue)
+		if (BambaState::Normal == StateValue)
 		{
 			AnimationRender->ChangeAnimation("LEFT_IDLE");
 		}
@@ -95,7 +107,7 @@ void Bamba::MonsterHit(bool IsLeft)
 	}
 
 	// 상태 변경
-	StateValue = State::Die;
+	StateValue = BambaState::Die;
 	MoveDir = MonsterHitForce;
 
 	// 이동 지정
@@ -107,12 +119,12 @@ void Bamba::MonsterHit(bool IsLeft)
 
 void Bamba::Hold()
 {
-	StateValue = State::Hold;
+	StateValue = BambaState::Hold;
 }
 
 void Bamba::Kick(const float4& _Force)
 {
-	StateValue = State::Kick;
+	StateValue = BambaState::Kick;
 	MoveDir = _Force;
 }
 
@@ -153,20 +165,21 @@ void Bamba::Update(float _DeltaTime)
 	
 	switch (StateValue)
 	{
-	case State::Normal:
+	case BambaState::Normal:
 		MoveUpdate(_DeltaTime);
 		break;
-	case State::Overturn:
+	case BambaState::Overturn:
 		OverturnUpdate(_DeltaTime);
 		break;
-	case State::Hold:
+	case BambaState::Hold:
 		MonsterCheck();
 		break;
-	case State::Die:
+	case BambaState::Die:
 		DieUpdate(_DeltaTime);
 		break;
-	case State::Kick:
+	case BambaState::Kick:
 		KickUpdate(_DeltaTime);
+		MonsterCheck();
 		break;
 	default:
 		break;
@@ -176,16 +189,6 @@ void Bamba::Update(float _DeltaTime)
 void Bamba::Render(float _DeltaTime)
 {
 	//Collision->DebugRender();
-}
-
-void Bamba::OffCamera()
-{
-	IsOnCamera = false;
-}
-
-void Bamba::OnCamera()
-{
-	IsOnCamera = true;
 }
 
 void Bamba::Turn()
@@ -221,7 +224,19 @@ void Bamba::OverturnUpdate(float _DeltaTime)
 	{
 		MoveDir.y = GravityMax;
 	}
-
+	// 마찰
+	if (0.1f > std::abs(MoveDir.x))
+	{
+		MoveDir.x = 0;
+	}
+	else if (0 < MoveDir.x)
+	{
+		MoveDir.x -= _DeltaTime * 500;
+	}
+	else
+	{
+		MoveDir.x += _DeltaTime * 500;
+	}
 	// 충돌 이미지 검사
 	if (nullptr == ColMap)
 	{
@@ -341,10 +356,10 @@ void Bamba::KickUpdate(float _DeltaTime)
 {	
 	
 	// 정지시 Overturn 상태로 전환
-	if (0.1f > abs(MoveDir.y) && 0.1f > abs(MoveDir.x))
+	if (0 < MoveDir.y && 0.1f > abs(MoveDir.x))
 	{
 		MoveDir.x = 0;
-		StateValue = State::Overturn;
+		StateValue = BambaState::Overturn;
 	}
 
 	// 이동 감속
@@ -518,23 +533,13 @@ void Bamba::KickUpdate(float _DeltaTime)
 	}
 
 	
-	MonsterCheck();
+	
 
 	SetMove(MoveDir * _DeltaTime);
 
 }
 
-void Bamba::DieUpdate(float _DeltaTime)
-{
-	// 중력
-	MoveDir.y += GravityAcceleration * _DeltaTime;
-	if (GravityMax < MoveDir.y)
-	{
-		MoveDir.y = GravityMax;
-	}
-	SetMove(MoveDir * _DeltaTime);
 
-}
 
 void Bamba::MonsterCheck()
 {

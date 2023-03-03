@@ -1570,7 +1570,7 @@ void Mario::GameOverUpdate(float _DeltaTime)
 	if (true == IsDie) { return; }
 	Timer += _DeltaTime;
 	
-	if (3.5f < Timer)
+	if (3.0f < Timer)
 	{
 		CurrentLevel->MarioDie();
 		IsDie = true;

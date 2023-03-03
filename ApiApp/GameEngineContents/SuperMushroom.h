@@ -35,7 +35,7 @@ private:
 	bool IsOnCamera = true;
 	bool IsSlope = false;
 	GameEngineCollision* Collision = nullptr;
-	GameEngineImage* ColMap = nullptr;
+	
 	float4 MoveDir = float4::Zero;
 
 	void Turn();

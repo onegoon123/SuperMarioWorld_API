@@ -23,6 +23,8 @@ protected:
 	void Update(float _DeltaTime) override;
 	void Render(float _DeltaTime) override;
 
+	void FallUpdate(float _DeltaTime);
+
 	virtual void OffCamera() = 0;
 	virtual void OnCamera() = 0;
 
@@ -32,10 +34,14 @@ protected:
 
 	ItemType ThisItemType = ItemType::Coin;
 	GameEngineRender* ItemRender = nullptr;
+	GameEngineImage* ColMap = nullptr;
 private:
 	const float4 CollisionScale = { 48, 48 };
 	const float4 CollisionPos = { 0, -24 };
+	const float GravityMax = 750;
+	const float GravityAcceleration = 1500;
 	GameEngineCollision* Collision = nullptr;
+	float4 FallDir = float4::Zero;
 	bool IsOnCamera = false;
 
 	bool IsBlockOut = false;

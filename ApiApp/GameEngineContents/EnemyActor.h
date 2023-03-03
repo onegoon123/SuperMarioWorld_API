@@ -15,8 +15,9 @@ public:
 
 	virtual bool IsCollisionAttack() = 0;
 	virtual bool IsHold() = 0;
+	virtual bool IsHoldable() = 0;
 	virtual void SpinHit() = 0;
-	virtual void JumpHit() = 0;
+	virtual void JumpHit(bool IsLeft) = 0;
 	virtual void FireHit() = 0;
 	virtual void BlockHit() = 0;
 	virtual void MonsterHit(bool IsLeft) = 0;
@@ -36,7 +37,8 @@ protected:
 	void CameraInCheck();
 	// 이동 처리 업데이트
 	void MoveUpdate(float _DeltaTime);
-
+	// 죽음 처리 업데이트
+	void DieUpdate(float _DeltaTime);
 
 
 	virtual void OffCamera();
@@ -49,6 +51,7 @@ protected:
 
 	float Speed = 250;
 	float SlopeSpeed = Speed * 0.6f;
+	bool IsOnCamera = true;
 
 	float4 DirValue = float4::Zero;
 	float4 MoveDir = float4::Zero;
@@ -60,7 +63,6 @@ private:
 
 	const float4 CollisionScale = { 16, 16 };
 
-	bool IsOnCamera = true;
 	bool IsSlope = false;
 };
 

@@ -50,8 +50,12 @@ void StageLevel::DropStockItem()
 		NewActor = CreateActor<SuperMushroom>(RenderOrder::Item);
 		break;
 	case ItemType::FireFlower:
-		NewActor = CreateActor<FireFlower>(RenderOrder::Item);
+	{
+		FireFlower* NewFlower = CreateActor<FireFlower>(RenderOrder::Item);
+		NewFlower->SetFall();
+		NewActor = NewFlower;
 		break;
+	}
 	case ItemType::Feather:
 		break;
 	default:
