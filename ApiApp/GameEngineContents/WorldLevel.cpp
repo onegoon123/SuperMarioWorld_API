@@ -20,12 +20,6 @@ void WorldLevel::StageClear(const std::string_view& _StageName)
 		WorldData->Stage4->Unlock();
 		return;
 	}
-	if ("Stage4" == _StageName)
-	{
-		ImageActor->BlockRender3->Off();
-		WorldData->Stage5->Unlock();
-		return;
-	}
 }
 
 WorldLevel::WorldLevel() {

@@ -53,9 +53,6 @@ void WorldImage::Start()
 			BlockRender2 = CreateRender("STAGEBLOCK2.bmp", RenderOrder::Block);
 			BlockRender2->SetScaleToImage();
 			BlockRender2->SetPosition(Render->GetScale().half());
-			BlockRender3 = CreateRender("STAGEBLOCK3.bmp", RenderOrder::Block);
-			BlockRender3->SetScaleToImage();
-			BlockRender3->SetPosition(Render->GetScale().half());
 		}
 		{
 			GameEngineRender* Render = CreateRender(RenderOrder::PlayerAttack);

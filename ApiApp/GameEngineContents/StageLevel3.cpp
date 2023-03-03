@@ -28,7 +28,7 @@ void StageLevel3::LevelChangeStart(GameEngineLevel* _PrevLevel)
 	CreateActor<Mario>();
 	UI = CreateActor<UIManager>();
 	Map1->MoveMap(0);
-	CreateActor<Goal>()->SetGoal(GridPos(302, 0));
+	CreateActor<Goal>()->SetGoal(GridPos(200, 0));
 
 	StageLevel::LevelChangeStart(_PrevLevel);
 }

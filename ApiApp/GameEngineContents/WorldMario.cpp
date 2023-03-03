@@ -34,14 +34,12 @@ void WorldMario::Start()
 	Stage2 = new WorldMap::Point({ 676, 690 }, "Stage2");
 	Stage3 = new WorldMap::Point({ 672, 568 }, "Stage3", true);
 	Stage4 = new WorldMap::Point({ 804, 430 }, "Stage4", true);
-	Stage5 = new WorldMap::Point({ 702, 318 }, "Stage5", true);
 	//Stage3->SetDown(Stage2);
 	Center->SetLeft(Stage1);
 	Center->SetRight(Stage2);
 	Stage3->SetDown(Stage2);
 	Stage4->SetDown(Stage3);
 	Stage4->SetLeft(Stage3);
-	Stage5->SetDown(Stage4);
 
 	Map = new WorldMap(Center);
 }

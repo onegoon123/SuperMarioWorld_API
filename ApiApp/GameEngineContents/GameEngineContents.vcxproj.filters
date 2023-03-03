@@ -21,9 +21,6 @@
     <ClInclude Include="StageLevel3.h">
       <Filter>Play\Stage</Filter>
     </ClInclude>
-    <ClInclude Include="StageLevel4.h">
-      <Filter>Play\Stage</Filter>
-    </ClInclude>
     <ClInclude Include="StageLevel.h">
       <Filter>Play\Stage</Filter>
     </ClInclude>
@@ -99,7 +96,7 @@
     <ClInclude Include="Killer.h">
       <Filter>Play\Object\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="StageLevel5.h">
+    <ClInclude Include="StageLevel4.h">
       <Filter>Play\Stage</Filter>
     </ClInclude>
     <ClInclude Include="Koopa.h">
@@ -124,9 +121,6 @@
       <Filter>Play\Stage</Filter>
     </ClCompile>
     <ClCompile Include="StageLevel3.cpp">
-      <Filter>Play\Stage</Filter>
-    </ClCompile>
-    <ClCompile Include="StageLevel4.cpp">
       <Filter>Play\Stage</Filter>
     </ClCompile>
     <ClCompile Include="StageLevel.cpp">
@@ -207,7 +201,7 @@
     <ClCompile Include="Killer.cpp">
       <Filter>Play\Object\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="StageLevel5.cpp">
+    <ClCompile Include="StageLevel4.cpp">
       <Filter>Play\Stage</Filter>
     </ClCompile>
     <ClCompile Include="Koopa.cpp">

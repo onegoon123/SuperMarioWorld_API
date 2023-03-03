@@ -25,10 +25,8 @@ private:
 	GameEngineRender* AnimationRender = nullptr;
 	GameEngineRender* BlockRender1 = nullptr;
 	GameEngineRender* BlockRender2 = nullptr;
-	GameEngineRender* BlockRender3 = nullptr;
 	GameEngineRender* LockStage1 = nullptr;
 	GameEngineRender* LockStage2 = nullptr;
-	GameEngineRender* LockStage3 = nullptr;
 	NumberRenderObject LifeNum;
 };
 
