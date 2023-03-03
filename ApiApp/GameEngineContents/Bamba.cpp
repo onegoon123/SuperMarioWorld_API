@@ -41,6 +41,7 @@ void Bamba::SpinHit()
 	GameEngineResources::GetInst().SoundPlay("superstomp.wav");
 	Particle::CreateParticle(GetLevel(), GetPos(), "SMOKE1");
 	Particle::CreateMovingParticle(GetLevel(), GetPos(), {450, -450}, "StarParticle", false, true, 0.5f);
+	Mario::MainPlayer->AddScore(Score);
 	Death();
 }
 
@@ -75,17 +76,19 @@ void Bamba::JumpHit(bool IsLeft)
 void Bamba::FireHit()
 {
 	GetLevel()->CreateActor<Coin>(RenderOrder::Item)->SetPos(GetPos());
+	Mario::MainPlayer->AddScore(Score);
 	Death();
 }
 
 void Bamba::BlockHit()
 {
+	Mario::MainPlayer->AddScore(Score);
 	Death();
 }
 
 void Bamba::MonsterHit(bool IsLeft)
 {
-
+	Mario::MainPlayer->AddScore(Score);
 	// 애니메이션 변경
 	if (0 < DirValue.x)
 	{

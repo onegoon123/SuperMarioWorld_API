@@ -48,6 +48,7 @@ void Shell::SpinHit()
 
 void Shell::JumpHit(bool IsLeft)
 {
+	Mario::MainPlayer->AddScore(Score);
 	Timer = StateWaitTime;
 
 	if (StateValue == ShellState::Idle)
@@ -82,6 +83,7 @@ void Shell::BlockHit()
 
 void Shell::MonsterHit(bool IsLeft)
 {
+	Mario::MainPlayer->AddScore(Score);
 	// 상태 변경
 	StateValue = ShellState::Die;
 	MoveDir = MonsterHitForce;
@@ -158,9 +160,20 @@ void Shell::Start()
 
 void Shell::Update(float _DeltaTime)
 {
+	CameraInCheck();
+	if (false == IsOnCamera)
+	{
+		if (true == IsOn)
+		{
+			Death();
+		}
+		return;
+	}
+	IsOn = true;
 	switch (StateValue)
 	{
 	case ShellState::Idle:
+		IdleUpdate(_DeltaTime);
 		MoveUpdate(_DeltaTime);
 		break;
 	case ShellState::Hold:
@@ -206,6 +219,10 @@ void Shell::TurnLeft()
 void Shell::TurnRight()
 {
 	EnemyActor::TurnRight();
+}
+
+void Shell::IdleUpdate(float _DeltaTime)
+{
 }
 
 void Shell::KickUpdate(float _DeltaTime)

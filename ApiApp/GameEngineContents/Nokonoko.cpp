@@ -43,6 +43,7 @@ void Nokonoko::SpinHit()
 	GameEngineResources::GetInst().SoundPlay("superstomp.wav");
 	Particle::CreateParticle(GetLevel(), GetPos(), "SMOKE1");
 	Particle::CreateMovingParticle(GetLevel(), GetPos(), { 450, -450 }, "StarParticle", false, true, 0.5f);
+	Mario::MainPlayer->AddScore(Score);
 	Death();
 }
 
@@ -50,6 +51,7 @@ void Nokonoko::JumpHit(bool IsLeft)
 {
 	StateValue = NokoState::Overturn;
 	GetLevel()->CreateActor<Shell>(RenderOrder::Monster)->SetPos(GetPos());
+	Mario::MainPlayer->AddScore(Score);
 	Death();
 }
 
@@ -63,6 +65,7 @@ void Nokonoko::BlockHit()
 
 void Nokonoko::MonsterHit(bool IsLeft)
 {
+	Mario::MainPlayer->AddScore(Score);
 	// 애니메이션 변경
 	if (0 < DirValue.x)
 	{

@@ -54,6 +54,7 @@ public:
 	void DropHold();
 	void PipeIn(const float4& _PipePos, const float4& _Dir);
 	void PipeOut(const float4& _Dir);
+	void AddScore(int _Score);
 
 	Mario();
 	~Mario();

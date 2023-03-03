@@ -86,6 +86,6 @@ private:
 	const float HeadingReaction = 100;
 	const float ActorSpeed = 50;
 	const float ActorSlopeSpeed = ActorSpeed * 0.6f;
-
+	const int Score = 100;
 	void OverturnUpdate(float _DeltaTime);
 };

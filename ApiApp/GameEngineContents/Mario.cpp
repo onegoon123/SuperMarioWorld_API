@@ -119,6 +119,11 @@ void Mario::PipeOut(const float4& _Dir)
 	}
 }
 
+void Mario::AddScore(int _Score)
+{
+	CurrentLevel->AddScore(_Score);
+}
+
 
 Mario::Mario() {
 	if (MainPlayer != nullptr)
@@ -1033,7 +1038,7 @@ void Mario::CheckCollision()
 				}
 				else
 				{
-					ColActor->Kick(float4::Right * (DirValue == Dir::Left ? -1000.0f : 1000.0f));
+					//ColActor->Kick(float4::Right * (DirValue == Dir::Left ? -1000.0f : 1000.0f));
 				}
 			}
 			// 플레이어가 몬스터보다 위에 있으면서 떨어지고 있는 경우
@@ -1066,11 +1071,24 @@ void Mario::CheckCollision()
 
 			}
 			// 그 외 무적 시간이 아닌 경우 대미지
-			else if (false == IsInvincibility && true == ColActor->IsCollisionAttack() && false == IsKill)
+			else
 			{
-				// 대미지
-				GetDamaged();
-				IsInvincibility = true;
+				if (true == ColActor->IsCollisionAttack())
+				{
+					if (false == IsInvincibility && false == IsKill)
+					{
+						// 대미지
+						GetDamaged();
+						IsInvincibility = true;
+					}
+				}
+				else if (true == ColActor->IsHoldable())
+				{
+					Particle::CreateParticle(GetLevel(), ColActor->GetPos(), "KICK");
+					GameEngineResources::GetInst().SoundPlay("kick.wav");
+					KickAnimTimer = 0;
+					ColActor->Kick(float4::Right * (DirValue == Dir::Left ? -1000.0f : 1000.0f));
+				}
 			}
 		}
 		if (true == IsKill)

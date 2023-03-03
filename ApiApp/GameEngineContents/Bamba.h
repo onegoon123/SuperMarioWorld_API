@@ -58,7 +58,7 @@ private:
 	BambaState StateValue = BambaState::Normal;
 	//float4 MoveDir = { 0,0 };
 	const float BrakeForce = 1000;
-
+	const int Score = 100;
 	void OverturnUpdate(float _DeltaTime);
 	void KickUpdate(float _DeltaTime);
 	

@@ -91,10 +91,12 @@ private:
 	const float StateWaitTime = 0.1f;
 	const float KickWaitTime = 0.5f;
 	float Timer = 0;
-
+	const int Score = 100;
+	bool IsOn = false;
+	
+	void IdleUpdate(float _DeltaTime);
 	void KickUpdate(float _DeltaTime);
 	void SpinUpdate(float _DeltaTime);
-	
 	void MonsterCheck();
 };
 
