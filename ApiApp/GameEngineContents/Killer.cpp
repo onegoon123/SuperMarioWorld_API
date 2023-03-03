@@ -11,7 +11,7 @@ Killer::~Killer() {
 
 bool Killer::IsCollisionAttack()
 {
-	return false == IsDie;
+	return false == StateDie;
 }
 
 bool Killer::IsHold()
@@ -24,14 +24,19 @@ bool Killer::IsHoldable()
 	return false;
 }
 
+bool Killer::IsDie()
+{
+	return StateDie;
+}
+
 void Killer::SpinHit()
 {
-	IsDie = true;
+	StateDie = true;
 }
 
 void Killer::JumpHit(bool IsLeft)
 {
-	IsDie = true;
+	StateDie = true;
 }
 
 void Killer::FireHit()
@@ -69,7 +74,7 @@ void Killer::Start()
 
 void Killer::Update(float _DeltaTime)
 {
-	if (true == IsDie)
+	if (true == StateDie)
 	{
 		DieUpdate(_DeltaTime);
 		return;

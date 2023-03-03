@@ -33,6 +33,11 @@ bool Nokonoko::IsHoldable()
 	return false;
 }
 
+bool Nokonoko::IsDie()
+{
+	return StateValue == NokoState::Die;
+}
+
 void Nokonoko::SpinHit()
 {
 	GameEngineResources::GetInst().SoundPlay("superstomp.wav");

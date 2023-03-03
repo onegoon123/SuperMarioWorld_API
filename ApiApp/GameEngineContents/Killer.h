@@ -9,6 +9,7 @@ public:
 	bool IsCollisionAttack() override;
 	bool IsHold() override;
 	bool IsHoldable() override;
+	bool IsDie() override;
 	void SpinHit() override;
 	void JumpHit(bool IsLeft) override;
 	void FireHit() override;
@@ -33,6 +34,6 @@ private:
 	const float4 CollisionScale = { 208, 208 };
 	const float4 CollisionPos = { 8, 0 };
 	const float ActorSpeed = 250;
-	bool IsDie = false;
+	bool StateDie = false;
 };
 

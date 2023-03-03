@@ -2,11 +2,20 @@
 #include <GameEngineBase/GameEngineDirectory.h>
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineResources.h>
-
+#include "UIManager.h"
 #include "Mario.h"
 #include "Map.h"
-
+#include "Bamba.h"
+#include "SuperMushroom.h"
+#include "FireFlower.h"
+#include "TurnBlock.h"
+#include "QuestionBlock.h"
 #include "Goal.h"
+#include "Coin.h"
+#include "Pipe.h"
+#include "CheckPointActor.h"
+#include "Nokonoko.h"
+#include "Killer.h"
 StageLevel2::StageLevel2() {
 
 }
@@ -39,5 +48,15 @@ void StageLevel2::LevelChangeStart(GameEngineLevel* _PrevLevel)
 	Map1->MoveMap(0);
 	SetCameraMove({ 0, 790 });
 	CreateActor<Goal>()->SetGoal(GridPos(302, 0));
+
+	{
+		CreateActor<Nokonoko>(RenderOrder::Monster)->SetPos(GridPos(22, 3));
+		CreateActor<Nokonoko>(RenderOrder::Monster)->SetPos(GridPos(24, 3));
+		CreateActor<Nokonoko>(RenderOrder::Monster)->SetPos(GridPos(25, 3));
+		CreateActor<Nokonoko>(RenderOrder::Monster)->SetPos(GridPos(26, 3));
+		CreateActor<Nokonoko>(RenderOrder::Monster)->SetPos(GridPos(27, 3));
+		CreateActor<Nokonoko>(RenderOrder::Monster)->SetPos(GridPos(28, 3));
+		CreateActor<Nokonoko>(RenderOrder::Monster)->SetPos(GridPos(29, 3));
+	}
 	StageLevel::LevelChangeStart(_PrevLevel);
 }

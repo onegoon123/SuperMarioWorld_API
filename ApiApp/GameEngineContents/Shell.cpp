@@ -33,6 +33,11 @@ bool Shell::IsHoldable()
 	return StateValue == ShellState::Idle && Timer < 0;
 }
 
+bool Shell::IsDie()
+{
+	return false;
+}
+
 void Shell::SpinHit()
 {
 	GameEngineResources::GetInst().SoundPlay("superstomp.wav");
@@ -397,7 +402,10 @@ void Shell::MonsterCheck()
 			{
 				continue;
 			}
-
+			if (true == ColActor->IsDie())
+			{
+				continue;
+			}
 			Mario::MainPlayer->DropHold();
 			GameEngineResources::GetInst().SoundPlay("kick.wav");
 			Particle::CreateParticle(GetLevel(), GetPos(), "KICK");

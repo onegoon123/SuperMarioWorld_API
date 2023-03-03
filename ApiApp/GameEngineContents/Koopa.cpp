@@ -25,6 +25,11 @@ bool Koopa::IsHoldable()
     return false;
 }
 
+bool Koopa::IsDie()
+{
+	return false;
+}
+
 void Koopa::SpinHit()
 {
 }

@@ -30,6 +30,7 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	bool IsHoldable() override;
+	bool IsDie() override;
 	/// <summary>
 	/// 스핀점프로 밟히면 실행되는 함수
 	/// </summary>

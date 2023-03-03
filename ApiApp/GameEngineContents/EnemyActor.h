@@ -16,6 +16,7 @@ public:
 	virtual bool IsCollisionAttack() = 0;
 	virtual bool IsHold() = 0;
 	virtual bool IsHoldable() = 0;
+	virtual bool IsDie() = 0;
 	virtual void SpinHit() = 0;
 	virtual void JumpHit(bool IsLeft) = 0;
 	virtual void FireHit() = 0;

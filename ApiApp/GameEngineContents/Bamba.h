@@ -20,6 +20,7 @@ public:
 	bool IsCollisionAttack() override;
 	bool IsHold() override;
 	bool IsHoldable() override;
+	bool IsDie() override;
 	void SpinHit() override;
 	void JumpHit(bool IsLeft) override;
 	void FireHit() override;

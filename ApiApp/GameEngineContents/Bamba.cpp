@@ -31,6 +31,11 @@ bool Bamba::IsHoldable()
 	return StateValue == BambaState::Overturn;
 }
 
+bool Bamba::IsDie()
+{
+	return StateValue == BambaState::Die;
+}
+
 void Bamba::SpinHit()
 {
 	GameEngineResources::GetInst().SoundPlay("superstomp.wav");
