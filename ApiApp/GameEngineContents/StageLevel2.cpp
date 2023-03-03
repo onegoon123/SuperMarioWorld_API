@@ -57,6 +57,22 @@ void StageLevel2::LevelChangeStart(GameEngineLevel* _PrevLevel)
 		CreateActor<Nokonoko>(RenderOrder::Monster)->SetPos(GridPos(27, 3));
 		CreateActor<Nokonoko>(RenderOrder::Monster)->SetPos(GridPos(28, 3));
 		CreateActor<Nokonoko>(RenderOrder::Monster)->SetPos(GridPos(29, 3));
+
+		CreateActor<Bamba>(RenderOrder::Monster)->SetPos(GridPos(55, 0));
+		CreateActor<Bamba>(RenderOrder::Monster)->SetPos(GridPos(65, 0));
+		CreateActor<Killer>(RenderOrder::Monster)->SetPos(GridPos(75, 3));
+		CreateActor<Nokonoko>(RenderOrder::Monster)->SetPos(GridPos(85, 0));
+		CreateActor<Bamba>(RenderOrder::Monster)->SetPos(GridPos(95, 0));
+		CreateActor<Bamba>(RenderOrder::Monster)->SetPos(GridPos(100, 0));
+		CreateActor<Killer>(RenderOrder::Monster)->SetPos(GridPos(110, 4));
+
+
+		CreateActor<TurnBlock>(RenderOrder::Map)->SetPos(GridPos(81, 3));
+		CreateActor<TurnBlock>(RenderOrder::Map)->SetPos(GridPos(82, 3));
+		QuestionBlock* ItemBox = CreateActor<QuestionBlock>(RenderOrder::Map);
+		ItemBox->SetPos(GridPos(80, 3));
+		ItemBox->SetItem(ItemType::SuperMushroom);
+
 	}
 	StageLevel::LevelChangeStart(_PrevLevel);
 }
