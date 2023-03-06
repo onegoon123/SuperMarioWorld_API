@@ -30,9 +30,9 @@ void WorldMario::Start()
 	AnimationRender->ChangeAnimation("Down");
 
 	WorldMap::Point* Center = new WorldMap::Point({ 475, 650 });
-	Stage1 = new WorldMap::Point({ 289, 690 }, "Stage1");
-	Stage2 = new WorldMap::Point({ 676, 690 }, "Stage2");
-	Stage3 = new WorldMap::Point({ 672, 568 }, "Stage3", true);
+	Stage1 = new WorldMap::Point({ 289, 690 }, "Stage3");
+	Stage2 = new WorldMap::Point({ 676, 690 }, "Stage1");
+	Stage3 = new WorldMap::Point({ 672, 568 }, "Stage2", true);
 	Stage4 = new WorldMap::Point({ 804, 430 }, "Stage4", true);
 	//Stage3->SetDown(Stage2);
 	Center->SetLeft(Stage1);
