@@ -5,7 +5,7 @@ enum class KoopaState
 {
 	Appear,
 	Move,
-	Minions,
+	Spawn,
 	Attack,
 	Hit,
 	Die,
@@ -50,5 +50,20 @@ private:
 	const float4 PropellerRenderPos = { 0, 284 };
 	const float4 KoopaCollisionScale = { 200, 100 };
 	const float4 KoopaCollisionPos = { 0, 0 };
+	const float4 PierrotCollisionScale = { 225, 225 };
+	const float4 PierrotCollisionPos = { 0, 150 };
+	const float HitAnimTime = 1.0f;
+	const float SpawnTime = 5.0f;
+
+	KoopaState StateValue = KoopaState::Appear;
+	int HP = 1;
+	float MoveTimer = 0;
+	float AnimTimer = 0;
+	float SpawnTimer = 0;
+	void AppearUpdate(float _DeltaTime);
+	void MoveUpdate(float _DeltaTime);
+	void HitUpdate(float _DeltaTime);
+	void DieUpdate(float _DeltaTime);
+	void ChangeAnimation(const std::string_view& _Name);
 };
 

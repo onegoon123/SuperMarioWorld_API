@@ -45,18 +45,19 @@ void StageLevel2::LevelChangeStart(GameEngineLevel* _PrevLevel)
 	CreateActor<Mario>();
 	UI = CreateActor<UIManager>();
 	Map1->AddStartPos(GridPos(3, 0));
-	Map1->MoveMap(0);
+	Map1->AddStartPos(GridPos(163, 0));
+	Map1->MoveMap(GetCheckPoint());
 	SetCameraMove({ 0, 790 });
 	CreateActor<Goal>()->SetGoal(GridPos(302, 0));
-
+	CreateActor<CheckPointActor>(RenderOrder::Item)->SetCheckPoint(1, GridPos(163, 0));
 	{
-		CreateActor<Nokonoko>(RenderOrder::Monster)->SetPos(GridPos(22, 3));
 		CreateActor<Nokonoko>(RenderOrder::Monster)->SetPos(GridPos(24, 3));
-		CreateActor<Nokonoko>(RenderOrder::Monster)->SetPos(GridPos(25, 3));
-		CreateActor<Nokonoko>(RenderOrder::Monster)->SetPos(GridPos(26, 3));
-		CreateActor<Nokonoko>(RenderOrder::Monster)->SetPos(GridPos(27, 3));
 		CreateActor<Nokonoko>(RenderOrder::Monster)->SetPos(GridPos(28, 3));
 		CreateActor<Nokonoko>(RenderOrder::Monster)->SetPos(GridPos(29, 3));
+		CreateActor<Nokonoko>(RenderOrder::Monster)->SetPos(GridPos(30, 3));
+		CreateActor<Nokonoko>(RenderOrder::Monster)->SetPos(GridPos(31, 3));
+		CreateActor<Nokonoko>(RenderOrder::Monster)->SetPos(GridPos(32, 3));
+		CreateActor<Nokonoko>(RenderOrder::Monster)->SetPos(GridPos(33, 3));
 
 		CreateActor<Bamba>(RenderOrder::Monster)->SetPos(GridPos(55, 0));
 		CreateActor<Bamba>(RenderOrder::Monster)->SetPos(GridPos(65, 0));
@@ -80,8 +81,6 @@ void StageLevel2::LevelChangeStart(GameEngineLevel* _PrevLevel)
 		CreateActor<Bamba>(RenderOrder::Monster)->SetPos(GridPos(152, 0));
 		CreateActor<Bamba>(RenderOrder::Monster)->SetPos(GridPos(153, 0));
 		CreateActor<Bamba>(RenderOrder::Monster)->SetPos(GridPos(154, 0));
-		CreateActor<Bamba>(RenderOrder::Monster)->SetPos(GridPos(163, 0));
-		CreateActor<Bamba>(RenderOrder::Monster)->SetPos(GridPos(165, 0));
 
 		CreateActor<Nokonoko>(RenderOrder::Monster)->SetPos(GridPos(195, 6));
 		CreateActor<Bamba>(RenderOrder::Monster)->SetPos(GridPos(199, 3));

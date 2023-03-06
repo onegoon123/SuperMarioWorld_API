@@ -12,6 +12,7 @@
 #include "StageLevel4.h"
 #include "GameOverLevel.h"
 #include "StageUnderground1.h"
+#include "EndingLevel.h"
 // MarioGameCore MarioGameCore::Core = new MarioGameCore();
 
 MarioGameCore MarioGameCore::Core;
@@ -61,17 +62,18 @@ void MarioGameCore::Start()
 
 	CreateLevel<TitleLevel>("Title");
 	CreateLevel<WorldLevel>("World");
-	CreateLevel<StageLevel1>("Stage1");
-	CreateLevel<StageLevel2>("Stage2");
-	CreateLevel<StageLevel3>("Stage3");
+	CreateLevel<StageLevel3>("Stage1");
+	CreateLevel<StageLevel1>("Stage2");
+	CreateLevel<StageLevel2>("Stage3");
 	CreateLevel<StageLevel4>("Stage4");
 	CreateLevel<StageUnderground1>("Underground1");
 	CreateLevel<GameOverLevel>("GameOver");
+	CreateLevel<EndingLevel>("Ending");
 	ChangeLevel("Title");
 
-	//WorldLevel::GetInstance()->StageClear("Stage2");
-	//WorldLevel::GetInstance()->StageClear("Stage3");
-	//WorldLevel::GetInstance()->StageClear("Stage4");
+	WorldLevel::GetInstance()->StageClear("Stage2");
+	WorldLevel::GetInstance()->StageClear("Stage3");
+	WorldLevel::GetInstance()->StageClear("Stage4");
 }
 
 void MarioGameCore::Update()
@@ -169,6 +171,7 @@ void MarioGameCore::ResourcesLoad()
 	Dir.Move("TITLE");
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("GAMEOVER.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TITLE.BMP"));
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ENDING.BMP"));
 
 	Dir.MoveParentToDirectory("ContentsResources");
 	Dir.Move("ContentsResources");

@@ -57,10 +57,15 @@ void Nokonoko::JumpHit(bool IsLeft)
 
 void Nokonoko::FireHit()
 {
+	GetLevel()->CreateActor<Coin>(RenderOrder::Item)->SetPos(GetPos());
+	Mario::MainPlayer->AddScore(Score);
+	Death();
 }
 
 void Nokonoko::BlockHit()
 {
+	Mario::MainPlayer->AddScore(Score);
+	Death();
 }
 
 void Nokonoko::MonsterHit(bool IsLeft)
@@ -108,8 +113,8 @@ void Nokonoko::Start()
 		AnimationRender->SetScale(RenderScale);
 		AnimationRender->CreateAnimation({ .AnimationName = "LEFT_WALK", .ImageName = "LEFT_NOKONOKO.BMP", .Start = 0, .End = 1, .InterTime = 0.25f });
 		AnimationRender->CreateAnimation({ .AnimationName = "LEFT_IDLE", .ImageName = "LEFT_NOKONOKO.BMP", .Start = 0, .End = 0, });
-		AnimationRender->CreateAnimation({ .AnimationName = "RIGHT_WALK", .ImageName = "RIGHT_NOKONOKO.BMP", .Start = 2, .End = 3, .InterTime = 0.25f });
-		AnimationRender->CreateAnimation({ .AnimationName = "RIGHT_IDLE", .ImageName = "RIGHT_NOKONOKO.BMP", .Start = 2, .End = 2,  });
+		AnimationRender->CreateAnimation({ .AnimationName = "RIGHT_WALK", .ImageName = "RIGHT_NOKONOKO.BMP", .Start = 0, .End = 1, .InterTime = 0.25f });
+		AnimationRender->CreateAnimation({ .AnimationName = "RIGHT_IDLE", .ImageName = "RIGHT_NOKONOKO.BMP", .Start = 0, .End = 0,  });
 		AnimationRender->ChangeAnimation("LEFT_WALK");
 		AnimationRender->SetPosition(RenderPos);
 	}
@@ -156,6 +161,14 @@ void Nokonoko::Render(float _DeltaTime)
 void Nokonoko::Turn()
 {
 	EnemyActor::Turn();
+	if (0 < DirValue.x)
+	{
+		AnimationRender->ChangeAnimation("RIGHT_WALK");
+	}
+	else
+	{
+		AnimationRender->ChangeAnimation("LEFT_WALK");
+	}
 }
 
 void Nokonoko::TurnLeft()

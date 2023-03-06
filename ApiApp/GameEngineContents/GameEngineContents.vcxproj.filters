@@ -102,6 +102,15 @@
     <ClInclude Include="Koopa.h">
       <Filter>Play\Object\Enemy</Filter>
     </ClInclude>
+    <ClInclude Include="Mechakoopa.h">
+      <Filter>Play\Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="ShieldActor.h">
+      <Filter>Play\Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EndingLevel.h">
+      <Filter>Title</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MarioGameCore.cpp" />
@@ -206,6 +215,15 @@
     </ClCompile>
     <ClCompile Include="Koopa.cpp">
       <Filter>Play\Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Mechakoopa.cpp">
+      <Filter>Play\Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="ShieldActor.cpp">
+      <Filter>Play\Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EndingLevel.cpp">
+      <Filter>Title</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

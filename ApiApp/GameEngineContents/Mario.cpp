@@ -1060,7 +1060,7 @@ void Mario::CheckCollision()
 
 					break;
 				default:
-					ColActor->Death();
+					ColActor->JumpHit(GetPos().x > ColActor->GetPos().x);
 					break;
 				}
 

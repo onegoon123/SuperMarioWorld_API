@@ -207,7 +207,7 @@ protected:
 	void Update(float _DeltaTime) override;
 	void LevelChangeStart(GameEngineLevel* _Prev) override;
 private:
-	const float speed = 2;
+	const float speed = 100;
 	bool IsStart = false;
 	bool IsMove = false;
 	float4 StartPos = float4::Zero;

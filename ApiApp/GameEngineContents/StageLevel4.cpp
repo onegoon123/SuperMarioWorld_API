@@ -3,6 +3,8 @@
 #include "Mario.h"
 #include "ContentsEnums.h"
 #include "Koopa.h"
+#include "Mechakoopa.h"
+
 StageLevel4::StageLevel4() {
 
 }
@@ -13,7 +15,7 @@ StageLevel4::~StageLevel4() {
 
 void StageLevel4::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
-	BGMPlayer = GameEngineResources::GetInst().SoundPlayToControl("Overworld.mp3");
+	BGMPlayer = GameEngineResources::GetInst().SoundPlayToControl("BowserBGM.mp3");
 
 	Map* Map1 = CreateActor<Map>();
 	Map1->SetImage(BackGroundName, StageName, StageColName);
@@ -27,6 +29,7 @@ void StageLevel4::LevelChangeStart(GameEngineLevel* _PrevLevel)
 	Map1->MoveMap(0);
 
 	CreateActor<Koopa>(RenderOrder::Monster)->SetPos({ 500, 1200 });
+	CreateActor<Mechakoopa>(RenderOrder::Monster)->SetPos(GridPos(10, -1));
 
 	StageLevel::LevelChangeStart(_PrevLevel);
 }
