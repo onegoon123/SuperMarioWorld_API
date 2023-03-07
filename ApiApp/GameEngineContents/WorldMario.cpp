@@ -126,9 +126,8 @@ void WorldMario::Update(float _DeltaTime)
 
 	if (GameEngineInput::IsDown("3"))
 	{
+		WorldLevel::GetInstance()->StageClear("Stage1");
 		WorldLevel::GetInstance()->StageClear("Stage2");
-		WorldLevel::GetInstance()->StageClear("Stage3");
-		WorldLevel::GetInstance()->StageClear("Stage4");
 	}
 }
 
