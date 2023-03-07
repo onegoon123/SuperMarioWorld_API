@@ -6,14 +6,14 @@ WorldLevel* WorldLevel::Instance = nullptr;
 
 void WorldLevel::StageClear(const std::string_view& _StageName)
 {
-	if ("Stage2" == _StageName)
+	if ("Stage1" == _StageName)
 	{
 		ImageActor->BlockRender1->Off();
 		ImageActor->LockStage1->On();
 		WorldData->Stage3->Unlock();
 		return;
 	}
-	if ("Stage3" == _StageName)
+	if ("Stage2" == _StageName)
 	{
 		ImageActor->BlockRender2->Off();
 		ImageActor->LockStage2->On();
