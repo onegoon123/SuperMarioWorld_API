@@ -22,6 +22,8 @@ void EndingLevel::Loading()
 
 void EndingLevel::Update(float _DeltaTime)
 {
+	Timer += _DeltaTime;
+	if (WaitTime > Timer) { return; }
 	if (GameEngineInput::IsAnyKey())
 	{
 		BGMPlayer.Stop();

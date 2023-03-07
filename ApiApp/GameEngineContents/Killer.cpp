@@ -26,7 +26,7 @@ bool Killer::IsHoldable()
 
 bool Killer::IsDie()
 {
-	return StateDie;
+	return true;
 }
 
 void Killer::SpinHit()
@@ -83,8 +83,6 @@ void Killer::Update(float _DeltaTime)
 	CameraInCheck();
 	if (false == IsOnCamera) { return; }
 	SetMove(float4::Left * ActorSpeed * _DeltaTime);
-
-	GameEngineLevel::DebugTextPush(GetPos().ToString());
 }
 
 void Killer::Render(float _DeltaTime)

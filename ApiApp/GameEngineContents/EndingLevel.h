@@ -19,5 +19,7 @@ protected:
 	void LevelChangeEnd(GameEngineLevel* _NextLevel) override {}
 private:
 	GameEngineSoundPlayer BGMPlayer;
+	const float WaitTime = 1.0f;
+	float Timer = 0;
 };
 

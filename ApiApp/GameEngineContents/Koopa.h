@@ -52,18 +52,23 @@ private:
 	const float4 KoopaCollisionPos = { 0, 0 };
 	const float4 PierrotCollisionScale = { 225, 225 };
 	const float4 PierrotCollisionPos = { 0, 150 };
+	const float4 SpawnPos = { 0, 128 };
 	const float HitAnimTime = 1.0f;
-	const float SpawnTime = 5.0f;
+	const float SpawnAnimTime = 1.0f;
+	const float SpawnTime = 3.0f;
 
 	KoopaState StateValue = KoopaState::Appear;
-	int HP = 1;
+	std::string AnimStr = "";
+	int HP = 4;
 	float MoveTimer = 0;
 	float AnimTimer = 0;
 	float SpawnTimer = 0;
+	bool IsSpawn = false;
 	void AppearUpdate(float _DeltaTime);
 	void MoveUpdate(float _DeltaTime);
 	void HitUpdate(float _DeltaTime);
 	void DieUpdate(float _DeltaTime);
+	void SpawnUpdate(float _DeltaTime);
 	void ChangeAnimation(const std::string_view& _Name);
 };
 

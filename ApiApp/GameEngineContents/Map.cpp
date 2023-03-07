@@ -99,28 +99,3 @@ void Map::MoveMap(int _StartPosIndex)
 void Map::Update(float _DeltaTime)
 {
 }
-/*
-void Map::ObjectOn()
-{
-	if (nullptr != BackGroundRender)
-	{
-		BackGroundRender->On();
-	}
-	if (nullptr != StageRender)
-	{
-		StageRender->On();
-	}
-}
-
-void Map::ObjectOff()
-{
-	if (nullptr != BackGroundRender)
-	{
-		BackGroundRender->Off();
-	}
-	if (nullptr != StageRender)
-	{
-		StageRender->Off();
-	}
-}
-*/

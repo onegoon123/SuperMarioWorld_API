@@ -3,7 +3,7 @@
 #include "ContentsEnums.h"
 #include "MarioGameCore.h"
 #include "LevelLoader.h"
-
+#include "WorldLevel.h"
 WorldMario::WorldMario() {
 	
 }
@@ -34,7 +34,6 @@ void WorldMario::Start()
 	Stage2 = new WorldMap::Point({ 676, 690 }, "Stage1");
 	Stage3 = new WorldMap::Point({ 672, 568 }, "Stage2", true);
 	Stage4 = new WorldMap::Point({ 804, 430 }, "Stage4", true);
-	//Stage3->SetDown(Stage2);
 	Center->SetLeft(Stage1);
 	Center->SetRight(Stage2);
 	Stage3->SetDown(Stage2);
@@ -122,6 +121,14 @@ void WorldMario::Update(float _DeltaTime)
 			IsStart = true;
 			LevelLoader::ChangeLevel(Map->GetStage());
 		}
+	}
+
+
+	if (GameEngineInput::IsDown("3"))
+	{
+		WorldLevel::GetInstance()->StageClear("Stage2");
+		WorldLevel::GetInstance()->StageClear("Stage3");
+		WorldLevel::GetInstance()->StageClear("Stage4");
 	}
 }
 

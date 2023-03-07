@@ -15,7 +15,7 @@ Koopa::~Koopa() {
 
 bool Koopa::IsCollisionAttack()
 {
-    return false;
+    return KoopaState::Die != StateValue;
 }
 
 bool Koopa::IsHold()
@@ -52,6 +52,7 @@ void Koopa::BlockHit()
 
 void Koopa::MonsterHit(bool IsLeft)
 {
+	if (StateValue == KoopaState::Spawn) { return; }
 	ChangeAnimation("Damage");
 	HP--;
 	AnimTimer = HitAnimTime;
@@ -81,9 +82,11 @@ void Koopa::Start()
 	KoopaRender->SetScale(KoopaRenderScale);
 	KoopaRender->SetPosition(KoopaRenderPos);
 	KoopaRender->CreateAnimation({ .AnimationName = "Left_Appear", .ImageName = "LEFT_KOOPA.BMP" ,.InterTime = 0.2f,.Loop = false,.FrameIndex = {6,5,4,3,2,1,0},});
+	KoopaRender->CreateAnimation({ .AnimationName = "Left_Hide", .ImageName = "LEFT_KOOPA.BMP" , .Start = 0, .End = 6, .InterTime = 0.1f, .Loop = false});
 	KoopaRender->CreateAnimation({ .AnimationName = "Left_Idle", .ImageName = "LEFT_KOOPA.BMP" , .Start = 0, .End = 0 });
 	KoopaRender->CreateAnimation({ .AnimationName = "Left_Damage", .ImageName = "LEFT_KOOPA.BMP" , .Start = 7, .End = 8, .InterTime = 0.2f });
 	KoopaRender->CreateAnimation({ .AnimationName = "Right_Appear", .ImageName = "RIGHT_KOOPA.BMP" ,.InterTime = 0.2f,.Loop = false,.FrameIndex = {6,5,4,3,2,1,0},});
+	KoopaRender->CreateAnimation({ .AnimationName = "Right_Hide", .ImageName = "RIGHT_KOOPA.BMP" , .Start = 0, .End = 6, .InterTime = 0.1f,  .Loop = false });
 	KoopaRender->CreateAnimation({ .AnimationName = "Right_Idle", .ImageName = "RIGHT_KOOPA.BMP" , .Start = 0, .End = 0 });
 	KoopaRender->CreateAnimation({ .AnimationName = "Right_Damage", .ImageName = "RIGHT_KOOPA.BMP" , .Start = 7, .End = 8, .InterTime = 0.2f });
 	KoopaRender->ChangeAnimation("Left_Appear");
@@ -128,6 +131,7 @@ void Koopa::Update(float _DeltaTime)
 		MoveUpdate(_DeltaTime);
 		break;
 	case KoopaState::Spawn:
+		SpawnUpdate(_DeltaTime);
 		break;
 	case KoopaState::Attack:
 		break;
@@ -189,7 +193,9 @@ void Koopa::MoveUpdate(float _DeltaTime)
 	if (SpawnTime < SpawnTimer)
 	{
 		SpawnTimer = 0;
-		GetLevel()->CreateActor<Mechakoopa>()->SetPos(GetPos());
+		AnimTimer = SpawnAnimTime;
+		StateValue = KoopaState::Spawn;
+		KoopaRender->ChangeAnimation(AnimStr + "Hide");
 	}
 }
 
@@ -199,7 +205,6 @@ void Koopa::HitUpdate(float _DeltaTime)
 	if (0 > AnimTimer)
 	{
 		StateValue = KoopaState::Move;
-		return;
 	}
 }
 
@@ -216,9 +221,30 @@ void Koopa::DieUpdate(float _DeltaTime)
 	}
 }
 
+void Koopa::SpawnUpdate(float _DeltaTime)
+{
+	AnimTimer -= _DeltaTime;
+	if (true == IsSpawn)
+	{
+		SpawnTimer += _DeltaTime;
+		if (SpawnAnimTime < SpawnTimer)
+		{
+			IsSpawn = false;
+			SpawnTimer = 0;
+			StateValue = KoopaState::Move;
+		}
+		return;
+	}
+	if (0 > AnimTimer)
+	{
+		GetLevel()->CreateActor<Mechakoopa>(RenderOrder::Monster)->SetPos(GetPos() + SpawnPos);
+		KoopaRender->ChangeAnimation(AnimStr + "Appear");
+		IsSpawn = true;
+	}
+}
+
 void Koopa::ChangeAnimation(const std::string_view& _Name)
 {
-	std::string AnimStr = "";
 	if (0 < DirValue.x)
 	{
 		AnimStr = "Right_";
@@ -228,7 +254,6 @@ void Koopa::ChangeAnimation(const std::string_view& _Name)
 		AnimStr = "Left_";
 	}
 
-	AnimStr += _Name;
-	KoopaRender->ChangeAnimation(AnimStr);
-	PierrotRender->ChangeAnimation(AnimStr);
+	KoopaRender->ChangeAnimation(AnimStr + _Name.data());
+	PierrotRender->ChangeAnimation(AnimStr + _Name.data());
 }

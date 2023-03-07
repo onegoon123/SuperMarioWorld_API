@@ -71,14 +71,11 @@ void MarioGameCore::Start()
 	CreateLevel<EndingLevel>("Ending");
 	ChangeLevel("Title");
 
-	WorldLevel::GetInstance()->StageClear("Stage2");
-	WorldLevel::GetInstance()->StageClear("Stage3");
-	WorldLevel::GetInstance()->StageClear("Stage4");
+
 }
 
 void MarioGameCore::Update()
 {
-
 }
 void MarioGameCore::End()
 {

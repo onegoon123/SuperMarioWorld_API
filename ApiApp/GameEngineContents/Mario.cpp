@@ -455,8 +455,8 @@ void Mario::Update(float _DeltaTime)
 		LevelLoader::ChangeLevel("World");
 	}
 
-	GameEngineLevel::DebugTextPush(GetPos().ToString());
-	GameEngineLevel::DebugTextPush(ToGridPos(GetPos()).ToString());
+	//GameEngineLevel::DebugTextPush(GetPos().ToString());
+	//GameEngineLevel::DebugTextPush(ToGridPos(GetPos()).ToString());
 }
 
 void Mario::ChangeAnimation(const std::string_view& _AnimationName)
