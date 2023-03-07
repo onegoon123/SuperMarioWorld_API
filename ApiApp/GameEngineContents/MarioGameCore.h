@@ -22,7 +22,10 @@ public:
 		return Core;
 	}
 	void ResetGame();
-
+	bool GetCollisionDebug()
+	{
+		return CollisionDebug;
+	}
 
 #pragma region __________마리오 데이터 Setter Getter__________
 	inline PowerState GetMarioStateData() const {
@@ -30,9 +33,6 @@ public:
 	}
 	inline ItemType GetStockStateData() const {
 		return StockStateData;
-	}
-	inline bool GetRidedYoshiData() const {
-		return RidedYoshiData;
 	}
 	inline int GetLife() {
 		return Life;
@@ -64,9 +64,6 @@ public:
 	inline void SetStockStateData(ItemType _StateData) {
 		StockStateData = _StateData;
 	}
-	inline void SetRidedYoshiData(bool _Data) {
-		RidedYoshiData = _Data;
-	}
 
 #pragma endregion
 
@@ -85,15 +82,14 @@ private:
 	static MarioGameCore Core;
 		
 	// 마리오 데이터
-	PowerState MarioStateData = PowerState::Normal;
-	ItemType StockStateData = ItemType::Coin;
-	const int StartLife = 3;
-	int Life = StartLife;
-	int	Star = 0;
-	int	CoinNum = 0;
-	int	Score = 0;
-	bool RidedYoshiData = false;
-
+	PowerState MarioStateData = PowerState::Normal;	// 마리오의 파워
+	ItemType StockStateData = ItemType::Coin;		// 소지하고 있는 아이템
+	const int StartLife = 3;						// 시작시 마리오의 목숨
+	int Life = StartLife;							// 마리오의 목숨
+	int	Star = 0;									// 보너스 별의 갯수
+	int	CoinNum = 0;								// 코인의 갯수
+	int	Score = 0;									// 점수
+	bool CollisionDebug = false;					// 충돌체의 범위를 표시 여부
 	void ResourcesLoad();
 };
 

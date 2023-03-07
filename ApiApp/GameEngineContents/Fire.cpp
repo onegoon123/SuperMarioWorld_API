@@ -10,6 +10,7 @@
 #include "Map.h"
 #include "Block.h"
 #include "EnemyActor.h"
+#include "MarioGameCore.h"
 int Fire::Num = 0;
 
 Fire::Fire() {
@@ -246,5 +247,8 @@ void Fire::MoveCalculation(float _DeltaTime)
 
 void Fire::Render(float _DeltaTime)
 {
-	//BodyCollision->DebugRender();
+	if (true == MarioGameCore::GetInst().GetCollisionDebug())
+	{
+		Collision->DebugRender();
+	}
 }

@@ -26,10 +26,8 @@ public:
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
-	void Render(float _DeltaTime) override;
 private:
 	GameEngineRender* SpriteRender = nullptr;
-	GameEngineCollision* Collision = nullptr;
 	const float4 RenderPos = { 0, 0 };
 	const float4 CollisionScale = { 208, 208 };
 	const float4 CollisionPos = { 8, 0 };

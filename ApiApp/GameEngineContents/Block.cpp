@@ -3,7 +3,7 @@
 #include "Particle.h"
 #include "EnemyActor.h"
 #include "ItemActor.h"
-
+#include "MarioGameCore.h"
 Block::Block() {
 
 }
@@ -92,6 +92,9 @@ void Block::Update(float _DeltaTime)
 
 void Block::Render(float _DeltaTime)
 {
-	//BodyCollision->DebugRender();
-	//HitCollision->DebugRender();
+	if (true == MarioGameCore::GetInst().GetCollisionDebug())
+	{
+		Collision->DebugRender();
+		HitCollision->DebugRender();
+	}
 }

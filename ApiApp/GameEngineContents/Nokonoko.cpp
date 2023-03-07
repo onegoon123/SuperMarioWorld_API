@@ -152,12 +152,6 @@ void Nokonoko::Update(float _DeltaTime)
 		break;
 	}
 }
-
-void Nokonoko::Render(float _DeltaTime)
-{
-	//Collision->DebugRender();
-}
-
 void Nokonoko::Turn()
 {
 	EnemyActor::Turn();

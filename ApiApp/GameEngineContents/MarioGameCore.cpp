@@ -13,7 +13,6 @@
 #include "GameOverLevel.h"
 #include "StageUnderground1.h"
 #include "EndingLevel.h"
-// MarioGameCore MarioGameCore::Core = new MarioGameCore();
 
 MarioGameCore MarioGameCore::Core;
 
@@ -27,7 +26,11 @@ MarioGameCore::~MarioGameCore()
 
 void MarioGameCore::ResetGame()
 {
+	// 게임을 초기화한다
 	Life = StartLife;
+	Star = 0;
+	CoinNum = 0;
+	Score = 0;
 }
 
 void MarioGameCore::Start()
@@ -49,17 +52,14 @@ void MarioGameCore::Start()
 		GameEngineInput::CreateKey("1", '1');
 		GameEngineInput::CreateKey("2", '2');
 		GameEngineInput::CreateKey("3", '3');
+		GameEngineInput::CreateKey("4", '4');
 	}
-
 
 	new int();
 
-	
 	ResourcesLoad();
-	
 
-
-
+	// 모든 레벨을 생성
 	CreateLevel<TitleLevel>("Title");
 	CreateLevel<WorldLevel>("World");
 	CreateLevel<StageLevel1>("Stage1");
@@ -69,19 +69,25 @@ void MarioGameCore::Start()
 	CreateLevel<StageUnderground1>("Underground1");
 	CreateLevel<GameOverLevel>("GameOver");
 	CreateLevel<EndingLevel>("Ending");
+	// 시작 (Title) 레벨로 변경
 	ChangeLevel("Title");
 
-
 }
 
+// 매 프레임마다 실행되는 함수
 void MarioGameCore::Update()
 {
+	if (GameEngineInput::IsDown("4"))
+	{
+		CollisionDebug = !CollisionDebug;
+	}
 }
+// 프로그램이 꺼질때 실행되는 함수
 void MarioGameCore::End()
 {
-
 }
 
+// 리소스를 모두 불러오는 함수
 void MarioGameCore::ResourcesLoad()
 {
 	
@@ -90,6 +96,7 @@ void MarioGameCore::ResourcesLoad()
 	Dir.Move("ContentsResources");
 	Dir.Move("Image");
 	Dir.Move("Play");
+	// Play 폴더에 있는 리소스를 불러온다
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("RIGHT_MARIO.BMP"))->Cut(17, 9);
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("LEFT_MARIO.BMP"))->Cut(17, 9);
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("BACKGROUND1.BMP"));
@@ -152,6 +159,7 @@ void MarioGameCore::ResourcesLoad()
 	Dir.Move("ContentsResources");
 	Dir.Move("Image");
 	Dir.Move("World");
+	// World 폴더에 있는 리소스를 불러온다
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("WORLD1.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("WORLD1FRONT.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("STAGEBLOCK1.BMP"));
@@ -166,6 +174,7 @@ void MarioGameCore::ResourcesLoad()
 	Dir.Move("ContentsResources");
 	Dir.Move("Image");
 	Dir.Move("TITLE");
+	// Title 폴더에 있는 리소스를 불러온다
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("GAMEOVER.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("TITLE.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("ENDING.BMP"));
@@ -173,6 +182,7 @@ void MarioGameCore::ResourcesLoad()
 	Dir.MoveParentToDirectory("ContentsResources");
 	Dir.Move("ContentsResources");
 	Dir.Move("Sound");
+	// Sound 폴더에 있는 모든 리소스를 불러온다
 	std::vector<GameEngineFile> Files = Dir.GetAllFile();
 
 	for (size_t i = 0; i < Files.size(); i++)

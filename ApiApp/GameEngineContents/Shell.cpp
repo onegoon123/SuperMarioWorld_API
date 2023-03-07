@@ -196,10 +196,6 @@ void Shell::Update(float _DeltaTime)
 	Timer -= _DeltaTime;
 }
 
-void Shell::Render(float _DeltaTime)
-{
-}
-
 void Shell::Turn()
 {
 	EnemyActor::Turn();

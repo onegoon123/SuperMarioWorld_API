@@ -28,6 +28,7 @@ public:
 	void MonsterHit(bool IsLeft) override;
 	void Hold() override;
 	void Kick(const float4& _Force) override;
+	void SetPosDir(const float4& _Pos);
 
 	Mechakoopa(const Mechakoopa& _Other) = delete;
 	Mechakoopa(Mechakoopa&& _Other) noexcept = delete;
@@ -37,13 +38,11 @@ public:
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
-	void Render(float _DeltaTime) override;
 	void Turn() override;
 	void TurnLeft() override;
 	void TurnRight() override;
 private:
 	GameEngineRender* AnimationRender = nullptr;
-	GameEngineCollision* Collision = nullptr;
 	const float4 RenderScale = { 120, 96 };
 	const float4 RenderPos = { 0, -48 };
 	const float4 CollisionScale = { 84, 84 };

@@ -37,7 +37,6 @@ public:
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
-	void Render(float _DeltaTime) override;
 
 	void Turn() override;
 	void TurnLeft() override;
@@ -45,7 +44,6 @@ protected:
 
 private:
 	GameEngineRender* AnimationRender = nullptr;
-	GameEngineCollision* Collision = nullptr;
 	const float4 RenderScale = {64, 64};
 	const float4 RenderPos = {0, -28};
 	const float4 CollisionScale = {48, 48};

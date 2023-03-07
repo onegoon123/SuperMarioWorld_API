@@ -146,11 +146,6 @@ void Koopa::Update(float _DeltaTime)
 	}
 }
 
-void Koopa::Render(float _DeltaTime)
-{
-	//Collision->DebugRender();
-}
-
 void Koopa::AppearUpdate(float _DeltaTime)
 {
 	MoveTimer += _DeltaTime * 0.5f;
@@ -237,7 +232,7 @@ void Koopa::SpawnUpdate(float _DeltaTime)
 	}
 	if (0 > AnimTimer)
 	{
-		GetLevel()->CreateActor<Mechakoopa>(RenderOrder::Monster)->SetPos(GetPos() + SpawnPos);
+		GetLevel()->CreateActor<Mechakoopa>(RenderOrder::Monster)->SetPosDir(GetPos() + SpawnPos);
 		KoopaRender->ChangeAnimation(AnimStr + "Appear");
 		IsSpawn = true;
 	}

@@ -53,8 +53,3 @@ void ShieldActor::Update(float _DeltaTime)
 	}
 	SetPos(Owner->GetPos());
 }
-
-void ShieldActor::Render(float _DeltaTime)
-{
-	//Collision->DebugRender();
-}

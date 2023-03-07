@@ -85,7 +85,3 @@ void Killer::Update(float _DeltaTime)
 	SetMove(float4::Left * ActorSpeed * _DeltaTime);
 }
 
-void Killer::Render(float _DeltaTime)
-{
-	//Collision->DebugRender();
-}

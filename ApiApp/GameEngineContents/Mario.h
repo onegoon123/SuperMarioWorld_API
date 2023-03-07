@@ -117,7 +117,6 @@ private:
 	// Cape   : 망토마리오	
 	PowerState MarioPower = PowerState::Normal;
 
-	bool IsRidedYoshi = false;		// 요시 탑승 여부
 	bool IsGrounded = true;			// 마리오가 땅 위에 있는지 여부
 	bool IsSlope = false;			// 마리오가 비탈길 위에 있는지 여부
 	bool IsInvincibility = false;	// 무적 시간 여부

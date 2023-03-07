@@ -114,12 +114,25 @@ void Mechakoopa::Kick(const float4& _Force)
 	MoveDir = _Force;
 }
 
+void Mechakoopa::SetPosDir(const float4& _Pos)
+{
+	SetPos(_Pos);
+
+	if (Mario::MainPlayer->GetPos().x < GetPos().x)
+	{
+		TurnLeft();
+	}
+	else
+	{
+		TurnRight();
+	}
+}
+
 void Mechakoopa::Start()
 {
 	EnemyActor::Start();
 	Speed = BambaSpeed;
 	SlopeSpeed = BambaSlopeSpeed;
-	DirSetting(float4::Left);
 	// Render »ý¼º
 	{
 		AnimationRender = CreateRender(RenderOrder::Monster);
@@ -139,6 +152,7 @@ void Mechakoopa::Start()
 		Collision->SetDebugRenderType(CollisionType::CT_Rect);
 	}
 	ColMap = GameEngineResources::GetInst().ImageFind(Map::MainMap->GetStageColName());
+
 }
 
 void Mechakoopa::Update(float _DeltaTime)
@@ -168,34 +182,29 @@ void Mechakoopa::Update(float _DeltaTime)
 	}
 }
 
-void Mechakoopa::Render(float _DeltaTime)
-{
-	//Collision->DebugRender();
-}
-
 void Mechakoopa::Turn()
 {
 	EnemyActor::Turn();
 	if (0 < DirValue.x)
 	{
-		AnimationRender->ChangeAnimation("RIGHT_WALK");
+		AnimationRender->ChangeAnimation("Right_Walk");
 	}
 	else
 	{
-		AnimationRender->ChangeAnimation("LEFT_WALK");
+		AnimationRender->ChangeAnimation("Left_Walk");
 	}
 }
 
 void Mechakoopa::TurnLeft()
 {
 	EnemyActor::TurnLeft();
-	AnimationRender->ChangeAnimation("LEFT_WALK");
+	AnimationRender->ChangeAnimation("Left_Walk");
 }
 
 void Mechakoopa::TurnRight()
 {
 	EnemyActor::TurnRight();
-	AnimationRender->ChangeAnimation("RIGHT_WALK");
+	AnimationRender->ChangeAnimation("Right_Walk");
 }
 
 void Mechakoopa::StunUpdate(float _DeltaTime)

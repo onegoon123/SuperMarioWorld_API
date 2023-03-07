@@ -4,7 +4,7 @@
 #include "Map.h"
 #include "Block.h"
 #include "ContentsEnums.h"
-
+#include "MarioGameCore.h"
 EnemyActor::EnemyActor() {
 
 }
@@ -22,6 +22,14 @@ void EnemyActor::Start()
 void EnemyActor::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
 	ColMap = GameEngineResources::GetInst().ImageFind(Map::MainMap->GetStageColName());
+}
+
+void EnemyActor::Render(float _DeltaTime)
+{
+	if (true == MarioGameCore::GetInst().GetCollisionDebug())
+	{
+		Collision->DebugRender();
+	}
 }
 
 void EnemyActor::CameraInCheck()
@@ -61,7 +69,7 @@ void EnemyActor::MoveUpdate(float _DeltaTime)
 	ForwardPos.y = GetPos().y + float4::Up.y * 4;
 
 	// 맵 충돌 체크용 컬러 변수
-	DWORD PixelColor = ColMap->GetPixelColor(ForwardPos, Black);
+	DWORD PixelColor = ColMap->GetPixelColor(ForwardPos, White);
 	// 벽 체크
 	if (Black == PixelColor)
 	{

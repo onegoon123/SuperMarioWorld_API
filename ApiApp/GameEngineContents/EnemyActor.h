@@ -33,7 +33,7 @@ public:
 protected:
 	void Start() override;
 	void LevelChangeStart(GameEngineLevel* _PrevLevel) override;
-
+	void Render(float _DeltaTime) override;
 	// 카메라 안에 있는지 체크
 	void CameraInCheck();
 	// 이동 처리 업데이트

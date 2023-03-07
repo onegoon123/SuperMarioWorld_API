@@ -83,7 +83,10 @@ void ItemActor::Update(float _DeltaTime)
 
 void ItemActor::Render(float _DeltaTime)
 {
-	//Collision->DebugRender();
+	if (true == MarioGameCore::GetInst().GetCollisionDebug())
+	{
+		Collision->DebugRender();
+	}
 }
 
 void ItemActor::FallUpdate(float _DeltaTime)

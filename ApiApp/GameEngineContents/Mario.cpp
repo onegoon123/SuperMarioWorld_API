@@ -142,7 +142,6 @@ void Mario::Start()
 	// 마리오의 기록 데이터를 불러온다
 	MarioGameCore& GameCore = MarioGameCore::GetInst();
 	MarioPower = GameCore.GetMarioStateData();
-	IsRidedYoshi = GameCore.GetRidedYoshiData();
 
 	// 렌더 생성
 	{
@@ -1212,6 +1211,9 @@ void Mario::BlockCheck()
 
 void Mario::Render(float _DeltaTime)
 { 
-	//BodyCollision->DebugRender();
-	//FootCollision->DebugRender();
+	if (true == MarioGameCore::GetInst().GetCollisionDebug())
+	{
+		Collision->DebugRender();
+		FootCollision->DebugRender();
+	}
 }

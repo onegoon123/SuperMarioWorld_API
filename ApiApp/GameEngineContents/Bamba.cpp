@@ -194,11 +194,6 @@ void Bamba::Update(float _DeltaTime)
 	}
 }
 
-void Bamba::Render(float _DeltaTime)
-{
-	//Collision->DebugRender();
-}
-
 void Bamba::Turn()
 {
 	EnemyActor::Turn();

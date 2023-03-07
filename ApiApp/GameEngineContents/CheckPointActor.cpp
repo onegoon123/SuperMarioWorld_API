@@ -4,6 +4,7 @@
 #include <GameEngineCore/GameEngineResources.h>
 #include "StageLevel.h"
 #include "ContentsEnums.h"
+#include "MarioGameCore.h"
 CheckPointActor::CheckPointActor() {
 
 }
@@ -62,5 +63,8 @@ void CheckPointActor::Update(float _DeltaTime)
 
 void CheckPointActor::Render(float _DeltaTime)
 {
-	//Collision->DebugRender();
+	if (true == MarioGameCore::GetInst().GetCollisionDebug())
+	{
+		Collision->DebugRender();
+	}
 }

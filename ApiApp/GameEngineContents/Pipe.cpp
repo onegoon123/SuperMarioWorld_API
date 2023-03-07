@@ -61,5 +61,8 @@ void Pipe::Update(float _DeltaTime)
 
 void Pipe::Render(float _DeltaTime)
 {
-	//Collision->DebugRender();
+	if (true == MarioGameCore::GetInst().GetCollisionDebug())
+	{
+		Collision->DebugRender();
+	}
 }

@@ -47,7 +47,10 @@ void Goal::Update(float _DeltaTime)
 
 void Goal::Render(float _DeltaTime)
 {
-	//Collision->DebugRender();
+	if (true == MarioGameCore::GetInst().GetCollisionDebug())
+	{
+		Collision->DebugRender();
+	}
 }
 
 void Goal::GoalEvent(int _Score)
@@ -103,7 +106,10 @@ void ClearBar::Update(float _DeltaTime)
 
 void ClearBar::Render(float _DeltaTime)
 {
- 	//Collision->DebugRender();
+	if (true == MarioGameCore::GetInst().GetCollisionDebug())
+	{
+		Collision->DebugRender();
+	}
 }
 
 void ClearBar::UpUpdate(float _DeltaTime)
