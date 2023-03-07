@@ -72,8 +72,15 @@ void Mechakoopa::JumpHit(bool IsLeft)
 
 void Mechakoopa::FireHit()
 {
-	GetLevel()->CreateActor<Coin>(RenderOrder::Item)->SetPos(GetPos());
-	Death();
+	if (0 < MoveDir.x)
+	{
+		AnimationRender->ChangeAnimation("RIGHT_Damage");
+	}
+	else if (0 > MoveDir.x)
+	{
+		AnimationRender->ChangeAnimation("LEFT_Damage");
+	}
+	StateValue = MechaState::Kick;
 }
 
 void Mechakoopa::BlockHit()
