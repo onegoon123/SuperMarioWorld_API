@@ -63,7 +63,6 @@ void StageLevel1::LevelChangeStart(GameEngineLevel* _PrevLevel)
 		CreateActor<Coin>(RenderOrder::Item)->SetPos(GridPos(13, 3));
 		CreateActor<Coin>(RenderOrder::Item)->SetPos(GridPos(14, 3));
 		CreateActor<Nokonoko>(RenderOrder::Monster)->SetPos(GridPos(21, 0));
-		CreateActor<Killer>(RenderOrder::Monster)->SetPos(GridPos(40, 3));
 
 		CreateActor<TurnBlock>(RenderOrder::Map)->SetPos(GridPos(23, 3));
 		QuestionBlock* ItemBox = CreateActor<QuestionBlock>(RenderOrder::Map);
