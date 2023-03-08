@@ -25,6 +25,7 @@ public:
 	Map& operator=(Map&& _Other) noexcept = delete;
 
 	void SetImage(const std::string_view& _BackGroundName, const std::string_view& _StageName, const std::string_view& _StageColName);
+	void SetDebugMap(const std::string_view& _DebugMapName);
 	void SetStartPos(const std::vector <float4>& _StartPos);
 	void MoveMap(int _StartPosIndex);
 
@@ -65,6 +66,7 @@ protected:
 private:
 	GameEngineRender* BackGroundRender = nullptr;
 	GameEngineRender* StageRender = nullptr;
+	GameEngineRender* DebugRender = nullptr;
 	float4 BackGroundSize = float4::Zero;
 	float4 StageSize = float4::Zero;
 	std::string_view BackGroundName = "";

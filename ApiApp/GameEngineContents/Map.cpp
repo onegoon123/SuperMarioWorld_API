@@ -5,6 +5,7 @@
 #include <GameEngineCore/GameEngineRender.h>
 #include "ContentsEnums.h"
 #include "Mario.h"
+#include "MarioGameCore.h"
 Map* Map::MainMap = nullptr;
 
 Map::Map() {
@@ -60,8 +61,14 @@ void Map::SetImage(const std::string_view& _BackGroundName, const std::string_vi
 			Render->SetMove({ BackGroundSize.x * i, 0 });
 		}
 	}
+}
 
-
+void Map::SetDebugMap(const std::string_view& _DebugMapName)
+{
+	DebugRender = CreateRender(_DebugMapName, RenderOrder::Map);
+	DebugRender->SetScale(StageSize);
+	DebugRender->SetPosition(StageSize.half());
+	DebugRender->Off();
 }
 
 void Map::SetStartPos(const std::vector<float4>& _StartPos)
@@ -98,4 +105,16 @@ void Map::MoveMap(int _StartPosIndex)
 
 void Map::Update(float _DeltaTime)
 {
+	if (nullptr == DebugRender)
+	{
+		return;
+	}
+	if (true == MarioGameCore::GetInst().GetCollisionDebug())
+	{
+		DebugRender->On();
+	}
+	else
+	{
+		DebugRender->Off();
+	}
 }

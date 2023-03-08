@@ -42,6 +42,7 @@ void StageLevel2::LevelChangeStart(GameEngineLevel* _PrevLevel)
 
 	Map* Map1 = CreateActor<Map>();
 	Map1->SetImage(BackGroundName, StageName, StageColName);
+	Map1->SetDebugMap("STAGE2DEBUG.bmp");
 	CreateActor<Mario>();
 	UI = CreateActor<UIManager>();
 	Map1->AddStartPos(GridPos(3, 0));

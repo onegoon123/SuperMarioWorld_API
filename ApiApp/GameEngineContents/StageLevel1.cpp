@@ -34,6 +34,7 @@ void StageLevel1::LevelChangeStart(GameEngineLevel* _PrevLevel)
 	// 맵 이미지 생성
 	Map* MainMap = CreateActor<Map>();
 	MainMap->SetImage(BackGroundName, StageName, StageColName);
+	MainMap->SetDebugMap("STAGE1DEBUG.bmp");
 	// 맵 시작 위치 지정
 	MainMap->AddStartPos(GridPos(5,0));
 	MainMap->AddStartPos(GridPos(146,0));

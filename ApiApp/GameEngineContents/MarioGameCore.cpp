@@ -104,7 +104,9 @@ void MarioGameCore::ResourcesLoad()
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("BACKGROUND3.BMP"))->Cut(4,1);
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("BACKGROUND4.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("STAGE1.BMP"));
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("STAGE1DEBUG.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("STAGE2.BMP"));
+	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("STAGE2DEBUG.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("STAGE3.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("STAGE4.BMP"));
 	GameEngineResources::GetInst().ImageLoad(Dir.GetPlusFileName("Underground1.BMP"));
