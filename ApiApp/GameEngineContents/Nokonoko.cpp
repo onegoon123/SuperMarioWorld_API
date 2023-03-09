@@ -57,7 +57,7 @@ void Nokonoko::JumpHit(bool IsLeft)
 
 void Nokonoko::FireHit()
 {
-	GetLevel()->CreateActor<Coin>(RenderOrder::Item)->SetPos(GetPos());
+	GetLevel()->CreateActor<Shell>(RenderOrder::Monster)->SetPos(GetPos());
 	Mario::MainPlayer->AddScore(Score);
 	Death();
 }

@@ -75,6 +75,9 @@ void Shell::JumpHit(bool IsLeft)
 
 void Shell::FireHit()
 {
+	GetLevel()->CreateActor<Coin>(RenderOrder::Item)->SetPos(GetPos());
+	Mario::MainPlayer->AddScore(Score);
+	Death();
 }
 
 void Shell::BlockHit()

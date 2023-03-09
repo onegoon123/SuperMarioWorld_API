@@ -58,7 +58,7 @@ private:
 
 	KoopaState StateValue = KoopaState::Appear;
 	std::string AnimStr = "";
-	int HP = 4;
+	int HP = 3;
 	float MoveTimer = 0;
 	float AnimTimer = 0;
 	float SpawnTimer = 0;

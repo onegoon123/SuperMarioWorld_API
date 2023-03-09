@@ -63,7 +63,7 @@ void StageLevel1::LevelChangeStart(GameEngineLevel* _PrevLevel)
 		CreateActor<Coin>(RenderOrder::Item)->SetPos(GridPos(12, 3));
 		CreateActor<Coin>(RenderOrder::Item)->SetPos(GridPos(13, 3));
 		CreateActor<Coin>(RenderOrder::Item)->SetPos(GridPos(14, 3));
-		CreateActor<Nokonoko>(RenderOrder::Monster)->SetPos(GridPos(21, 0));
+		CreateActor<Bamba>(RenderOrder::Monster)->SetPos(GridPos(21, 0));
 
 		CreateActor<TurnBlock>(RenderOrder::Map)->SetPos(GridPos(23, 3));
 		QuestionBlock* ItemBox = CreateActor<QuestionBlock>(RenderOrder::Map);
@@ -74,16 +74,14 @@ void StageLevel1::LevelChangeStart(GameEngineLevel* _PrevLevel)
 		ItemBox->SetItem(ItemType::SuperMushroom);
 		CreateActor<TurnBlock>(RenderOrder::Map)->SetPos(GridPos(27, 3));
 
-		CreateActor<Bamba>(RenderOrder::Monster)->SetPos(GridPos(55, 4));
-		CreateActor<Bamba>(RenderOrder::Monster)->SetPos(GridPos(56, 4));
 		CreateActor<Bamba>(RenderOrder::Monster)->SetPos(GridPos(57, 4));
 		ItemBox = CreateActor<QuestionBlock>(RenderOrder::Map);
-		ItemBox->SetPos(GridPos(80, 7));
+		ItemBox->SetPos(GridPos(70, 7));
 		ItemBox->SetItem(ItemType::FireFlower);
 
 		CreateActor<Bamba>(RenderOrder::Monster)->SetPos(GridPos(85, 0));
 		CreateActor<Bamba>(RenderOrder::Monster)->SetPos(GridPos(90, 0));
-		CreateActor<Bamba>(RenderOrder::Monster)->SetPos(GridPos(95, 0));
+		CreateActor<Nokonoko>(RenderOrder::Monster)->SetPos(GridPos(95, 0));
 
 		CreateActor<TurnBlock>(RenderOrder::Map)->SetPos(GridPos(100, 3));
 		CreateActor<TurnBlock>(RenderOrder::Map)->SetPos(GridPos(101, 3));
@@ -93,7 +91,7 @@ void StageLevel1::LevelChangeStart(GameEngineLevel* _PrevLevel)
 		CreateActor<Coin>(RenderOrder::Item)->SetPos(GridPos(102, 8));
 		CreateActor<TurnBlock>(RenderOrder::Map)->SetPos(GridPos(102, 3));
 
-		CreateActor<Bamba>(RenderOrder::Monster)->SetPos(GridPos(105, 0));
+		CreateActor<Nokonoko>(RenderOrder::Monster)->SetPos(GridPos(105, 0));
 		CreateActor<Bamba>(RenderOrder::Monster)->SetPos(GridPos(106, 0));
 		CreateActor<Bamba>(RenderOrder::Monster)->SetPos(GridPos(107, 0));
 
@@ -112,7 +110,7 @@ void StageLevel1::LevelChangeStart(GameEngineLevel* _PrevLevel)
 		ItemBox->SetItem(ItemType::SuperMushroom);
 		CreateActor<TurnBlock>(RenderOrder::Map)->SetPos(GridPos(160, 4));
 
-		CreateActor<Bamba>(RenderOrder::Monster)->SetPos(GridPos(175, 0));
+		CreateActor<Nokonoko>(RenderOrder::Monster)->SetPos(GridPos(175, 0));
 		CreateActor<Bamba>(RenderOrder::Monster)->SetPos(GridPos(180, 0));
 		CreateActor<Bamba>(RenderOrder::Monster)->SetPos(GridPos(185, 0));
 		CreateActor<Bamba>(RenderOrder::Monster)->SetPos(GridPos(188, 2));

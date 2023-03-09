@@ -297,6 +297,12 @@ void StageLevel::ClearBonusUpdate()
 	{
 		StarBonus--;
 		Star++;
+		if (100 <= Star)
+		{
+			Star -= 100;
+			Life++;
+			UI->SetLife(Life);
+		}
 		UI->SetStar(Star);
 		UI->SetStarBonus(StarBonus);
 		Wait = true;
