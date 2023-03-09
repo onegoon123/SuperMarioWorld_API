@@ -2,7 +2,7 @@
 #include <GameEngineBase/GameEngineDebug.h>
 #include <GameEngineBase/GameEngineString.h>
 
-// 다른 lib나 dll을 사용하기 위한 전처리문을 여기 넣을것입니다.
+// 다른 lib나 dll을 사용하기 위한 전처리문을 여기 넣을것
 // #pragma comment(lib, "GameEngineBase.lib");
 
 // lib를 통해서 dll을 사용한다고 하는건.

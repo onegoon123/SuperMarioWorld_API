@@ -71,8 +71,6 @@ GameEngineWindow::~GameEngineWindow()
 
 void GameEngineWindow::WindowCreate(HINSTANCE _hInstance, const std::string_view& _TitleName, float4 _Size, float4 _Pos)
 {
-    // 윈도우를 찍어낼수 있는 class를 만들어내는 것이다.
-    // 나는 이러이러한 윈도우를 만들어줘...
     WNDCLASSEX wcex;
 
     wcex.cbSize = sizeof(WNDCLASSEX);
@@ -82,7 +80,6 @@ void GameEngineWindow::WindowCreate(HINSTANCE _hInstance, const std::string_view
     wcex.cbClsExtra = 0;
     wcex.cbWndExtra = 0;
     wcex.hInstance = _hInstance;
-    // 넣어주지 않으면 윈도우 기본Icon이 됩니다.
     wcex.hIcon = nullptr;//LoadIcon(_hInstance, MAKEINTRESOURCE(IDI_WINDOWSPROJECT1));
     wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
     wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1); // 흰색 
@@ -90,21 +87,13 @@ void GameEngineWindow::WindowCreate(HINSTANCE _hInstance, const std::string_view
     wcex.lpszClassName = "GameEngineWindowDefault";
     wcex.hIconSm = nullptr;//LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
-    // 윈도우에게 이런 내용을 window클래스를 GameEngineWindowDefault라는 이름으로 등록해줘.
-    // 나중에 윈도우 만들때 쓸꺼냐.
     if (0 == RegisterClassEx(&wcex))
     {
         MsgAssert("윈도우 클래스 등록에 실패했습니다.");
         return;
     }
 
-    // hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
-
-    // 1000번 프로그램이 윈도우를 띄워달라고 요청했다.
-    // 윈도우는 다시 특정 숫자이라는 윈도우가 만들어졌다고 우리에게 알려주는데.
-    // 특정 숫자로 인식되는 우리의 윈도우에게 크기변경 떠라
-
-    // (WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME | WS_MINIMIZEBOX | WS_MAXIMIZEBOX)
+    
 
     HWnd = CreateWindow("GameEngineWindowDefault", _TitleName.data(), WS_OVERLAPPEDWINDOW,
         CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, _hInstance, nullptr);
@@ -140,16 +129,11 @@ void GameEngineWindow::DoubleBufferClear()
 
 void GameEngineWindow::DoubleBufferRender()
 {
-    //static GameEngineImage* BackBufferImage;
-    //static GameEngineImage* DoubleBufferImage;
     BackBufferImage->BitCopy(DoubleBufferImage, WindowSize.half(), WindowSize);
 }
 
 int GameEngineWindow::WindowLoop(void(*_Start)(), void(*_Loop)(), void(*_End)())
 {
-    // 단축키인데. 안써도 문제가 되지는 않는다.
-    // HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_WINDOWSPROJECT1));
-
     if (nullptr != _Start)
     {
         _Start();
@@ -161,8 +145,8 @@ int GameEngineWindow::WindowLoop(void(*_Start)(), void(*_Loop)(), void(*_End)())
     // 동기 함수가 종료될때까지 프로그램이 멈춘다.
 
     // 기본 메시지 루프입니다:
-    // GetMessage는 내 윈도우에 무슨일이 생기는지 체크해줘.
-    // GetMessage는 윈도우의 특별한 일이 생길대까지 멈추는 함수인겁니다.
+    // GetMessage는 내 윈도우에 무슨일이 생기는지 체크
+    // GetMessage는 윈도우의 특별한 일이 생길대까지 멈추는 함수
     while (IsWindowUpdate)
     {
         //if (!TranslateAccelerator(msg.hwnd, nullptr, &msg))
@@ -179,14 +163,13 @@ int GameEngineWindow::WindowLoop(void(*_Start)(), void(*_Loop)(), void(*_End)())
         // 동기 메세지 있어? 없어? 있을때까지 기다릴께.
 
         // 메세지가 있든 없든 리턴됩니다.
-        // 쌓여있는 메세지를 삭제하라는 명령입니다.
+        // 쌓여있는 메세지를 삭제하라는 명령
         if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
-            // 동기 메세지 있어? 없어 난 갈께.
         {
             TranslateMessage(&msg);
             DispatchMessage(&msg);
 
-            // 메세지가 있을때도 게임을 실행합니다.
+            // 메세지가 있을때도 게임을 실행
             if (nullptr != _Loop)
             {
                 _Loop();

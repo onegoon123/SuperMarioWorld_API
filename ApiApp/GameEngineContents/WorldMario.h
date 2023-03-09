@@ -3,10 +3,12 @@
 #include <GameEngineCore/GameEngineRender.h>
 class WorldLevel;
 
+// 월드맵 구성을 표현하는 클래스
 class WorldMap
 {
 	
 public:
+	// 스테이지 지점을 표시하는 포인트
 	class Point
 	{
 	public:
@@ -48,14 +50,15 @@ public:
 				delete DeletePoint;
 			}
 		}
-		float4 Pos = float4::Zero;
-		std::string_view StageName = "";
-		Point* Up = nullptr;
-		Point* Down = nullptr;
-		Point* Left = nullptr;
-		Point* Right = nullptr;
-		bool Lock = false;
+		float4 Pos = float4::Zero;			// 스테이지의 위치
+		std::string_view StageName = "";	// 스테이지의 이름 (Level의 Name)
+		Point* Up = nullptr;				// 위에 연결된 스테이지
+		Point* Down = nullptr;				// 밑에 연결된 스테이지
+		Point* Left = nullptr;				// 왼쪽에 연결된 스테이지
+		Point* Right = nullptr;				// 오른쪽에 연결된 스테이지
+		bool Lock = false;					// 스테이지 잠금 여부
 
+		// 소멸자 실행시 사용되는 상하좌우 포인트 제거 함수
 		void ErasePoint(const Point* _Point)
 		{
 			if (Up == _Point)
@@ -75,15 +78,19 @@ public:
 				Right = nullptr;
 			}
 		}
+		
+		// 해당 포인트가 스테이지의 이름을 가지고 있는지 여부를 반환
 		bool IsStage()
 		{
 			return StageName != "";
 		}
-
+		// 해당 포인트로 이동가능하게 잠금을 푸는 함수
 		void Unlock()
 		{
 			Lock = false;
 		}
+		
+		// 포인트를 연결하는 함수들
 		void SetUp(Point* _Up)
 		{
 			Up = _Up;
@@ -106,6 +113,7 @@ public:
 		}
 	};
 
+	// 월드맵 생성시 시작 위치를 지정해준다
 	WorldMap(Point* StartPoint)
 	{
 		StagePointer = StartPoint;
@@ -119,6 +127,7 @@ public:
 		}
 	}
 
+	// 현재 나의 위치를 이동하는 함수들
 	bool MoveUp()
 	{
 		if (nullptr != StagePointer->Up)
@@ -171,20 +180,24 @@ public:
 		}
 		return false;
 	}
+
+	// 현제 위치한 포인트가 스테이지 인지 반환하는 함수
 	bool IsStage()
 	{
 		return StagePointer->IsStage();
 	}
+	// 스테이지 이름을 반환하는 함수
 	const std::string_view& GetStage()
 	{
 		return StagePointer->StageName;
 	}
+	// 현제 위치한 포인트의 위치를 반환하는 함수
 	const float4& GetPos()
 	{
 		return StagePointer->Pos;
 	}
 private:
-	Point* StagePointer = nullptr;
+	Point* StagePointer = nullptr;	// 현제 위치한 포인트를 가르킨다
 };
 
 class WorldMario : public GameEngineActor
@@ -216,6 +229,7 @@ private:
 	GameEngineRender* AnimationRender = nullptr;
 	WorldMap* Map = nullptr;
 
+	// 스테이지 포인트들
 	WorldMap::Point* Stage1 = nullptr;
 	WorldMap::Point* Stage2 = nullptr;
 	WorldMap::Point* Stage3 = nullptr;

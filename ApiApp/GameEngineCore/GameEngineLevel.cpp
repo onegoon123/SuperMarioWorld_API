@@ -15,14 +15,12 @@ GameEngineLevel::GameEngineLevel()
 
 GameEngineLevel::~GameEngineLevel()
 {
-	// 편하게 for문을 돌리게 하기 위해서 17인부터 
 	for (std::pair<int, std::list<GameEngineActor*>> UpdateGroup : Actors)
 	{
 		std::list<GameEngineActor*>& ActorList = UpdateGroup.second;
 
 		for (GameEngineActor* Actor : ActorList)
 		{
-			// Actors.erase()
 			if (nullptr != Actor)
 			{
 				delete Actor;
@@ -247,7 +245,7 @@ void GameEngineLevel::ActorsRender(float _DeltaTime)
 		}
 	}
 
-	// 여러분들의 text 출력
+	//text 출력
 	{
 		TextOutStart = float4::Zero;
 

@@ -3,7 +3,7 @@
 #include <string_view>
 
 // 설명 :
-// 이녀석 자체가 사운드 파일 역할도 합니다.
+// 이녀석 자체가 사운드 파일 역할
 class GameEngineSound
 {
 public:

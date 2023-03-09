@@ -14,7 +14,6 @@ enum CollisionType
 class CollisionCheckParameter
 {
 public:
-	// 여러분들이 제대로 어떤 그룹과 충돌할지 안해주면
 	int TargetGroup = -342367842;
 	CollisionType TargetColType = CollisionType::CT_CirCle;
 	CollisionType ThisColType = CollisionType::CT_CirCle;
@@ -47,8 +46,6 @@ public:
 	GameEngineCollision(GameEngineCollision&& _Other) noexcept = delete;
 	GameEngineCollision& operator=(const GameEngineCollision& _Other) = delete;
 	GameEngineCollision& operator=(GameEngineCollision&& _Other) noexcept = delete;
-
-	// GetOrder를 통해서 내가 어떤 충돌 그룹인지는 내가 
 
 	bool Collision(const CollisionCheckParameter& _CollisionCheck);
 

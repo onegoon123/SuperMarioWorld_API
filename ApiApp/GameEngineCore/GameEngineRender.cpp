@@ -91,7 +91,6 @@ void GameEngineRender::FrameAnimation::Render(float _DeltaTime)
 			}
 		}
 
-		// 정밀하게 하려면 이게 맞죠?
 		CurrentTime += FrameTime[CurrentIndex];
 	}
 }
@@ -150,7 +149,6 @@ void GameEngineRender::TextRender(float _DeltaTime)
 	hFont = CreateFontIndirect(&lf);
 	OldFont = static_cast<HFONT>(SelectObject(hdc, hFont));
 
-	//SetTextAlign(hdc, static_cast<UINT>(Align));
 	SetTextColor(hdc, TextColor);
 	SetBkMode(hdc, TRANSPARENT);
 
@@ -176,10 +174,6 @@ void GameEngineRender::TextRender(float _DeltaTime)
 	}
 
 	DrawTextA(GameEngineWindow::GetDoubleBufferImage()->GetImageDC(), RenderText.c_str(), static_cast<int>(RenderText.size()), &Rect, static_cast<UINT>(Align));
-
-
-	// TextOutA(GameEngineWindow::GetDoubleBufferImage()->GetImageDC(), RenderPos.ix(), RenderPos.iy(), RenderText.c_str(), static_cast<int>(RenderText.size()));
-
 	SelectObject(hdc, OldFont);
 	DeleteObject(hFont);
 
@@ -325,7 +319,6 @@ void GameEngineRender::CreateAnimation(const FrameAnimationParameter& _Paramter)
 
 void GameEngineRender::ChangeAnimation(const std::string_view& _AnimationName, bool _ForceChange /*= false*/)
 {
-	// 이미 같은 애니메이션으로 바꾸라고 리턴할껍니다.
 
 	std::string UpperName = GameEngineString::ToUpper(_AnimationName);
 

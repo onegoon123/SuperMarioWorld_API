@@ -31,11 +31,6 @@ std::string GameEngineString::ToString(int Value)
 
 std::wstring GameEngineString::AnsiToUniCode(const std::string_view& _Text)
 {
-	// 2가지 역할이 있습니다.
-	// 직접 변환
-	// 변환하면 얼마의 바이트가 필요한가.
-	// CP_ACP변환하려는 인코딩인데
-	// CP_ACP
 	int Size = MultiByteToWideChar(CP_ACP, 0, _Text.data(), static_cast<int>(_Text.size()), nullptr, 0);
 
 	if (0 == Size)

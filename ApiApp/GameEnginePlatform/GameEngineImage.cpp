@@ -99,8 +99,8 @@ bool GameEngineImage::ImageLoad(const std::string_view& _Path)
 	//HBITMAP OldBitMap;
 	//BITMAP Info;
 
-	// 이미지중에 일부만 로드할수 있는데 0을 넣어주면 다 로드하겠다는 이야기가 도힙니다.
-	// LR_LOADFROMFILE 파일에서부터 로드하겠다는 의미가 됩니다.
+	// 이미지중에 일부만 로드할수 있는데 0을 넣어주면 다 로드
+	// LR_LOADFROMFILE 파일에서부터 로드하겠다는 의미가 된다
 
 	// 이미지를 로드한 2차원 배열의 정보고
 	// 윈도우에게 new를 지시한것과 다름이 없다.

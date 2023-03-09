@@ -13,7 +13,7 @@ enum class Align
 
 // 설명 : Image로 숫자출력을 해주는 클래스
 //        세팅되는 이미지는 무조건 10개로 컷팅되어있어야 한다.
-// 넣어줘야할건 무조건 Actor계열이여야 합니다.
+// 넣어줘야할건 무조건 Actor계열
 class GameEngineActor;
 class NumberRenderObject : public GameEngineObject
 {
